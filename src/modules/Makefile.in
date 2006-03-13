@@ -1,0 +1,418 @@
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+
+DESTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = ../..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
+AUDIOFILE_CFLAGS = @AUDIOFILE_CFLAGS@
+AUDIOFILE_CONFIG = @AUDIOFILE_CONFIG@
+AUDIOFILE_LIBS = @AUDIOFILE_LIBS@
+CC = @CC@
+CPP = @CPP@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_CONFIG = @GTK_CONFIG@
+GTK_LIBS = @GTK_LIBS@
+LD = @LD@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
+MAINT = @MAINT@
+MAKEINFO = @MAKEINFO@
+NM = @NM@
+PACKAGE = @PACKAGE@
+RANLIB = @RANLIB@
+UP = @UP@
+VERSION = @VERSION@
+
+noinst_LIBRARIES = libmodules.a
+
+libmodules_a_SOURCES =  	atonal.c			atonal.h			atonal_if.c			atonal_if.h			delay.c				delay.h				delay_if.c			delay_if.h			drummachine.c			drummachine.h			drummachine_if.c		drummachine_if.h		bilinear.c			filter_reslp.c			filter_reslp.h			filter_reslp_if.c		filter_reslp_if.h		general_mixer.c			general_mixer.h			general_mixer_if.c		general_mixer_if.h		klav.c				klav.h				klavier.c			klavier.h			klavier_if.c			klavier_if.h			minimaube.c			minimaube.h			minimaube_if.c			minimaube_if.h			minitracker.c			minitracker.h			minitracker_if.c		minitracker_if.h		line.c				line.h				linein_if.c			linein_if.h			lineout_if.c			lineout_if.h			panner.c			panner.h			panner4.c			panner4.h			panner4_if.c			panner4_if.h			panner_if.c			panner_if.h			reslp.c				reslp.h				sample_recorder.c		sample_recorder.h		sample_recorder_if.c		sample_recorder_if.h		syre.c				syre.h				syre_if.c			syre_if.h			waves.c				waves.h				whitenoise.c			whitenoise.h			whitenoise_if.c			whitenoise_if.h			xfader.c			xfader.h			xfader_if.c			xfader_if.h
+
+
+CPPFLAGS =  	-DDATADIR=\"$(pkgdatadir)\"
+
+
+CFLAGS =  	-g -O2 -Wall
+
+
+INCLUDES = -I$(top_srcdir)/src @GTK_CFLAGS@
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../../config.h
+CONFIG_CLEAN_FILES = 
+LIBRARIES =  $(noinst_LIBRARIES)
+
+
+DEFS = @DEFS@ -I. -I$(srcdir) -I../..
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+libmodules_a_LIBADD = 
+libmodules_a_OBJECTS =  atonal.o atonal_if.o delay.o delay_if.o \
+drummachine.o drummachine_if.o bilinear.o filter_reslp.o \
+filter_reslp_if.o general_mixer.o general_mixer_if.o klav.o klavier.o \
+klavier_if.o minimaube.o minimaube_if.o minitracker.o minitracker_if.o \
+line.o linein_if.o lineout_if.o panner.o panner4.o panner4_if.o \
+panner_if.o reslp.o sample_recorder.o sample_recorder_if.o syre.o \
+syre_if.o waves.o whitenoise.o whitenoise_if.o xfader.o xfader_if.o
+AR = ar
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = tar
+GZIP_ENV = --best
+SOURCES = $(libmodules_a_SOURCES)
+OBJECTS = $(libmodules_a_OBJECTS)
+
+all: all-redirect
+.SUFFIXES:
+.SUFFIXES: .S .c .lo .o .s
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/modules/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+mostlyclean-noinstLIBRARIES:
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+
+distclean-noinstLIBRARIES:
+
+maintainer-clean-noinstLIBRARIES:
+
+.c.o:
+	$(COMPILE) -c $<
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+.c.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+libmodules.a: $(libmodules_a_OBJECTS) $(libmodules_a_DEPENDENCIES)
+	-rm -f libmodules.a
+	$(AR) cru libmodules.a $(libmodules_a_OBJECTS) $(libmodules_a_LIBADD)
+	$(RANLIB) libmodules.a
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = src/modules
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+atonal.o: atonal.c ../../src/master.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/opsmenu.h atonal.h atonal_if.h \
+	../../src/none_config.h
+atonal_if.o: atonal_if.c ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h ../../src/outputlabel.h \
+	atonal_if.h atonal.h ../../src/slider.h
+bilinear.o: bilinear.c
+delay.o: delay.c delay.h ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h delay_if.h \
+	../../src/none_config.h
+delay_if.o: delay_if.c delay_if.h delay.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	../../src/modulemenu.h ../../src/slider.h \
+	../../src/inputoption.h ../../src/outputlabel.h
+drummachine.o: drummachine.c ../../src/master.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/opsmenu.h drummachine.h \
+	drummachine_if.h ../../src/none_config.h
+drummachine_if.o: drummachine_if.c ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	../../src/outputlabel.h drummachine_if.h drummachine.h \
+	../../src/slider.h
+filter_reslp.o: filter_reslp.c filter_reslp.h ../../src/aube.h \
+	../../src/aube_error.h reslp.h ../../src/master.h \
+	../../src/opsmenu.h waves.h filter_reslp_if.h \
+	../../src/none_config.h
+filter_reslp_if.o: filter_reslp_if.c ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	filter_reslp_if.h filter_reslp.h reslp.h ../../src/slider.h \
+	../../src/inputoption.h ../../src/outputlabel.h
+general_mixer.o: general_mixer.c general_mixer.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	general_mixer_if.h ../../src/none_config.h
+general_mixer_if.o: general_mixer_if.c general_mixer_if.h \
+	general_mixer.h ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h ../../src/slider.h \
+	../../src/inputoption.h ../../src/outputlabel.h
+klav.o: klav.c klav.h
+klavier.o: klavier.c ../../src/master.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/opsmenu.h klavier.h \
+	klavier_if.h ../../src/none_config.h
+klavier_if.o: klavier_if.c ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h ../../src/outputlabel.h \
+	klavier_if.h klavier.h ../../src/slider.h klav.h
+line.o: line.c ../../src/aube.h ../../src/aube_error.h line.h \
+	linein_if.h lineout_if.h ../../src/none_config.h
+linein_if.o: linein_if.c linein_if.h line.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/slider.h ../../src/opsmenu.h \
+	../../src/outputlabel.h
+lineout_if.o: lineout_if.c lineout_if.h line.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/slider.h \
+	../../src/inputoption.h ../../src/opsmenu.h
+minimaube.o: minimaube.c minimaube.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	minimaube_if.h ../../src/none_config.h
+minimaube_if.o: minimaube_if.c minimaube_if.h minimaube.h \
+	../../src/aube.h ../../src/aube_error.h ../../src/master.h \
+	../../src/opsmenu.h ../../src/modulemenu.h ../../src/slider.h \
+	../../src/inputoption.h ../../src/outputlabel.h
+minitracker.o: minitracker.c ../../src/master.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/opsmenu.h minitracker.h \
+	reslp.h minitracker_if.h ../../src/none_config.h
+minitracker_if.o: minitracker_if.c ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	../../src/outputlabel.h minitracker_if.h minitracker.h reslp.h \
+	../../src/slider.h
+panner.o: panner.c panner.h ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h panner_if.h \
+	../../src/none_config.h
+panner4.o: panner4.c panner4.h ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h panner4_if.h \
+	../../src/none_config.h
+panner4_if.o: panner4_if.c panner4_if.h panner4.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	../../src/slider.h ../../src/inputoption.h \
+	../../src/outputlabel.h
+panner_if.o: panner_if.c panner_if.h panner.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	../../src/slider.h ../../src/inputoption.h \
+	../../src/outputlabel.h
+reslp.o: reslp.c reslp.h ../../src/aube.h ../../src/aube_error.h
+sample_recorder.o: sample_recorder.c sample_recorder.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	sample_recorder_if.h ../../src/none_config.h
+sample_recorder_if.o: sample_recorder_if.c sample_recorder_if.h \
+	sample_recorder.h ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h ../../src/slider.h \
+	../../src/inputoption.h ../../src/outputlabel.h
+syre.o: syre.c syre.h ../../src/aube.h ../../src/aube_error.h reslp.h \
+	../../src/master.h ../../src/opsmenu.h syre_if.h waves.h \
+	../../src/none_config.h
+syre_if.o: syre_if.c ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h syre_if.h syre.h reslp.h \
+	../../src/slider.h ../../src/inputoption.h \
+	../../src/outputlabel.h
+waves.o: waves.c syre.h ../../src/aube.h ../../src/aube_error.h reslp.h
+whitenoise.o: whitenoise.c whitenoise.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	whitenoise_if.h ../../src/none_config.h
+whitenoise_if.o: whitenoise_if.c whitenoise_if.h whitenoise.h \
+	../../src/aube.h ../../src/aube_error.h ../../src/master.h \
+	../../src/opsmenu.h ../../src/slider.h ../../src/outputlabel.h
+xfader.o: xfader.c xfader.h ../../src/aube.h ../../src/aube_error.h \
+	../../src/master.h ../../src/opsmenu.h xfader_if.h \
+	../../src/none_config.h
+xfader_if.o: xfader_if.c xfader_if.h xfader.h ../../src/aube.h \
+	../../src/aube_error.h ../../src/master.h ../../src/opsmenu.h \
+	../../src/slider.h ../../src/inputoption.h \
+	../../src/outputlabel.h
+
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am:
+install-exec: install-exec-am
+
+install-data-am:
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am:
+uninstall: uninstall-am
+all-am: Makefile $(LIBRARIES)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-noinstLIBRARIES clean-compile clean-libtool clean-tags \
+		clean-generic mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-noinstLIBRARIES distclean-compile \
+		distclean-libtool distclean-tags distclean-generic \
+		clean-am
+	-rm -f libtool
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
+clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile mostlyclean-libtool distclean-libtool \
+clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs \
+mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

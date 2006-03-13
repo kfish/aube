@@ -1,0 +1,296 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <strings.h>
+#include <gtk/gtk.h>
+
+#include "minimaube_if.h"
+#include "aube.h"
+#include "master.h"
+#include "modulemenu.h"
+#include "opsmenu.h"
+#include "slider.h"
+#include "inputoption.h"
+#include "outputlabel.h"
+
+extern int tick;
+
+extern GtkWidget *master_daddy;
+
+guint minimaube_if_get_type(void);
+static void minimaube_if_class_init(MiniMaubeIFClass * class);
+static void minimaube_if_init(MiniMaubeIF * b);
+GtkWidget *minimaube_if_new(minimaube * s);
+void minimaube_if_dismiss(GtkWidget * widget, gpointer data);
+void minimaube_if_hide_cb(GtkWidget * widget, gpointer data);
+void minimaube_if_close_cb(GtkWidget * widget, gpointer data);
+void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data);
+void minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data);
+void minimaube_if_add_input_cb(GtkWidget * widget, gpointer data);
+void minimaube_if_remove_input_cb(GtkWidget * widget, gpointer data);
+void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i);
+void minimaube_if_remove_input(MiniMaubeIF * minimaube_if, int i);
+
+guint
+minimaube_if_get_type()
+{
+  static guint b_type = 0;
+
+  if (!b_type) {
+    GtkTypeInfo b_info =
+    {
+      "MiniMaubeIF",
+      sizeof(MiniMaubeIF),
+      sizeof(MiniMaubeIFClass),
+      (GtkClassInitFunc) minimaube_if_class_init,
+      (GtkObjectInitFunc) minimaube_if_init,
+      (GtkArgSetFunc) NULL,
+      (GtkArgGetFunc) NULL,
+    };
+
+    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+  }
+  return b_type;
+}
+
+enum {
+  LAST_SIGNAL
+};
+
+static gint minimaube_if_signals[LAST_SIGNAL] =
+{0};
+
+static void
+minimaube_if_class_init(MiniMaubeIFClass * class)
+{
+  GtkObjectClass *object_class;
+
+  object_class = (GtkObjectClass *) class;
+
+  gtk_object_class_add_signals(object_class, minimaube_if_signals, LAST_SIGNAL);
+  class->minimaube_if = NULL;
+}
+
+static void
+minimaube_if_init(MiniMaubeIF * minimaube_if)
+{
+}
+
+GtkWidget *
+minimaube_if_new(minimaube * s)
+{
+  MiniMaubeIF *minimaube_if;
+  GtkWidget *vbox, *hbox;
+  GtkWidget *widget;
+  int i;
+
+  minimaube_if = gtk_type_new(minimaube_if_get_type());
+
+  minimaube_if->data = s;
+
+  gtk_window_set_title(GTK_WINDOW(minimaube_if), ((module *) minimaube_if->data)->u_label);
+  gtk_window_set_policy(GTK_WINDOW(minimaube_if), TRUE, TRUE, TRUE);
+
+  gtk_container_border_width(GTK_CONTAINER(minimaube_if), 1);
+
+#if 0
+  /*
+     when the window is given the "delete_event" signal - this is
+     * given by the window manager - usually the close option or on the
+     * titlebar - we ask it to call the delete_event() function
+     * as defined above. The data passed to the callback function is
+     * NULL and is ignored in the callback. 
+   */
+  gtk_signal_connect(GTK_OBJECT(minimaube_if), "delete_event",
+		     GTK_SIGNAL_FUNC(delete_event), NULL);
+#endif
+
+#if 1
+  /*
+     here we connect the "destroy" event to a signal hanser.
+     * This event occurs when we call gtk_widget_destroy() on the
+     * window, or if we return "TRUE" in the "delete_event" callback. 
+   */
+  gtk_signal_connect(GTK_OBJECT(minimaube_if), "destroy",
+		     GTK_SIGNAL_FUNC(minimaube_if_close_cb), minimaube_if);
+#endif
+
+  vbox = gtk_vbox_new(FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(minimaube_if), vbox);
+  gtk_widget_show(vbox);
+
+  minimaube_if->vbox = vbox;
+
+  hbox = gtk_hbox_new(FALSE, 1);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 1);
+  gtk_widget_show(hbox);
+
+  widget = gtk_toggle_button_new_with_label("On");
+  gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 1);
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget), minimaube_if->data->module.on);
+  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+		GTK_SIGNAL_FUNC(minimaube_if_onoff_cb), minimaube_if->data);
+  gtk_widget_show(widget);
+
+  widget = opsmenu_new((module *) minimaube_if->data, GTK_WIDGET(minimaube_if),
+		       minimaube_if_hide_cb, minimaube_if_close_cb);
+  gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 1);
+  gtk_widget_show(widget);
+
+  widget = gtk_button_new_with_label("Add");
+  gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 2);
+  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+		  GTK_SIGNAL_FUNC(minimaube_if_add_input_cb), minimaube_if);
+  gtk_widget_show(widget);
+
+  widget = gtk_button_new_with_label("Remove");
+  gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 2);
+  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+	       GTK_SIGNAL_FUNC(minimaube_if_remove_input_cb), minimaube_if);
+  gtk_widget_show(widget);
+
+  for (i = 0; i < minimaube_if->data->nr_active_channels; i++) {
+    minimaube_if_add_input(minimaube_if, i);
+  }
+
+  return GTK_WIDGET(minimaube_if);
+}
+
+void 
+minimaube_if_hide_cb(GtkWidget * widget, gpointer data)
+{
+  module *u;
+  MiniMaubeIF *minimaube_if;
+
+  minimaube_if = MINIMAUBE_IF(data);
+  u = (module *) minimaube_if->data;
+  aube_module_remove_if(u);
+
+  gtk_widget_destroy(GTK_WIDGET(data));
+}
+
+void 
+minimaube_if_close_cb(GtkWidget * widget, gpointer data)
+{
+  module *u;
+  MiniMaubeIF *minimaube_if;
+
+  minimaube_if = MINIMAUBE_IF(data);
+  u = (module *) minimaube_if->data;
+  aube_remove_module(u);
+
+  free((MINIMAUBE_IF(data))->data);
+  gtk_widget_destroy(GTK_WIDGET(data));
+}
+
+void 
+minimaube_if_dismiss(GtkWidget * widget, gpointer data)
+{
+  gtk_widget_destroy(GTK_WIDGET(data));
+}
+
+void 
+minimaube_if_onoff_cb(GtkWidget * widget, gpointer data)
+{
+  aube_module_toggle((module *) data);
+}
+
+void 
+minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
+{
+#if 0
+  GtkWidget *menu;
+
+  menu = modulemenu_new((module *) MINIMAUBE_IF(data)->data, (void *) aube_module_cmp_type, (void *) module_replace_cb);
+  gtk_menu_item_remove_submenu(GTK_MENU_ITEM(MINIMAUBE_IF(data)->replace_menuitem));
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(MINIMAUBE_IF(data)->replace_menuitem), menu);
+#endif
+}
+
+void 
+minimaube_if_add_input_cb(GtkWidget * widget, gpointer data)
+{
+  MiniMaubeIF *minimaube_if;
+  int i;
+
+  minimaube_if = MINIMAUBE_IF(data);
+  if ((i = minimaube_add_input(minimaube_if->data)) > 0) {
+    minimaube_if_add_input(minimaube_if, i);
+  }
+}
+
+void 
+minimaube_if_remove_input_cb(GtkWidget * widget, gpointer data)
+{
+  MiniMaubeIF *minimaube_if;
+  int i;
+
+  minimaube_if = MINIMAUBE_IF(data);
+  if ((i = minimaube_remove_input(minimaube_if->data)) > 0) {
+    minimaube_if_remove_input(minimaube_if, i);
+  }
+}
+
+void 
+minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
+{
+  char buf[8];
+  GtkWidget *hbox;
+  GtkWidget *widget;
+
+  hbox = gtk_hbox_new(FALSE, 1);
+  gtk_box_pack_start(GTK_BOX(minimaube_if->vbox), hbox, FALSE, TRUE, 1);
+  gtk_widget_show(hbox);
+
+  sprintf(buf, "%d:", i);
+  widget = gtk_label_new(buf);
+  gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 1);
+  gtk_widget_show(widget);
+
+  widget = inputoption_new((char *) "Smpl:", (module *) MINIMAUBE_IF(minimaube_if)->data, i * 2);
+  reread_inputs_cb(GTK_WIDGET(minimaube_if), widget);
+  gtk_box_pack_start(GTK_BOX(hbox), widget, TRUE, TRUE, 1);
+  gtk_widget_show(widget);
+
+  widget = inputoption_new((char *) "Seq:", (module *) MINIMAUBE_IF(minimaube_if)->data, i * 2 + 1);
+  reread_inputs_cb(GTK_WIDGET(minimaube_if), widget);
+  gtk_box_pack_start(GTK_BOX(hbox), widget, TRUE, TRUE, 1);
+  gtk_widget_show(widget);
+
+  widget = outputlabel_new((module *) MINIMAUBE_IF(minimaube_if)->data, i);
+  gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 1);
+  gtk_widget_show(widget);
+
+  minimaube_if->hboxes[i] = hbox;
+
+#if 0
+  char buf[8];
+  GtkWidget *vbox, *button, *slider;
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(minimaube_if->hbox), vbox, TRUE, FALSE, 0);
+  gtk_widget_show(vbox);
+
+  sprintf(buf, "%d:", i);
+  button = inputoption_new(buf,
+			   (module *) MINIMAUBE_IF(minimaube_if)->data, i);
+  reread_inputs_cb(GTK_WIDGET(minimaube_if), button);
+  gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
+  gtk_widget_show(button);
+
+  sprintf(buf, "%d", i);
+  slider = slider_new(buf, &(minimaube_if->data->vol[i]), 0, 64, 1);
+  gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
+  gtk_widget_show(slider);
+
+  minimaube_if->vboxes[i] = vbox;
+#endif
+}
+
+void 
+minimaube_if_remove_input(MiniMaubeIF * minimaube_if, int i)
+{
+  if (minimaube_if->hboxes[i] != NULL) {
+    gtk_widget_destroy(minimaube_if->hboxes[i]);
+    minimaube_if->hboxes[i] = NULL;
+  }
+}

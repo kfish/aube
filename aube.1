@@ -1,0 +1,62 @@
+.TH AUBE 1 "9 Aug 1998" Version 0.21.1
+.SH NAME
+Aube - an audio editing and sequencing program.
+.SH SYNOPSIS
+.B aube
+[\-h] [\-\-help] [-v] [\-\-version] [\-\-display \fIdisplay\fP]
+
+.SH DESCRIPTION
+.PP
+\fIAube\fP is a program for generating and
+sequencing audio.
+.PP
+Aube comes with a range of plug-ins, including a synthesizer, tracker, resonant
+low-pass filter, a delay and a 4-way panner.
+.SH OPTIONS
+.l 
+\fIAube\fP accepts the following options:
+.TP 8
+.B  \-h, \-\-help
+Display a list of all commandline options.
+.TP 8
+.B \-v, \-\-version
+Output the version info.
+.TP 8
+.B \-\-display \fIdisplay\fP
+Use the designated X display.
+
+.SH ENVIRONMENT
+.PP
+.TP 8
+.B DISPLAY
+to get the default host and display number.
+.TP 8
+.B XENVIRONMENT
+to get the name of a resource file that overrides the global resources
+stored in the RESOURCE_MANAGER property.
+.SH FILES
+
+\fB$HOME\fP/.aube/gtkrc - users set of GTK config settings. Options
+such as widget color and fonts sizes can be set here.
+
+\fB$PREFIX\fP/share/gtkrc - sytem wide default set of GTK config settings.
+
+
+.SH SEE ALSO
+.BR X (1)
+.SH COPYRIGHT
+Copyright \(co  1998-2002 Conrad Parker
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation. 
+
+.SH OTHER INFO
+
+More information is available at http://www.metadecks.org/software/aube/
+
+.SH AUTHORS
+Conrad Parker <conrad@metadecks.org>
+

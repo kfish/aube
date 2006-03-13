@@ -1,0 +1,262 @@
+#include <stdio.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+
+#include "levelmeter.h"
+
+#define LEVELMETER_DEFAULT_WIDTH 4
+#define LEVELMETER_DEFAULT_HEIGHT 20
+
+/*
+   Number of divisions 
+ */
+#define LEVELMETER_DEFAULT_DIVISIONS 10
+
+/*
+   Start of 'high' [red] divisions 
+ */
+#define LEVELMETER_DEFAULT_HIGH 7
+
+/*
+   Forward declarations 
+ */
+
+static void levelmeter_class_init(LevelMeterClass * class);
+static void levelmeter_init(LevelMeter * levelmeter);
+static void levelmeter_destroy(GtkObject * object);
+static void levelmeter_realize(GtkWidget * widget);
+static gint levelmeter_expose(GtkWidget * widget, GdkEventExpose * event);
+static void levelmeter_size_request(GtkWidget * widget, GtkRequisition * requisition);
+static void levelmeter_size_allocate(GtkWidget * widget, GtkAllocation * allocation);
+static void levelmeter_update(LevelMeter * levelmeter);
+
+/*
+   Local data 
+ */
+
+static GtkWidgetClass *parent_class = NULL;
+
+static GdkColor col_red, col_green;
+static GtkStyle *levelmeter_style = NULL;
+
+guint
+levelmeter_get_type()
+{
+  static guint levelmeter_type = 0;
+
+  if (!levelmeter_type) {
+    GtkTypeInfo levelmeter_info =
+    {
+      "LevelMeter",
+      sizeof(LevelMeter),
+      sizeof(LevelMeterClass),
+      (GtkClassInitFunc) levelmeter_class_init,
+      (GtkObjectInitFunc) levelmeter_init,
+      (GtkArgSetFunc) NULL,
+      (GtkArgGetFunc) NULL,
+    };
+
+    levelmeter_type = gtk_type_unique(gtk_widget_get_type(), &levelmeter_info);
+  }
+  return levelmeter_type;
+}
+
+static void
+levelmeter_class_init(LevelMeterClass * class)
+{
+  GtkObjectClass *object_class;
+  GtkWidgetClass *widget_class;
+
+  object_class = (GtkObjectClass *) class;
+  widget_class = (GtkWidgetClass *) class;
+
+  parent_class = gtk_type_class(gtk_widget_get_type());
+
+  object_class->destroy = levelmeter_destroy;
+
+  widget_class->realize = levelmeter_realize;
+  widget_class->expose_event = levelmeter_expose;
+  widget_class->size_request = levelmeter_size_request;
+  widget_class->size_allocate = levelmeter_size_allocate;
+/*
+   widget_class->button_press_event = levelmeter_button_press;
+   widget_class->button_release_event = levelmeter_button_release;
+   widget_class->motion_notify_event = levelmeter_motion_notify;
+ */
+
+  col_green.red = 0xFFFF;
+  col_green.green = 0xFFFF;
+  col_green.blue = 0;
+  gdk_color_alloc(gdk_colormap_get_system(), &col_green);
+
+  col_red.red = 0xFFFF;
+  col_red.green = 0;
+  col_red.blue = 0;
+  gdk_color_alloc(gdk_colormap_get_system(), &col_red);
+
+}
+
+static void
+levelmeter_init(LevelMeter * levelmeter)
+{
+  levelmeter->level = 0;
+
+}
+
+GtkWidget *
+levelmeter_new(guint level)
+{
+  LevelMeter *levelmeter;
+
+  levelmeter = gtk_type_new(levelmeter_get_type());
+
+  levelmeter_set_level(levelmeter, level);
+
+  return GTK_WIDGET(levelmeter);
+}
+
+static void
+levelmeter_destroy(GtkObject * object)
+{
+  LevelMeter *levelmeter;
+
+  g_return_if_fail(object != NULL);
+  g_return_if_fail(IS_LEVELMETER(object));
+
+  levelmeter = LEVELMETER(object);
+
+  /*
+     unref contained widgets 
+   */
+
+  if (GTK_OBJECT_CLASS(parent_class)->destroy)
+    (*GTK_OBJECT_CLASS(parent_class)->destroy) (object);
+}
+
+guint
+levelmeter_get_level(LevelMeter * levelmeter)
+{
+  g_return_val_if_fail(levelmeter != NULL, 0);
+  g_return_val_if_fail(IS_LEVELMETER(levelmeter), 0);
+
+  return levelmeter->level;
+}
+
+void
+levelmeter_set_level(LevelMeter * levelmeter, guint level)
+{
+  g_return_if_fail(levelmeter != NULL);
+  g_return_if_fail(IS_LEVELMETER(levelmeter));
+
+  levelmeter->level = level;
+
+  levelmeter_update(levelmeter);
+}
+
+static void
+levelmeter_realize(GtkWidget * widget)
+{
+  LevelMeter *levelmeter;
+  GdkWindowAttr attributes;
+  gint attributes_mask;
+
+  g_return_if_fail(widget != NULL);
+  g_return_if_fail(IS_LEVELMETER(widget));
+
+  GTK_WIDGET_SET_FLAGS(widget, GTK_REALIZED);
+  levelmeter = LEVELMETER(widget);
+
+  attributes.x = widget->allocation.x;
+  attributes.y = widget->allocation.y;
+  attributes.width = widget->allocation.width;
+  attributes.height = widget->allocation.height;
+  attributes.wclass = GDK_INPUT_OUTPUT;		/*
+						   XXX 
+						 */
+  attributes.window_type = GDK_WINDOW_CHILD;
+  attributes.event_mask = gtk_widget_get_events(widget) |
+    GDK_EXPOSURE_MASK
+#if 0
+    | GDK_BUTTON_PRESS_MASK |
+    GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK |
+    GDK_POINTER_MOTION_HINT_MASK
+#endif
+    ;
+  attributes.visual = gtk_widget_get_visual(widget);
+  attributes.colormap = gtk_widget_get_colormap(widget);
+
+  attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+  widget->window = gdk_window_new(widget->parent->window, &attributes,
+				  attributes_mask);
+
+  widget->style = gtk_style_attach(widget->style, widget->window);
+
+  gdk_window_set_user_data(widget->window, widget);
+
+  gtk_style_set_background(widget->style, widget->window, GTK_STATE_ACTIVE);
+}
+
+static void
+levelmeter_size_request(GtkWidget * widget, GtkRequisition * requisition)
+{
+  requisition->width = LEVELMETER_DEFAULT_WIDTH;
+  requisition->height = LEVELMETER_DEFAULT_HEIGHT;
+}
+
+static void
+levelmeter_size_allocate(GtkWidget * widget, GtkAllocation * allocation)
+{
+  LevelMeter *levelmeter;
+
+  g_return_if_fail(widget != NULL);
+  g_return_if_fail(IS_LEVELMETER(widget));
+  g_return_if_fail(allocation != NULL);
+
+  widget->allocation = *allocation;
+  if (GTK_WIDGET_REALIZED(widget)) {
+    levelmeter = LEVELMETER(widget);
+
+    gdk_window_move_resize(widget->window,
+       allocation->x, allocation->y, allocation->width, allocation->height);
+  }
+}
+
+static gint
+levelmeter_expose(GtkWidget * widget, GdkEventExpose * event)
+{
+  gint i, levelmeter_height;
+
+  levelmeter_height = widget->allocation.height / LEVELMETER_DEFAULT_DIVISIONS;
+
+  gdk_window_clear_area(widget->window, 0, 0,
+			widget->allocation.width, widget->allocation.height);
+
+  if (!levelmeter_style) {
+    levelmeter_style = gtk_style_new();
+    levelmeter_style->fg_gc[GTK_STATE_NORMAL] =
+      gdk_gc_new(widget->window);
+  }
+  gdk_gc_set_foreground(levelmeter_style->fg_gc[GTK_STATE_NORMAL], &col_green);
+
+  for (i = 0; i < LEVELMETER_DEFAULT_HIGH && i <= LEVELMETER(widget)->level; i++) {
+    gdk_draw_rectangle(widget->window, levelmeter_style->fg_gc[widget->state],
+		       TRUE, 0, (LEVELMETER_DEFAULT_DIVISIONS - i) * levelmeter_height, widget->allocation.width, levelmeter_height - 1);
+  }
+
+  gdk_gc_set_foreground(levelmeter_style->fg_gc[GTK_STATE_NORMAL], &col_red);
+
+  for (; i <= LEVELMETER_DEFAULT_DIVISIONS && i <= LEVELMETER(widget)->level;
+       i++) {
+    gdk_draw_rectangle(widget->window, levelmeter_style->fg_gc[widget->state],
+		       TRUE, 0, (LEVELMETER_DEFAULT_DIVISIONS - i) * levelmeter_height, widget->allocation.width, levelmeter_height - 1);
+  }
+
+  return FALSE;
+}
+
+
+static void
+levelmeter_update(LevelMeter * levelmeter)
+{
+  gtk_widget_draw(GTK_WIDGET(levelmeter), NULL);
+}

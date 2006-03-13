@@ -1,0 +1,110 @@
+Wed May 15 13:38:13 EST 2002 Conrad Parker <conrad@metadecks.org>
+
+	* Fixed initialisation of aube_daddy, cause of segfault on PPC
+	(Thanks to Michal Seta for assistance)
+
+Tue Mar 19 16:10:47 EST 2002 Conrad Parker <conrad@metadecks.org>
+
+	* Tracked down bugs in oss line out exhibited on dodgy AC97 driver
+	
+Fri Mar 15 03:14:08 EST 2002 Conrad Parker <conrad@metadecks.org>
+
+	* Made buttons to launch modules, rather than doing so from a menu
+	* Fixed bugs in slider widget, made it display values properly
+	* Brought sample list into main window, moved load sample to main menu
+	* Changed displayed name of "minimaube" to "Sample Player"
+	* Added keybindings for quit and load sample
+
+Fri Mar 15 16:45:15 EST 2002 Conrad Parker <conrad@metadecks.org>
+
+	* Fixed a bunch of GUI related problems (mostly resizing and close)
+	* Tweaked drummachine's chaos function
+	* Commented out open/save workspace menu items
+	* Fixed problems with "Clear Workspace"
+	* Changed URL references to metadecks.org
+
+Sat Sep  1 22:20:33 EST 2001 Conrad Parker <conrad@vergenet.net>
+
+	* Fixed overrun bug when switching samples in minimaube
+
+Fri Mar 26 22:20:37 1999  Angus Lees  <gusl@cse.unsw.edu.au>
+
+	* fixed more compile warnings (eg: missing "#include <stdio.h>")
+	* fixed some compile time errors
+	(DATADIR not defined properly, "text" instead of "test")
+
+Thu Mar 25 11:23:25 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* New atonal loop module
+	* Rolled in Gus' automake/autoconf cleanups
+	* Added module class on and off functions
+
+Mon Mar 22 00:10:23 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Loading/saving of modules, storing only their
+	interconnections.
+	* more cleanups in aube.h, removed dynamic module typing
+
+Thu Mar 18 19:16:35 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Animated levelmeters
+	* Split OSS module into separate "Line-In" and "Line-Out"
+	modules
+	* Beginnings of file saving/loading [disabled]
+	* Moved module sources to new subdirectory
+	* type name changes: u_channel => channel, u_input => input
+
+Thu Feb 25 09:51:07 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Introduced failure handling on module processing, and
+	reworked synchronisation to handle it
+	* Added select(2) mechanism to OSS driver, such that it
+	returns PROC_INCOMPLETE if the device is not ready for
+	reading or writing
+	* Fixed a volume bug in drummachine (samples were being cut
+	prematurely)
+
+Wed Feb 24 11:06:19 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Added Master slider to general mixer
+
+Tue Feb 23 03:04:05 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Fixed a few modules that weren't toggling off properly
+	* Fixed cloning in general mixer, and added mutes
+
+Mon Feb 22 01:41:50 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Cleaned up drummachine
+	* Beginnings of sample editor [disabled]
+	* Fixed bug in general mixer
+
+Thu Feb 18 02:39:19 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Sample saving added
+	* Beginnings of level meters
+	* New Drummachine module
+
+Tue Dec  8 22:13:44 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Support for gtk-1.1.5
+	* New SampleRecorder module
+
+Mon Oct 12 12:36:05 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Added support for 8 bit soundcards
+	* Added output labels, beginnings of dnd
+
+Sat Oct  3 20:40:56 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Fixed some widget bugs to work with gtk 1.1.2
+
+Wed Aug 19 04:10:20 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Fixed niggly autoconf bugs that were particular to my setup. Thanks
+        to raster for this :)
+
+Sun Aug  9 11:52:38 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
+
+	* Twiddled with autoconf, automake
+
