@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/aube.h)
+AC_INIT()
 
 AM_INIT_AUTOMAKE(aube, 0.30.2)
 
@@ -18,7 +18,6 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_CPP
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
 
 dnl Checks for libraries
 AM_PATH_AUDIOFILE(0.1.5, AC_DEFINE(HAVE_LIBAUDIOFILE))
@@ -26,8 +25,7 @@ AM_PATH_AUDIOFILE(0.1.5, AC_DEFINE(HAVE_LIBAUDIOFILE))
 AM_PATH_GTK(1.0.0, , echo "EEEEEK No GTK")
 #AM_PATH_GENERIC(xml, 0.99.0)
 
-AC_CHECK_LIB (gdk_imlib, gdk_imlib_init)
-
+AM_PATH_GDK_IMLIB(1.9, ,AC_MSG_ERROR([*** IMLIB 1.9 not installed ***]))
 dnl Test for libXpm
 AC_CHECK_LIB(Xpm, XpmReadFileToXpmImage)
 
