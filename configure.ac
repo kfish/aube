@@ -45,7 +45,19 @@ AC_TYPE_SIZE_T
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 
-test x$GCC = xyes && CFLAGS="-Wall $CFLAGS"
+AC_ARG_ENABLE(gcc-werror,
+	AC_HELP_STRING([--enable-gcc-werror], [enable -Werror in all Makefiles]))
+
+dnl Use -Wall if we have gcc.
+if test "x$ac_cv_prog_gcc" = xyes ; then
+  CFLAGS="$CFLAGS -Wall"
+
+  if test x$enable_gcc_werror = "xyes" ; then
+    CFLAGS="$CFLAGS -Werror"
+	fi
+
+fi
+
 
 AC_OUTPUT(
 Makefile
