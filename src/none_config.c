@@ -56,7 +56,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint none_config_signals[LAST_SIGNAL] =
+static guint none_config_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

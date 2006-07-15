@@ -64,7 +64,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint minitracker_if_signals[LAST_SIGNAL] =
+static guint minitracker_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

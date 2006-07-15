@@ -46,7 +46,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint panner4_if_signals[LAST_SIGNAL] =
+static guint panner4_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

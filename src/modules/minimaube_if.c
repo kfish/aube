@@ -56,7 +56,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint minimaube_if_signals[LAST_SIGNAL] =
+static guint minimaube_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

@@ -42,7 +42,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint modulemenu_signals[LAST_SIGNAL] =
+static guint modulemenu_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

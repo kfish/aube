@@ -48,7 +48,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint filter_reslp_if_signals[LAST_SIGNAL] =
+static guint filter_reslp_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

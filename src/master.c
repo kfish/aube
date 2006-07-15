@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <strings.h>
+#include <string.h>
 #include <gdk_imlib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
@@ -155,7 +155,7 @@ enum {
 };
 
 /* static gint master_signals[LAST_SIGNAL] = { 0 }; */
-gint master_signals[LAST_SIGNAL] = {0};
+guint master_signals[LAST_SIGNAL+1] = {0};
 
 static void
 master_class_init(MasterClass * class)

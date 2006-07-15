@@ -50,7 +50,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint general_mixer_if_signals[LAST_SIGNAL] =
+static guint general_mixer_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

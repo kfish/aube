@@ -33,7 +33,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint klav_signals[LAST_SIGNAL] =
+static guint klav_signals[LAST_SIGNAL+1] =
 {0};
 
 typedef void (*KlavSignal1) (GtkObject * object,

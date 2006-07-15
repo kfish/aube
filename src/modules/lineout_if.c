@@ -46,7 +46,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint lineout_if_signals[LAST_SIGNAL] =
+static guint lineout_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

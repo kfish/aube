@@ -65,7 +65,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint syre_if_signals[LAST_SIGNAL] =
+static guint syre_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void

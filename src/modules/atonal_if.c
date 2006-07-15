@@ -67,7 +67,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint atonal_if_signals[LAST_SIGNAL] = { 0 };
+static guint atonal_if_signals[LAST_SIGNAL+1] = { 0 };
 
 static void
 atonal_if_class_init (AtonalIFClass *class)

@@ -56,7 +56,7 @@ enum {
   LAST_SIGNAL
 };
 
-static gint klavier_if_signals[LAST_SIGNAL] =
+static guint klavier_if_signals[LAST_SIGNAL+1] =
 {0};
 
 static void
