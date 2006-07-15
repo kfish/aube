@@ -85,8 +85,8 @@ about_dialog_create()
     gtk_box_pack_start(GTK_BOX(vbox), alignment, FALSE, TRUE, 0);
     gtk_widget_show(alignment);
 
-#if ! HAVE_LIBAUDIOFILE
-    label = gtk_label_new("This copy of AUBE was built without sample support\ndue to libaudiofile being unavailable on the build host");
+#ifndef HAVE_LIBSNDFILE
+    label = gtk_label_new("This copy of AUBE was built without sample support\ndue to libsndfile being unavailable on the build host");
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, TRUE, 0);
     gtk_widget_show(label);
 

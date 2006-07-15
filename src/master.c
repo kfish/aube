@@ -285,7 +285,7 @@ master_init(Master * master)
 #if 0
   menuitem = gtk_menu_item_new_with_label("Samples...");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-#if HAVE_LIBAUDIOFILE
+#if HAVE_LIBSNDFILE
   gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
 		     GTK_SIGNAL_FUNC(aube_samplelist_create), NULL);
 #else

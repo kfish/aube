@@ -20,7 +20,13 @@ AC_PROG_CPP
 AC_PROG_MAKE_SET
 
 dnl Checks for libraries
-AM_PATH_AUDIOFILE(0.1.5, AC_DEFINE(HAVE_LIBAUDIOFILE))
+PKG_CHECK_MODULES(SNDFILE, sndfile >= 1.0.0,
+                  HAVE_LIBSNDFILE="yes", HAVE_LIBSNDFILE="no")
+
+if test "x$HAVE_LIBSNDFILE" = xyes ; then
+  AC_DEFINE([HAVE_LIBSNDFILE], [], [Define if we have libsndfile.])
+  AC_SUBST(SNDFILE_LIBS)
+  fi
 
 AM_PATH_GTK(1.0.0, , echo "EEEEEK No GTK")
 #AM_PATH_GENERIC(xml, 0.99.0)
