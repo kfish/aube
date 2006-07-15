@@ -73,10 +73,10 @@ libmodules_a_SOURCES = \
 	xfader_if.c		\
 	xfader_if.h
 
-CPPFLAGS = \
+AM_CPPFLAGS = \
 	-DDATADIR=\"$(pkgdatadir)\"
 
-CFLAGS = \
+AM_CFLAGS = \
 	-g -O2 -Wall
 
 INCLUDES = -I$(top_srcdir)/src @GTK_CFLAGS@
