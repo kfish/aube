@@ -171,11 +171,11 @@ panner4_if_new(panner4 * pn)
   gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, TRUE, 0);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Fade", &(panner4_if->data->fade), 0, 32, 1);
+  slider = slider_int_new("Fade", &(panner4_if->data->fade), 0, 32, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Pan", &(panner4_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(panner4_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);
 

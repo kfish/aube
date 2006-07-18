@@ -181,19 +181,19 @@ filter_reslp_if_new(filter_reslp * fr)
   gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, TRUE, 0);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Vol", &(filter_reslp_if->data->vol), 0, 64, 1);
+  slider = slider_int_new("Vol", &(filter_reslp_if->data->vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
 #if 0
-  slider = slider_new("Tune", &(filter_reslp_if->data->tune), 1, 1024, 1);
+  slider = slider_int_new("Tune", &(filter_reslp_if->data->tune), 1, 1024, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_signal_connect(GTK_OBJECT(SLIDER(slider)->adj), "value_changed",
 	      GTK_SIGNAL_FUNC(harmonics_changed_cb), filter_reslp_if->data);
   gtk_widget_show(slider);
 #endif
 
-  slider = slider_new("Pan", &(filter_reslp_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(filter_reslp_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, FALSE, 0);
   gtk_widget_show(slider);
 #endif
@@ -212,7 +212,7 @@ filter_reslp_if_new(filter_reslp * fr)
   gtk_container_add(GTK_CONTAINER(frame), hbox3);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Res.", &(filter_reslp_if->data->resonance_base), 0, 200, 1);
+  slider = slider_int_new("Res.", &(filter_reslp_if->data->resonance_base), 0, 200, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);
 
@@ -233,7 +233,7 @@ filter_reslp_if_new(filter_reslp * fr)
   gtk_container_add(GTK_CONTAINER(frame), hbox3);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Cutoff", &(filter_reslp_if->data->cutoff_base),
+  slider = slider_int_new("Cutoff", &(filter_reslp_if->data->cutoff_base),
 		      20, 20000, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);

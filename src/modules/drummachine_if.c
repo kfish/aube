@@ -234,7 +234,7 @@ drummachine_if_new(drummachine * rsq)
     gtk_widget_show (button);
 
 #if 0
-    slider = slider_new("Vol", &(drummachine_if->data->vol), 0, 64, 0);
+    slider = slider_int_new("Vol", &(drummachine_if->data->vol), 0, 64, 0);
     gtk_box_pack_start(GTK_BOX(hbox), slider, FALSE, FALSE, 0);
     gtk_widget_show(slider);
 #endif

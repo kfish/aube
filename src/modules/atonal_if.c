@@ -170,7 +170,7 @@ atonal_if_new(atonal *rsq)
 #endif
 
 #if 0
-    slider = slider_new("", &(atonal_if->data->vol), 0, 64, 0);
+    slider = slider_int_new("", &(atonal_if->data->vol), 0, 64, 0);
     gtk_box_pack_start(GTK_BOX(hbox), slider, FALSE, FALSE, 0);
     gtk_widget_show(slider);
 #endif
@@ -188,7 +188,7 @@ atonal_if_new(atonal *rsq)
     gtk_widget_show(vbox2);
 
     snprintf(buf, 4, "%d", i);
-    slider = slider_new(buf, &(atonal_if->data->sequence[i].note), 110, 660, 1);
+    slider = slider_int_new(buf, &(atonal_if->data->sequence[i].note), 110, 660, 1);
     gtk_box_pack_start(GTK_BOX(vbox2), slider, TRUE, TRUE, 0);
     gtk_widget_show(slider);
 

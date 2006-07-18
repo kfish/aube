@@ -155,11 +155,11 @@ panner_if_new(panner * pn)
   gtk_container_add (GTK_CONTAINER(frame), vbox);
   gtk_widget_show(vbox);
 
-  slider = slider_new("Input", &(panner_if->data->vol), 0, 64, 1);
+  slider = slider_int_new("Input", &(panner_if->data->vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Pan", &(panner_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(panner_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);
 

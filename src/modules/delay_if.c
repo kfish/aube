@@ -163,20 +163,20 @@ delay_if_new(delay * dl)
   gtk_widget_show(hbox3);
 
 #if 0
-  slider = slider_new("Input Vol", &(delay_if->data->input_vol), 0, 64, 1);
+  slider = slider_int_new("Input Vol", &(delay_if->data->input_vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 #endif
 
-  slider = slider_new("Delay", &(delay_if->data->offset), 0, DELAY_BUFFER_LENGTH / 2, 1);
+  slider = slider_int_new("Delay", &(delay_if->data->offset), 0, DELAY_BUFFER_LENGTH / 2, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Delay Vol", &(delay_if->data->delay_vol), 0, 64, 1);
+  slider = slider_int_new("Delay Vol", &(delay_if->data->delay_vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Delay Pan", &(delay_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Delay Pan", &(delay_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);
 

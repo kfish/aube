@@ -174,15 +174,15 @@ klavier_if_new(klavier * k)
   gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, TRUE, 0);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Vol", &(klavier_if->data->vol), 0, 64, 1);
+  slider = slider_int_new("Vol", &(klavier_if->data->vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Tune", &(klavier_if->data->tune), 1, 1024, 1);
+  slider = slider_int_new("Tune", &(klavier_if->data->tune), 1, 1024, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Pan", &(klavier_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(klavier_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, FALSE, 0);
   gtk_widget_show(slider);
 

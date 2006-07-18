@@ -155,15 +155,15 @@ xfader_if_new(xfader * xf)
   gtk_box_pack_start(GTK_BOX(vbox), hbox2, TRUE, TRUE, 0);
   gtk_widget_show(hbox2);
 
-  slider = slider_new("Vol0", &(xfader_if->data->vol0), 0, 64, 1);
+  slider = slider_int_new("Vol0", &(xfader_if->data->vol0), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox2), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Vol1", &(xfader_if->data->vol1), 0, 64, 1);
+  slider = slider_int_new("Vol1", &(xfader_if->data->vol1), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox2), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Fader", &(xfader_if->data->fader), 0, 64, 0);
+  slider = slider_int_new("Fader", &(xfader_if->data->fader), 0, 64, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);
 
