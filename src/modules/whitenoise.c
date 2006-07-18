@@ -52,8 +52,8 @@ whitenoise_new()
      memset(wn->module.outputs[0]->tick_buffer, 0, sizeof(wn->module.outputs[0]->tick_buffer));
    */
   aube_module_clear_outputs((module *) wn);
-  sprintf(wn->module.u_label, "w-noise");
-  sprintf(wn->module.outputs[0]->u_label, "out");
+  snprintf(wn->module.u_label, sizeof (wn->module.u_label), "w-noise");
+  snprintf(wn->module.outputs[0]->u_label, sizeof (wn->module.outputs[0]->u_label), "out");
   wn->module.outputs[0]->module = (module *) wn;
 
   wn->module.do_tick = (void *) whitenoise_calc_note;
@@ -81,8 +81,8 @@ whitenoise_clone(whitenoise * own)
   wn->module.outputs[0]->data = (bit16 *) (&(wn->tick_buffer));
 
   aube_module_clear_outputs((module *) wn);
-  sprintf(wn->module.u_label, "w-noise");
-  sprintf(wn->module.outputs[0]->u_label, "out");
+  snprintf(wn->module.u_label, sizeof (wn->module.u_label), "w-noise");
+  snprintf(wn->module.outputs[0]->u_label, sizeof (wn->module.outputs[0]->u_label), "out");
   wn->module.outputs[0]->module = (module *) wn;
 
   wn->module.do_tick = (void *) whitenoise_calc_note;

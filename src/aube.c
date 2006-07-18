@@ -176,7 +176,7 @@ new_output(int ch_type, module * m, char *label, void *data)
   if ((out = malloc(sizeof(channel)))) {
     out->parms.ch_type = ch_type;
     out->module = m;
-    sprintf(out->u_label, "%s", label);
+    snprintf(out->u_label, sizeof (out->u_label), "%s", label);
     out->data = data;
   }
   return out;
@@ -287,6 +287,7 @@ aube_data_new()
 int
 aube_add_module(module * module)
 {
+  char temp [sizeof (module->u_label)] ;
   aube_daddy->modules[aube_daddy->nr_modules] = module;
   aube_daddy->nr_modules++;
   aube_daddy->nr_channels += module->nr_outputs;
@@ -294,8 +295,10 @@ aube_add_module(module * module)
   /*module->type = aube_get_type(aube_daddy, module->u_label);*/
   /*aube_daddy->types[module->type].instances++;*/
   module->class->instances++;
-  sprintf(module->u_label, "%s-%d", module->u_label,
-    module->class->instances);
+
+  /* If we're using snprintf, we need to store the existing string first. */
+  snprintf(temp, sizeof (temp), "%s", module->u_label);
+  sprintf(module->u_label, "%s-%d", temp, module->class->instances);
 /*
 	  aube_daddy->types[module->type].instances);
 */
@@ -390,7 +393,7 @@ aube_get_type(aube_data * a, char *typename)
       return i;
     }
   }
-  sprintf((char *) a->types[i].type_label, "%s", typename);
+  snprintf((char *) a->types[i].type_label, sizeof (a->types[i].type_label), "%s", typename);
   a->types[i].type = i;
   a->types[i].instances = 0;
   a->nr_types++;
@@ -409,7 +412,7 @@ main(int argc, char **argv)
   int i;
 
   gtk_init(&argc, &argv);
-  sprintf(buf, "%s/gtkrc", DATADIR);
+  snprintf(buf, sizeof (buf), "%s/gtkrc", DATADIR);
   gtk_rc_parse(buf);
 
   gdk_imlib_init ();

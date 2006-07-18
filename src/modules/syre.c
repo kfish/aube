@@ -75,8 +75,8 @@ syre_new()
   s->module.outputs[0]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
   s->module.outputs[0]->data = (bit16 *) (&(s->tick_buffer));
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "syre");
-  sprintf(s->module.outputs[0]->u_label, "out");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "syre");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "out");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) syre_if_calc_note;
@@ -132,8 +132,8 @@ syre_clone(syre_if_data * os)
   s->module.outputs[0]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
   s->module.outputs[0]->data = (bit16 *) (&(s->tick_buffer));
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "syre");
-  sprintf(s->module.outputs[0]->u_label, "out");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "syre");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "out");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) syre_if_calc_note;

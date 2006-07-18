@@ -56,11 +56,11 @@ minimaube_new()
     s->module.outputs[i] = malloc(sizeof(channel));
     s->module.outputs[i]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
     s->module.outputs[i]->data = (bit16 *) (&(s->tick_buffer[i]));
-    sprintf(s->module.outputs[i]->u_label, "%d", i);
+    snprintf(s->module.outputs[i]->u_label, sizeof (s->module.outputs[i]->u_label), "%d", i);
     s->module.outputs[i]->module = (module *) s;
   }
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "s-player");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "s-player");
 
   s->module.do_tick = (void *) minimaube_calc_note;
 
@@ -99,8 +99,8 @@ minimaube_clone(minimaube * os)
   s->module.outputs[0]->data = (bit16 *) (&(s->tick_buffer));
 
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "minimaube");
-  sprintf(s->module.outputs[0]->u_label, "out");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "minimaube");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "out");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) minimaube_calc_note;

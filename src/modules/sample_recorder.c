@@ -57,8 +57,8 @@ sample_recorder_new()
   sr->module.outputs[0]->data = (bit16 *) (&(sr->tick_buffer));
 
   aube_module_clear_outputs((module *) sr);
-  sprintf(sr->module.u_label, "s-recorder");
-  sprintf(sr->module.outputs[0]->u_label, "out");
+  snprintf(sr->module.u_label, sizeof (sr->module.u_label), "s-recorder");
+  snprintf(sr->module.outputs[0]->u_label, sizeof (sr->module.outputs[0]->u_label), "out");
   sr->module.outputs[0]->module = (module *) sr;
 
   sr->module.do_tick = (void *) sample_recorder_calc_note;
@@ -94,8 +94,8 @@ sample_recorder_clone(sample_recorder * osr)
   sr->module.outputs[0]->data = (bit16 *) (&(sr->tick_buffer));
 
   aube_module_clear_outputs((module *) sr);
-  sprintf(sr->module.u_label, "s_rec");
-  sprintf(sr->module.outputs[0]->u_label, "out");
+  snprintf(sr->module.u_label, sizeof (sr->module.u_label), "s_rec");
+  snprintf(sr->module.outputs[0]->u_label, sizeof (sr->module.outputs[0]->u_label), "out");
   sr->module.outputs[0]->module = (module *) sr;
 
   sr->module.do_tick = (void *) sample_recorder_calc_note;

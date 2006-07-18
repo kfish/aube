@@ -123,7 +123,7 @@ about_dialog_load_logo(GtkWidget * window)
   if (logo_pixmap)
     return TRUE;
 
-  sprintf(buf, "%s/aube_logo.ppm", DATADIR);
+  snprintf(buf, sizeof (buf), "%s/aube_logo.ppm", DATADIR);
 
   fp = fopen(buf, "rb");
   if (!fp)

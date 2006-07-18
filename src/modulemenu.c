@@ -84,7 +84,7 @@ modulemenu_new(module * this_module, int *include_criterion(), void *select_acti
       UNITMENU(modulemenu)->up[k].this_module = this_module;
       UNITMENU(modulemenu)->up[k].selected_module = u;
 
-      sprintf(buf, "%s", u->u_label);
+      snprintf(buf, sizeof (buf), "%s", u->u_label);
 
       menuitem = gtk_menu_item_new_with_label(buf);
       gtk_menu_append(GTK_MENU(modulemenu), menuitem);
@@ -95,7 +95,7 @@ modulemenu_new(module * this_module, int *include_criterion(), void *select_acti
     }
   }
   if (k == 0) {
-    sprintf(buf, "None");
+    snprintf(buf, sizeof (buf), "None");
 
     menuitem = gtk_menu_item_new_with_label(buf);
     gtk_widget_set_state(GTK_WIDGET(menuitem), GTK_STATE_INSENSITIVE);

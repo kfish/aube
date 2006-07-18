@@ -344,11 +344,11 @@ minitracker_if_update_tracker(GtkWidget * widget, gpointer data)
   title[2] = buf2;
   title[3] = buf3;
   for (i = 0; i < SEQ_LENGTH; i++) {
-    sprintf(title[0], "%02d", i);
-    /*    sprintf(title[1], "%d", tracker->data->sequence[i].note);*/
-    sprintf (title[1], "%s", note_names[tracker->data->sequence[i].note]);
-    sprintf(title[2], "%02d", 0);
-    sprintf(title[3], "%02d", 0);
+    snprintf(title[0], sizeof (title[0]), "%02d", i);
+    /*    snprintf(title[1], sizeof (title[1]), "%d", tracker->data->sequence[i].note);*/
+    snprintf(title[1], sizeof (title[1]), "%s", note_names[tracker->data->sequence[i].note]);
+    snprintf(title[2], sizeof (title[2]), "%02d", 0);
+    snprintf(title[3], sizeof (title[3]), "%02d", 0);
 
     gtk_clist_append(GTK_CLIST(tracker->tl), (gchar **) & title);
   }

@@ -172,10 +172,10 @@ reread_inputs_cb(GtkWidget * widget, gpointer data)
     INPUTOPTION(data)->ip = malloc(sizeof(inputpack) * (aube_daddy->nr_samples + 1));
     for (i = -1; i < (int) (aube_daddy->nr_samples); i++) {
       if (i == -1) {
-	sprintf(buf, "None");
+	snprintf(buf, sizeof (buf), "None");
 	INPUTOPTION(data)->ip[k].ch = NULL;
       } else {
-	sprintf(buf, "%s", aube_daddy->samples[i]->u_label);
+	snprintf(buf, sizeof (buf), "%s", aube_daddy->samples[i]->u_label);
 	INPUTOPTION(data)->ip[k].ch = aube_daddy->samples[i];
       }
 
@@ -206,11 +206,11 @@ reread_inputs_cb(GtkWidget * widget, gpointer data)
 	  INPUTOPTION(data)->ip[k].ch = channel;
 
 	  if (i == 0)
-	    sprintf(buf, "None");
+	    snprintf(buf, sizeof (buf), "None");
 	  else if (aube_daddy->modules[i]->nr_outputs == 1)
-	    sprintf(buf, "%s", aube_daddy->modules[i]->u_label);
+	    snprintf(buf, sizeof (buf), "%s", aube_daddy->modules[i]->u_label);
 	  else
-	    sprintf(buf, "%s:%s", aube_daddy->modules[i]->u_label,
+	    snprintf(buf, sizeof (buf), "%s:%s", aube_daddy->modules[i]->u_label,
 		    INPUTOPTION(data)->ip[k].ch->u_label);
 
 	  if (input->channel == channel) {

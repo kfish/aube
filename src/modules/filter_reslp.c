@@ -64,8 +64,8 @@ filter_reslp_new()
   s->module.outputs[0]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
   s->module.outputs[0]->data = (bit16 *) (&(s->tick_buffer));
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "reslp");
-  sprintf(s->module.outputs[0]->u_label, "out");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "reslp");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "out");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) filter_reslp_calc_note;
@@ -115,8 +115,8 @@ filter_reslp_clone(filter_reslp * ofr)
   s->module.outputs[0]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
   s->module.outputs[0]->data = (bit16 *) (&(s->tick_buffer));
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "reslp");
-  sprintf(s->module.outputs[0]->u_label, "out");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "reslp");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "out");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) filter_reslp_calc_note;

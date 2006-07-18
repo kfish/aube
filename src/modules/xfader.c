@@ -55,8 +55,8 @@ xfader_new()
      memset(xf->module.outputs[0]->tick_buffer, 0, sizeof(xf->module.outputs[0]->tick_buffer));
    */
   aube_module_clear_outputs((module *) xf);
-  sprintf(xf->module.u_label, "xfader");
-  sprintf(xf->module.outputs[0]->u_label, "out");
+  snprintf(xf->module.u_label, sizeof (xf->module.u_label), "xfader");
+  snprintf(xf->module.outputs[0]->u_label, sizeof (xf->module.outputs[0]->u_label), "out");
   xf->module.outputs[0]->module = (module *) xf;
 
   xf->module.do_tick = (void *) xfader_calc_note;
@@ -89,8 +89,8 @@ xfader_clone(xfader * oxf)
   xf->module.outputs[0]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
   xf->module.outputs[0]->data = (bit16 *) (&(xf->tick_buffer));
   aube_module_clear_outputs((module *) xf);
-  sprintf(xf->module.u_label, "xfader");
-  sprintf(xf->module.outputs[0]->u_label, "out");
+  snprintf(xf->module.u_label, sizeof (xf->module.u_label), "xfader");
+  snprintf(xf->module.outputs[0]->u_label, sizeof (xf->module.outputs[0]->u_label), "out");
   xf->module.outputs[0]->module = (module *) xf;
 
   xf->module.do_tick = (void *) xfader_calc_note;

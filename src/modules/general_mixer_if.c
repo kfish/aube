@@ -246,14 +246,14 @@ general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i)
   gtk_box_pack_start(GTK_BOX(general_mixer_if->hbox), vbox, TRUE, TRUE, 0);
   gtk_widget_show(vbox);
 
-  sprintf(buf, "%d:", i);
+  snprintf(buf, sizeof (buf), "%d:", i);
   button = inputoption_new(buf,
 		    (module *) GENERAL_MIXER_IF(general_mixer_if)->data, i);
   reread_inputs_cb(GTK_WIDGET(general_mixer_if), button);
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, TRUE, 0);
   gtk_widget_show(button);
 
-  sprintf(buf, "%d", i);
+  snprintf(buf, sizeof (buf), "%d", i);
   slider = slider_int_new(buf, &(general_mixer_if->data->vol[i]), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);

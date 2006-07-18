@@ -131,7 +131,7 @@ oss_out_new()
   oss_o->output_module.inputs[0]->ch_type = CH_TYPE_AUDIO_STREAM;
   oss_o->output_module.inputs[0]->channel = NULL;
   oss_o->output_module.nr_outputs = 0;
-  sprintf(oss_o->output_module.u_label, "Line-Out");
+  snprintf(oss_o->output_module.u_label, sizeof (oss_o->output_module.u_label), "Line-Out");
   aube_add_module(&oss_o->output_module);
 
   oss_o->dev = oss_dev_tbl[dev_tbl_i];
@@ -173,8 +173,8 @@ oss_in_new()
   oss_i->input_module.outputs[0]->parms.ch_type = CH_TYPE_AUDIO_STREAM;
   oss_i->input_module.outputs[0]->data = (bit16 *) (&oss_i->tick_buffer);
   aube_module_clear_outputs(&oss_i->input_module);
-  sprintf(oss_i->input_module.u_label, "Line-In");
-  sprintf(oss_i->input_module.outputs[0]->u_label, "line");
+  snprintf(oss_i->input_module.u_label, sizeof (oss_i->input_module.u_label), "Line-In");
+  snprintf(oss_i->input_module.outputs[0]->u_label, sizeof (oss_i->input_module.outputs[0]->u_label), "line");
   oss_i->input_module.outputs[0]->module = &oss_i->input_module;
   aube_add_module(&oss_i->input_module);
 
@@ -233,7 +233,7 @@ lineout_do_tick(oss_out * oss_p)
 	  if (errno != 11) {
 #endif
 
-	    sprintf(buf, "OSS: Error writing to %s (%d)",
+	    snprintf(buf, sizeof (buf), "OSS: Error writing to %s (%d)",
 		    oss_p->dev->devicename, errno);
 	    perror(buf);
 
@@ -258,7 +258,7 @@ lineout_do_tick(oss_out * oss_p)
       *(b + n) = (((bit16 *) (((module *) oss_p)->inputs[0]->channel->data))[n]) >> 8;
     }
     if ((n = write(oss_p->dev->file, b, tick)) == -1) {
-      sprintf(buf, "OSS: Error writing to %s", oss_p->dev->devicename);
+      snprintf(buf, sizeof (buf), "OSS: Error writing to %s", oss_p->dev->devicename);
       perror(buf);
 #ifdef DEBUG
     } else {
@@ -351,7 +351,7 @@ oss_open(oss_dev * oss_d)
   case OSS_MODE_OUTPUT:
 
     if ((oss_d->file = open(oss_d->devicename, O_WRONLY, 0)) == -1) {
-      sprintf(buf, "OSS: Unable to open %s for writing", oss_d->devicename);
+      snprintf(buf, sizeof (buf), "OSS: Unable to open %s for writing", oss_d->devicename);
       perror(buf);
       MODULE_OFF_safe(oss_d->writer);
       MODULE_OFF_safe(oss_d->reader);
@@ -359,7 +359,7 @@ oss_open(oss_dev * oss_d)
     } else {
 
 #ifdef DEBUG
-      sprintf(buf, "OSS: opened %s for writing, fd %d",
+      snprintf(buf, sizeof (buf), "OSS: opened %s for writing, fd %d",
 	      oss_d->devicename, oss_d->file);
       perror(buf);
 #endif
@@ -370,14 +370,14 @@ oss_open(oss_dev * oss_d)
   case OSS_MODE_INPUT:
 
     if ((oss_d->file = open(oss_d->devicename, O_RDONLY | O_NDELAY, 0)) == -1) {
-      sprintf(buf, "OSS: Unable to open %s for reading", oss_d->devicename);
+      snprintf(buf, sizeof (buf), "OSS: Unable to open %s for reading", oss_d->devicename);
       perror(buf);
       MODULE_OFF_safe(oss_d->writer);
       MODULE_OFF_safe(oss_d->reader);
       return;
     } else {
 #ifdef DEBUG
-      sprintf(buf, "OSS: opened %s for reading, fd %d",
+      snprintf(buf, sizeof (buf), "OSS: opened %s for reading, fd %d",
 	      oss_d->devicename, oss_d->file);
       perror(buf);
 #endif
@@ -388,14 +388,14 @@ oss_open(oss_dev * oss_d)
   case OSS_MODE_DUPLEX:
 
     if ((oss_d->file = open(oss_d->devicename, O_RDWR | O_NDELAY, 0)) == -1) {
-      sprintf(buf, "OSS: Unable to open %s for duplex", oss_d->devicename);
+      snprintf(buf, sizeof (buf), "OSS: Unable to open %s for duplex", oss_d->devicename);
       perror(buf);
       MODULE_OFF_safe(oss_d->writer);
       MODULE_OFF_safe(oss_d->reader);
       return;
     } else {
 #ifdef DEBUG
-      sprintf(buf, "OSS: opened %s for duplex, fd %d",
+      snprintf(buf, sizeof (buf), "OSS: opened %s for duplex, fd %d",
 	      oss_d->devicename, oss_d->file);
       perror(buf);
 #endif

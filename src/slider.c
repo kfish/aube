@@ -12,7 +12,7 @@ void slider_dismiss(GtkWidget * widget, gpointer data);
 void slider_cb(GtkWidget * widget, gpointer data);
 
 guint
-slider_get_type(void)
+slider_get_type()
 {
   static guint b_type = 0;
 
@@ -70,7 +70,7 @@ slider_int_new(char *label_str, int *data, int lower, int upper, int vert)
   slider->type = SLIDER_TYPE_INT;
   slider->data.iptr = data;
 
-  sprintf (slider->value_str, "%d", *data);
+  snprintf (slider->value_str, sizeof (slider->value_str), "%d", *data);
   slider->value_label = gtk_label_new (slider->value_str);
   gtk_box_pack_start (GTK_BOX (slider), slider->value_label, FALSE, TRUE, 0);
   gtk_widget_show (slider->value_label);

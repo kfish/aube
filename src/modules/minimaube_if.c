@@ -241,7 +241,7 @@ minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
   gtk_box_pack_start(GTK_BOX(minimaube_if->vbox), hbox, FALSE, TRUE, 1);
   gtk_widget_show(hbox);
 
-  sprintf(buf, "%d:", i);
+  snprintf(buf, sizeof (buf), "%d:", i);
   widget = gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 1);
   gtk_widget_show(widget);
@@ -270,14 +270,14 @@ minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
   gtk_box_pack_start(GTK_BOX(minimaube_if->hbox), vbox, TRUE, FALSE, 0);
   gtk_widget_show(vbox);
 
-  sprintf(buf, "%d:", i);
+  snprintf(buf, sizeof (buf), "%d:", i);
   button = inputoption_new(buf,
 			   (module *) MINIMAUBE_IF(minimaube_if)->data, i);
   reread_inputs_cb(GTK_WIDGET(minimaube_if), button);
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
   gtk_widget_show(button);
 
-  sprintf(buf, "%d", i);
+  snprintf(buf, sizeof (buf), "%d", i);
   slider = slider_int_new(buf, &(minimaube_if->data->vol[i]), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);

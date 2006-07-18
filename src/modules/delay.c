@@ -50,7 +50,7 @@ delay_new()
     (char *)"out", (&(dl->delay_buffer)));
 
   aube_module_clear_outputs((module *) dl);
-  sprintf(dl->module.u_label, "delay");
+  snprintf(dl->module.u_label, sizeof (dl->module.u_label), "delay");
 
   dl->module.do_tick = (void *) delay_calc_note;
 
@@ -80,7 +80,7 @@ delay_clone(delay * odl)
     (char *)"out", (&(dl->delay_buffer)));
 
   aube_module_clear_outputs((module *) dl);
-  sprintf(dl->module.u_label, "delay");
+  snprintf(dl->module.u_label, sizeof (dl->module.u_label), "delay");
 
   dl->module.do_tick = (void *) delay_calc_note;
 

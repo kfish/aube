@@ -59,11 +59,11 @@ drummachine_new()
     s->module.outputs[i]->parms.ch_type = CH_TYPE_SEQUENCE;
     s->module.outputs[i]->data = (seq_channel *) (&(s->seq_ch[i]));
     snprintf(buf, 4, "%d", i);
-    sprintf(s->module.outputs[i]->u_label, buf);
+    snprintf(s->module.outputs[i]->u_label, sizeof (s->module.outputs[i]->u_label), buf);
     s->module.outputs[i]->module = (module *) s;
   }
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "drummachine");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "drummachine");
 
   s->module.do_tick = (void *) drummachine_calc_note;
 
@@ -97,11 +97,11 @@ drummachine_clone(drummachine * orsq)
     s->module.outputs[i]->parms.ch_type = CH_TYPE_SEQUENCE;
     s->module.outputs[i]->data = (seq_channel *) (&(s->seq_ch[i]));
     s->module.outputs[i]->module = (module *) s;
-    snprintf(buf, 4, "%d", i);
-    sprintf(s->module.outputs[i]->u_label, buf);
+    snprintf(buf, sizeof (buf), "%d", i);
+    snprintf(s->module.outputs[i]->u_label, sizeof(s->module.outputs[i]->u_label), buf);
   }
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "drummachine");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "drummachine");
 
   s->module.do_tick = (void *) drummachine_calc_note;
 
