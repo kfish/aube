@@ -33,7 +33,7 @@ extern "C" {
     void (*linein_if) (LINEINIF * a);
   };
 
-  guint linein_if_get_type(void);
+  GType linein_if_get_type(void);
   GtkWidget *linein_if_new(oss_in * oss_p);
   void linein_if_close_cb(GtkWidget * widget, gpointer data);
 

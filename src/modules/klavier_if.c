@@ -15,8 +15,7 @@ extern klavier *klavier_new(void);
 
 extern int tick;
 
-guint klavier_if_get_type(void);
-static void klavier_if_class_init(KlavierIFClass * class);
+static void klavier_if_class_init(KlavierIFClass * klass);
 static void klavier_if_init(KlavierIF * b);
 GtkWidget *klavier_if_new(klavier * k);
 void klavier_if_dismiss(GtkWidget * widget, gpointer data);
@@ -30,46 +29,36 @@ void klavkey_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer d
 void klavkey_key_release_event(GtkWidget * widget, GdkEventKey * event, gpointer data);
 gint get_note_from_key(guint keyval);
 
-guint
-klavier_if_get_type()
+GType
+klavier_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "KlavierIF",
-      sizeof(KlavierIF),
       sizeof(KlavierIFClass),
-      (GtkClassInitFunc) klavier_if_class_init,
-      (GtkObjectInitFunc) klavier_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) klavier_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(KlavierIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) klavier_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "KlavierIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint klavier_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-klavier_if_class_init(KlavierIFClass * class)
+klavier_if_class_init(KlavierIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, klavier_if_signals, LAST_SIGNAL);
-
-
-  class->klavier_if = NULL;
+  
 }
 
 static void

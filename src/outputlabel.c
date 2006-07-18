@@ -10,8 +10,7 @@ extern aube_data *aube_daddy;
 
 extern bit16 zero_buffer[];
 
-guint outputlabel_get_type(void);
-static void outputlabel_class_init(OutputlabelClass * class);
+static void outputlabel_class_init(OutputlabelClass * klass);
 static void outputlabel_init(Outputlabel * b);
 GtkWidget *outputlabel_new();
 void outputlabel_drag_request(GtkWidget * widget, GdkEvent * event);
@@ -27,44 +26,36 @@ GtkWidget *shape_create_icon(char *xpm_file,
 			     gint window_type);
 #endif
 
-guint
-outputlabel_get_type()
+GType
+outputlabel_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "Outputlabel",
-      sizeof(Outputlabel),
       sizeof(OutputlabelClass),
-      (GtkClassInitFunc) outputlabel_class_init,
-      (GtkObjectInitFunc) outputlabel_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) outputlabel_class_init ,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(Outputlabel),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) outputlabel_init,
     };
 
-    b_type = gtk_type_unique(gtk_frame_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_FRAME,
+                                                      "Outputlabel",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint outputlabel_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-outputlabel_class_init(OutputlabelClass * class)
+outputlabel_class_init(OutputlabelClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-  gtk_object_class_add_signals(object_class, outputlabel_signals, LAST_SIGNAL);
-
-  class->outputlabel = NULL;
+  
 }
 
 static void
@@ -93,8 +84,8 @@ outputlabel_new(module * module, int output_i)
     drag_icon = shape_create_icon("Modeller.xpm",
 				  440, 140, 0, 0, GTK_WINDOW_POPUP);
 
-    gtk_signal_connect(GTK_OBJECT(drag_icon), "destroy",
-		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+    g_signal_connect(G_OBJECT(drag_icon), "destroy",
+		       G_CALLBACK(gtk_widget_destroyed),
 		       &drag_icon);
 
     gtk_widget_hide(drag_icon);
@@ -103,8 +94,8 @@ outputlabel_new(module * module, int output_i)
     drop_icon = shape_create_icon("3DRings.xpm",
 				  440, 140, 0, 0, GTK_WINDOW_POPUP);
 
-    gtk_signal_connect(GTK_OBJECT(drop_icon), "destroy",
-		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+    g_signal_connect(G_OBJECT(drop_icon), "destroy",
+		       G_CALLBACK(gtk_widget_destroyed),
 		       &drop_icon);
 
     gtk_widget_hide(drop_icon);
@@ -146,13 +137,13 @@ outputlabel_new(module * module, int output_i)
 
 #if 0
   gtk_widget_realize(widget);
-  gtk_signal_connect(GTK_OBJECT(widget), "drag_request_event",
-		     GTK_SIGNAL_FUNC(outputlabel_drag_request), widget);
+  g_signal_connect(G_OBJECT(widget), "drag_request_event",
+		     G_CALLBACK(outputlabel_drag_request), widget);
   gtk_widget_dnd_drag_set(widget, TRUE, possible_drag_types, 1);
 #endif
 
-  gtk_signal_connect(GTK_OBJECT(outputlabel), "destroy",
-		     GTK_SIGNAL_FUNC(outputlabel_dismiss), outputlabel);
+  g_signal_connect(G_OBJECT(outputlabel), "destroy",
+		     G_CALLBACK(outputlabel_dismiss), outputlabel);
 
   return GTK_WIDGET(outputlabel);
 }

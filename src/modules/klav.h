@@ -105,7 +105,7 @@ extern "C" {
     void (*klavkey_release) (Klav * klav);
   };
 
-  guint klav_get_type(void);
+  GType klav_get_type(void);
   GtkWidget *klav_new(void);
 
   void klav_set_range(Klav * klav, gint start, gint end);

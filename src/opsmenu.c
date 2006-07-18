@@ -8,53 +8,43 @@ extern aube_data *aube_daddy;
 
 extern bit16 zero_buffer[];
 
-guint opsmenu_get_type(void);
-static void opsmenu_class_init(OpsmenuClass * class);
+static void opsmenu_class_init(OpsmenuClass * klass);
 static void opsmenu_init(Opsmenu * b);
 GtkWidget *opsmenu_new();
 void opsmenu_dismiss(GtkWidget * widget, gpointer data);
 void reread_inputs_cb(GtkWidget * widget, gpointer data);
 void select_input_cb(GtkWidget * widget, gpointer data);
 
-guint
-opsmenu_get_type()
+GType
+opsmenu_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "Opsmenu",
-      sizeof(Opsmenu),
       sizeof(OpsmenuClass),
-      (GtkClassInitFunc) opsmenu_class_init,
-      (GtkObjectInitFunc) opsmenu_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) opsmenu_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(Opsmenu),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) opsmenu_init,
     };
 
-    b_type = gtk_type_unique(gtk_menu_bar_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_MENU_BAR,
+                                                      "Opsmenu",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint opsmenu_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-opsmenu_class_init(OpsmenuClass * class)
+opsmenu_class_init(OpsmenuClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, opsmenu_signals, LAST_SIGNAL);
-
-  class->opsmenu = NULL;
+ 
 }
 
 static void
@@ -82,21 +72,21 @@ opsmenu_new(module * module, GtkWidget * parent_if, void *if_hide_cb, void *if_c
 #if 0
   menuitem = gtk_menu_item_new_with_label("Configure...");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(module_config_cb), module);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(module_config_cb), module);
   gtk_widget_show(menuitem);
 #endif
 
   menuitem = gtk_menu_item_new_with_label("Hide");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(if_hide_cb), parent_if);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(if_hide_cb), parent_if);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label("Clone");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(module_clone_cb), module);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(module_clone_cb), module);
   gtk_widget_show(menuitem);
 
 #if 0

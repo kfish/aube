@@ -15,8 +15,7 @@ extern minitracker *minitracker_new(void);
 extern int tick;
 extern char *note_names[97];
 
-guint minitracker_if_get_type(void);
-static void minitracker_if_class_init(MinitrackerIFClass * class);
+static void minitracker_if_class_init(MinitrackerIFClass * klass);
 static void minitracker_if_init(MinitrackerIF * b);
 GtkWidget *minitracker_if_new(minitracker * rsq);
 void minitracker_if_dismiss(GtkWidget * widget, gpointer data);
@@ -38,46 +37,36 @@ void seq_transpose_d1_cb(GtkWidget * widget, gpointer data);
 void lshift_cb(GtkWidget * widget, gpointer data);
 void rshift_cb(GtkWidget * widget, gpointer data);
 
-guint
-minitracker_if_get_type()
+GType
+minitracker_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "MinitrackerIF",
-      sizeof(MinitrackerIF),
       sizeof(MinitrackerIFClass),
-      (GtkClassInitFunc) minitracker_if_class_init,
-      (GtkObjectInitFunc) minitracker_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) minitracker_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(MinitrackerIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) minitracker_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "MinitrackerIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint minitracker_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-minitracker_if_class_init(MinitrackerIFClass * class)
+minitracker_if_class_init(MinitrackerIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, minitracker_if_signals, LAST_SIGNAL);
-
-
-  class->minitracker_if = NULL;
+  
 }
 
 static void

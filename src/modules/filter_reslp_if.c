@@ -10,8 +10,7 @@
 
 extern int tick;
 
-guint filter_reslp_if_get_type(void);
-static void filter_reslp_if_class_init(FilterResLP_IFClass * class);
+static void filter_reslp_if_class_init(FilterResLP_IFClass * klass);
 static void filter_reslp_if_init(FilterResLP_IF * b);
 GtkWidget *filter_reslp_if_new(filter_reslp * fr);
 void filter_reslp_if_dismiss(GtkWidget * widget, gpointer data);
@@ -22,46 +21,36 @@ void filter_reslp_startstop_cb(GtkWidget * widget, gpointer data);
 void filter_reslp_usetoggle_cb(GtkWidget * widget, gpointer data);
 gint filter_reslp_get_envelopes(gpointer data);
 
-guint
-filter_reslp_if_get_type()
+GType
+filter_reslp_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "FilterResLP_IF",
-      sizeof(FilterResLP_IF),
       sizeof(FilterResLP_IFClass),
-      (GtkClassInitFunc) filter_reslp_if_class_init,
-      (GtkObjectInitFunc) filter_reslp_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) filter_reslp_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(FilterResLP_IF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) filter_reslp_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "FilterResLP_IF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint filter_reslp_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-filter_reslp_if_class_init(FilterResLP_IFClass * class)
+filter_reslp_if_class_init(FilterResLP_IFClass * klass)
 {
-  GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, filter_reslp_if_signals, LAST_SIGNAL);
-
-
-  class->filter_reslp_if = NULL;
 }
 
 static void

@@ -8,8 +8,7 @@
 #include "inputoption.h"
 #include "opsmenu.h"
 
-guint lineout_if_get_type(void);
-static void lineout_if_class_init(LINEOUTIFClass * class);
+static void lineout_if_class_init(LINEOUTIFClass * klass);
 static void lineout_if_init(LINEOUTIF * b);
 GtkWidget *lineout_if_new(oss_out * oss_p);
 void lineout_if_dismiss(GtkWidget * widget, gpointer data);
@@ -19,46 +18,36 @@ void lineout_if_onoff_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
-
-guint
-lineout_if_get_type()
+GType
+lineout_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "LINEOUTIF",
-      sizeof(LINEOUTIF),
       sizeof(LINEOUTIFClass),
-      (GtkClassInitFunc) lineout_if_class_init,
-      (GtkObjectInitFunc) lineout_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) lineout_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(LINEOUTIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) lineout_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "LINEOUTIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint lineout_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-lineout_if_class_init(LINEOUTIFClass * class)
+lineout_if_class_init(LINEOUTIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, lineout_if_signals, LAST_SIGNAL);
-
-  class->lineout_if = NULL;
+ 
 }
 
 static void

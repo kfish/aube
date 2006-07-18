@@ -32,7 +32,7 @@ struct _SliderClass {
   void (*slider) (Slider * a);
 };
 
-guint slider_get_type(void);
+GType slider_get_type(void);
 GtkWidget *slider_new(char *label_str, int *data, int lower, int upper,
 		      int vert);
 void slider_refresh(GtkWidget * slider);

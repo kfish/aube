@@ -34,7 +34,7 @@ extern "C" {
     void (*sample_recorder_if) (SampleRecorderIF * a);
   };
 
-  guint sample_recorder_if_get_type(void);
+  GType sample_recorder_if_get_type(void);
   GtkWidget *sample_recorder_if_new(sample_recorder * pn);
   void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data);
 

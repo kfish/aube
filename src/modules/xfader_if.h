@@ -30,7 +30,7 @@ extern "C" {
     void (*xfader_if) (XFaderIF * a);
   };
 
-  guint xfader_if_get_type(void);
+  GType xfader_if_get_type(void);
   GtkWidget *xfader_if_new(xfader * xf);
   void xfader_if_close_cb(GtkWidget * widget, gpointer data);
 

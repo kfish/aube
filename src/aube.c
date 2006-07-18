@@ -462,7 +462,6 @@ main(int argc, char **argv)
   master = master_new();
   gtk_idle_add((GtkFunction) (aube_do_tick), aube_daddy);
   gtk_widget_show(master);
-
   nn = none_new();
 
   for (i = 1; i < argc; i++) {

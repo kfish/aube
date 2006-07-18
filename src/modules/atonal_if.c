@@ -16,8 +16,7 @@ extern atonal *atonal_new(void);
 extern int tick;
 extern char *note_names[97];
 
-guint atonal_if_get_type(void);
-static void atonal_if_class_init (AtonalIFClass *class);
+static void atonal_if_class_init (AtonalIFClass *klass);
 static void atonal_if_init (AtonalIF *b);
 GtkWidget* atonal_if_new (atonal *rsq);
 void atonal_if_dismiss(GtkWidget *widget, gpointer data);
@@ -39,47 +38,36 @@ void at_transpose_d1_cb(GtkWidget *widget, gpointer data);
 void at_lshift_cb(GtkWidget *widget, gpointer data);
 void at_rshift_cb(GtkWidget *widget, gpointer data);
 
-guint
-atonal_if_get_type ()
+GType
+atonal_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
-  if (!b_type)
+  if (!b_type) {
+    static const GTypeInfo b_info =
     {
-      GtkTypeInfo b_info =
-      {
-        "AtonalIF",
-        sizeof (AtonalIF),
-        sizeof (AtonalIFClass),
-        (GtkClassInitFunc) atonal_if_class_init,
-        (GtkObjectInitFunc) atonal_if_init,
-        (GtkArgSetFunc) NULL,
-        (GtkArgGetFunc) NULL,
-      };
+      sizeof(AtonalIFClass),
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) atonal_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(AtonalIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) atonal_if_init,
+    };
 
-      b_type = gtk_type_unique (gtk_window_get_type(), &b_info);
-    }
-
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "AtonalIF",
+	                                                   &b_info, 0);
+  }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint atonal_if_signals[LAST_SIGNAL+1] = { 0 };
-
 static void
-atonal_if_class_init (AtonalIFClass *class)
+atonal_if_class_init (AtonalIFClass *klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass*) class;
-
-  gtk_object_class_add_signals (object_class, atonal_if_signals, LAST_SIGNAL);
-
-
-  class->atonal_if = NULL;
+ 
 }
 
 static void

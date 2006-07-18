@@ -16,8 +16,7 @@ extern int tick;
 
 extern GtkWidget *master_daddy;
 
-guint minimaube_if_get_type(void);
-static void minimaube_if_class_init(MiniMaubeIFClass * class);
+static void minimaube_if_class_init(MiniMaubeIFClass * klass);
 static void minimaube_if_init(MiniMaubeIF * b);
 GtkWidget *minimaube_if_new(minimaube * s);
 void minimaube_if_dismiss(GtkWidget * widget, gpointer data);
@@ -30,44 +29,36 @@ void minimaube_if_remove_input_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i);
 void minimaube_if_remove_input(MiniMaubeIF * minimaube_if, int i);
 
-guint
-minimaube_if_get_type()
+GType
+minimaube_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "MiniMaubeIF",
-      sizeof(MiniMaubeIF),
       sizeof(MiniMaubeIFClass),
-      (GtkClassInitFunc) minimaube_if_class_init,
-      (GtkObjectInitFunc) minimaube_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) minimaube_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(MiniMaubeIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) minimaube_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "MiniMaubeIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint minimaube_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-minimaube_if_class_init(MiniMaubeIFClass * class)
+minimaube_if_class_init(MiniMaubeIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, minimaube_if_signals, LAST_SIGNAL);
-  class->minimaube_if = NULL;
+ 
 }
 
 static void

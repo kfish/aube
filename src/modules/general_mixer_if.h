@@ -32,7 +32,7 @@ extern "C" {
     void (*general_mixer_if) (GeneralMixerIF * a);
   };
 
-  guint general_mixer_if_get_type(void);
+  GType general_mixer_if_get_type(void);
   GtkWidget *general_mixer_if_new(general_mixer * xf);
   void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
 

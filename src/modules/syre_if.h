@@ -37,7 +37,7 @@ extern "C" {
     void (*syre_if) (SyreIF * a);
   };
 
-  guint syre_if_get_type(void);
+  GType syre_if_get_type(void);
   GtkWidget *syre_if_new(syre_if_data * sd);
   void syre_if_close_cb(GtkWidget * widget, gpointer data);
 

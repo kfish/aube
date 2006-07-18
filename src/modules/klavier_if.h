@@ -30,7 +30,7 @@ extern "C" {
     void (*klavier_if) (KlavierIF * a);
   };
 
-  guint klavier_if_get_type(void);
+  GType klavier_if_get_type(void);
   GtkWidget *klavier_if_new(klavier * k);
   void klavier_if_close_cb(GtkWidget * widget, gpointer data);
 

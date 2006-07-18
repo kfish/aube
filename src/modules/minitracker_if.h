@@ -31,7 +31,7 @@ extern "C" {
     void (*minitracker_if) (MinitrackerIF * a);
   };
 
-  guint minitracker_if_get_type(void);
+  GType minitracker_if_get_type(void);
   GtkWidget *minitracker_if_new(minitracker * rsq);
   void minitracker_if_close_cb(GtkWidget * widget, gpointer data);
 

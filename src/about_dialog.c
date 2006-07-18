@@ -28,7 +28,7 @@ about_dialog_create()
   GtkWidget *alignment;
 
   if (!about_dialog) {
-    about_dialog = gtk_window_new(GTK_WINDOW_DIALOG);
+    about_dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_wmclass(GTK_WINDOW(about_dialog), "about_dialog", "Aube");
     gtk_window_set_title(GTK_WINDOW(about_dialog), "About AUBE");
     gtk_window_set_policy(GTK_WINDOW(about_dialog), FALSE, FALSE, FALSE);
@@ -68,10 +68,11 @@ about_dialog_create()
 
 
     style = gtk_style_new();
+/* FIXME: use pango or remove entirely?
     gdk_font_unref(style->font);
     style->font = gdk_font_load("-Adobe-Helvetica-Medium-R-Normal--*-140-*-*-*-*-*-*");
     gtk_widget_push_style(style);
-
+*/
     label = gtk_label_new("This is AUBE Version " VERSION);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, TRUE, 0);
     gtk_widget_show(label);
@@ -79,9 +80,9 @@ about_dialog_create()
     label = gtk_label_new("Copyright (c) 1998 - 2002 Conrad Parker, conrad@metadecks.org");
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, TRUE, 0);
     gtk_widget_show(label);
-
+/* FIXME 
     gtk_widget_pop_style();
-
+*/
     alignment = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
     gtk_box_pack_start(GTK_BOX(vbox), alignment, FALSE, TRUE, 0);
     gtk_widget_show(alignment);
@@ -101,7 +102,7 @@ about_dialog_create()
     gtk_widget_show(label);
 
   }
-  if (!GTK_WIDGET_VISIBLE(about_dialog)) {
+  if (!GTK_WIDGET_MAPPED(about_dialog)) {
     gtk_widget_show(about_dialog);
   } else {
     gdk_window_raise(about_dialog->window);

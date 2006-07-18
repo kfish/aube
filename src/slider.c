@@ -4,52 +4,42 @@
 #include "slider.h"
 
 
-guint slider_get_type(void);
-static void slider_class_init(SliderClass * class);
+static void slider_class_init(SliderClass * klass);
 static void slider_init(Slider * b);
 GtkWidget *slider_new();
 void slider_dismiss(GtkWidget * widget, gpointer data);
 void slider_cb(GtkWidget * widget, gpointer data);
 
-guint
-slider_get_type()
+GType
+slider_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "Slider",
-      sizeof(Slider),
       sizeof(SliderClass),
-      (GtkClassInitFunc) slider_class_init,
-      (GtkObjectInitFunc) slider_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) slider_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(Slider),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) slider_init,
     };
 
-    b_type = gtk_type_unique(gtk_vbox_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_VBOX,
+                                                      "Slider",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint slider_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-slider_class_init(SliderClass * class)
+slider_class_init(SliderClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, slider_signals, LAST_SIGNAL);
-
-  class->slider = NULL;
+  
 }
 
 static void
@@ -91,8 +81,8 @@ slider_new(char *label_str, int *data, int lower, int upper, int vert)
   /* draw number above scale */
   gtk_scale_set_draw_value(GTK_SCALE(slider->scale), FALSE);
 
-  gtk_signal_connect(GTK_OBJECT(slider->adj), "value_changed",
-		     GTK_SIGNAL_FUNC(slider_cb), slider);
+  g_signal_connect(G_OBJECT(slider->adj), "value_changed",
+		     G_CALLBACK(slider_cb), slider);
   gtk_widget_show(GTK_WIDGET(slider->scale));
 
   label = gtk_label_new(label_str);

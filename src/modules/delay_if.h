@@ -31,7 +31,7 @@ extern "C" {
     void (*delay_if) (DelayIF * a);
   };
 
-  guint delay_if_get_type(void);
+  GType delay_if_get_type(void);
   GtkWidget *delay_if_new(delay * dl);
   void delay_if_close_cb(GtkWidget * widget, gpointer data);
 

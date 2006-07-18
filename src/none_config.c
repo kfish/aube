@@ -13,7 +13,6 @@ extern int tick;
 
 extern GtkWidget *master_daddy;
 
-guint none_config_get_type(void);
 static void none_config_class_init(NoneConfigClass * class);
 static void none_config_init(NoneConfig * b);
 void none_config_destroy(GtkWidget * widget, gpointer data);
@@ -30,49 +29,42 @@ none_config_cb(module * u)
   gtk_widget_show(nc);
 }
 
-guint
-none_config_get_type()
+GType
+none_config_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "NoneConfig",
-      sizeof(NoneConfig),
       sizeof(NoneConfigClass),
-      (GtkClassInitFunc) none_config_class_init,
-      (GtkObjectInitFunc) none_config_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) none_config_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(NoneConfig),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) none_config_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "NoneConfig",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint none_config_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
 none_config_class_init(NoneConfigClass * class)
 {
-  GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, none_config_signals, LAST_SIGNAL);
-  class->none_config = NULL;
 }
 
 static void
 none_config_init(NoneConfig * none_config)
 {
+
 }
 
 GtkWidget *
@@ -97,16 +89,16 @@ none_config_new(module * u)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(none_config), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(none_config), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 
   /*
      here we connect the "destroy" event to a signal handler.
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(none_config), "destroy",
-		     GTK_SIGNAL_FUNC(destroy), NULL);
+  g_signal_connect(G_OBJECT(none_config), "destroy",
+		     G_CALLBACK(destroy), NULL);
 #endif
 
   frame = gtk_frame_new(u->u_label);

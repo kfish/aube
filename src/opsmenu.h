@@ -33,7 +33,7 @@ extern "C" {
     void (*opsmenu) (Opsmenu * a);
   };
 
-  guint opsmenu_get_type(void);
+  GType opsmenu_get_type(void);
   GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if, void *if_hide_cb, void *if_close_cb);
 
 

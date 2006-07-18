@@ -30,7 +30,7 @@ extern "C" {
     void (*panner4_if) (Panner4IF * a);
   };
 
-  guint panner4_if_get_type(void);
+  GType panner4_if_get_type(void);
   GtkWidget *panner4_if_new(panner4 * pn);
   void panner4_if_close_cb(GtkWidget * widget, gpointer data);
 
