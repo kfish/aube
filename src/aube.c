@@ -9,7 +9,6 @@
 #include <X11/Xlib.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <gdk_imlib.h>
 
 #include "aube.h"
 #include "master.h"
@@ -411,12 +410,6 @@ main(int argc, char **argv)
   gtk_init(&argc, &argv);
   sprintf(buf, "%s/gtkrc", DATADIR);
   gtk_rc_parse(buf);
-
-  gdk_imlib_init ();
-
-  /* Get gdk to use Imlib's visual and colormap */
-  gtk_widget_push_visual(gdk_imlib_get_visual());
-  gtk_widget_push_colormap(gdk_imlib_get_colormap());
 
   srandom(time(NULL));
 

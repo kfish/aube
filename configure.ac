@@ -33,7 +33,6 @@ AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
 
-AM_PATH_GDK_IMLIB(1.9, ,AC_MSG_ERROR([*** IMLIB 1.9 not installed ***]))
 dnl Test for libXpm
 AC_CHECK_LIB(Xpm, XpmReadFileToXpmImage)
 
