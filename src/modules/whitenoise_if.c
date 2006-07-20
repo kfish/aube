@@ -141,11 +141,11 @@ whitenoise_if_new(whitenoise * wn)
   gtk_container_add(GTK_CONTAINER(frame), vbox);
   gtk_widget_show(vbox);
 
-  slider = slider_new("Vol", &(whitenoise_if->data->vol), 0, 64, 1);
+  slider = slider_int_new("Vol", &(whitenoise_if->data->vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Pan", &(whitenoise_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(whitenoise_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
   gtk_widget_show(slider);
 

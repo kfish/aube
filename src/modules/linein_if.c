@@ -166,11 +166,11 @@ linein_if_new(oss_in * oss_p)
   gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, FALSE, 0);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Vol", &(linein_if->data->vol), 0, 64, 1);
+  slider = slider_int_new("Vol", &(linein_if->data->vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Pan", &(linein_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(linein_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 #endif

@@ -134,7 +134,7 @@ general_mixer_if_new(general_mixer * xf)
   gtk_box_pack_start(GTK_BOX(general_mixer_if->hbox), vbox, TRUE, FALSE, 0);
   gtk_widget_show(vbox);
 
-  slider = slider_new("Master", &(general_mixer_if->data->master_vol), 0, 64, 1);
+  slider = slider_int_new("Master", &(general_mixer_if->data->master_vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);
 
@@ -245,7 +245,7 @@ general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i)
   gtk_widget_show(button);
 
   sprintf(buf, "%d", i);
-  slider = slider_new(buf, &(general_mixer_if->data->vol[i]), 0, 64, 1);
+  slider = slider_int_new(buf, &(general_mixer_if->data->vol[i]), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
   gtk_widget_show(slider);
 

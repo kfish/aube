@@ -343,7 +343,7 @@ syre_if_new(syre_if_data * sd)
   for (i = 0; i < NUM_HARMONICS; i++) {
     sprintf(nc, "%d", i);
     syre_if->sliders[i] =
-      slider_new(nc, &(syre_if->data->overtones[i].vol), 0, 32, 1);
+      slider_int_new(nc, &(syre_if->data->overtones[i].vol), 0, 32, 1);
     gtk_signal_connect(GTK_OBJECT(SLIDER(syre_if->sliders[i])->adj), "value_changed",
 		       GTK_SIGNAL_FUNC(harmonics_changed_cb), syre_if->data);
     gtk_box_pack_start(GTK_BOX(hbox3), syre_if->sliders[i], FALSE, FALSE, 0);

@@ -166,15 +166,15 @@ minitracker_if_new(minitracker * rsq)
   gtk_box_pack_start(GTK_BOX(vbox), hbox3, FALSE, FALSE, 0);
   gtk_widget_show(hbox3);
 
-  slider = slider_new("Vol", &(minitracker_if->data->vol), 0, 64, 1);
+  slider = slider_int_new("Vol", &(minitracker_if->data->vol), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Tune", &(minitracker_if->data->tune), 1, 1024, 1);
+  slider = slider_int_new("Tune", &(minitracker_if->data->tune), 1, 1024, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, FALSE, 0);
   gtk_widget_show(slider);
 
-  slider = slider_new("Pan", &(minitracker_if->data->pan), 0, 32, 0);
+  slider = slider_int_new("Pan", &(minitracker_if->data->pan), 0, 32, 0);
   gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, FALSE, 0);
   gtk_widget_show(slider);
 
@@ -273,7 +273,7 @@ minitracker_if_new(minitracker * rsq)
      P O R T A M E N T O 
    */
 
-  slider = slider_new("Portamento", &(minitracker_if->data->portamento), 0, 64, 1);
+  slider = slider_int_new("Portamento", &(minitracker_if->data->portamento), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(hbox), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 

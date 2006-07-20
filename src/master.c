@@ -415,7 +415,7 @@ master_init(Master * master)
   gtk_container_border_width(GTK_CONTAINER(frame), 8);
   gtk_widget_show(frame);
 
-  slider = slider_new("BPM", &bpm, 30, 240, 1);
+  slider = slider_int_new("BPM", &bpm, 30, 240, 1);
   gtk_container_add (GTK_CONTAINER (frame), slider);
   gtk_widget_show(slider);
 

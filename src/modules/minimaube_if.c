@@ -269,7 +269,7 @@ minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
   gtk_widget_show(button);
 
   sprintf(buf, "%d", i);
-  slider = slider_new(buf, &(minimaube_if->data->vol[i]), 0, 64, 1);
+  slider = slider_int_new(buf, &(minimaube_if->data->vol[i]), 0, 64, 1);
   gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
   gtk_widget_show(slider);
 
