@@ -119,6 +119,5 @@ slider_cb(GtkWidget * widget, gpointer data)
 void
 slider_refresh(GtkWidget * slider)
 {
-  GTK_ADJUSTMENT(SLIDER(slider)->adj)->value = GTK_ADJUSTMENT(SLIDER(slider)->adj)->upper - *(SLIDER(slider)->data);
-  gtk_range_slider_update(GTK_RANGE(SLIDER(slider)->scale));
+  gtk_adjustment_set_value(SLIDER(slider)->adj,  (GTK_ADJUSTMENT(SLIDER(slider)->adj)->upper - *(SLIDER(slider)->data)));
 }
