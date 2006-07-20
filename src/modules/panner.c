@@ -51,8 +51,8 @@ panner_new()
   pn->module.outputs[0]->data = (bit16 *) (&(pn->tick_buffer));
 
   aube_module_clear_outputs((module *) pn);
-  sprintf(pn->module.u_label, "panner");
-  sprintf(pn->module.outputs[0]->u_label, "out");
+  snprintf(pn->module.u_label, sizeof (pn->module.u_label), "panner");
+  snprintf(pn->module.outputs[0]->u_label, sizeof (pn->module.outputs[0]->u_label), "out");
   pn->module.outputs[0]->module = (module *) pn;
 
   pn->module.do_tick = (void *) panner_calc_note;
@@ -83,8 +83,8 @@ panner_clone(panner * opn)
   pn->module.outputs[0]->data = (bit16 *) (&(pn->tick_buffer));
 
   aube_module_clear_outputs((module *) pn);
-  sprintf(pn->module.u_label, "panner");
-  sprintf(pn->module.outputs[0]->u_label, "out");
+  snprintf(pn->module.u_label, sizeof (pn->module.u_label), "panner");
+  snprintf(pn->module.outputs[0]->u_label, sizeof (pn->module.outputs[0]->u_label), "out");
   pn->module.outputs[0]->module = (module *) pn;
 
   pn->module.do_tick = (void *) panner_calc_note;

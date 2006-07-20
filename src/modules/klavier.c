@@ -51,8 +51,8 @@ klavier_new()
   s->module.outputs[0]->parms.ch_type = CH_TYPE_SEQUENCE;
   s->module.outputs[0]->data = (seq_channel *) (&(s->seq_ch));
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "klavier");
-  sprintf(s->module.outputs[0]->u_label, "seq");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "klavier");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "seq");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) klavier_calc_note;
@@ -80,8 +80,8 @@ klavier_clone(klavier * ok)
   s->module.outputs[0]->parms.ch_type = CH_TYPE_SEQUENCE;
   s->module.outputs[0]->data = (seq_channel *) (&(s->seq_ch));
   aube_module_clear_outputs((module *) s);
-  sprintf(s->module.u_label, "klavier");
-  sprintf(s->module.outputs[0]->u_label, "seq");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "klavier");
+  snprintf(s->module.outputs[0]->u_label, sizeof (s->module.outputs[0]->u_label), "seq");
   s->module.outputs[0]->module = (module *) s;
 
   s->module.do_tick = (void *) klavier_calc_note;

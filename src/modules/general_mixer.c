@@ -57,10 +57,10 @@ general_mixer_new()
   xf->module.outputs[0]->data = (bit16 *) (&(xf->tick_buffer));
   aube_module_clear_outputs((module *) xf);
 
-  sprintf(xf->module.u_label, "mixer");		/*
+  snprintf(xf->module.u_label, sizeof (xf->module.u_label), "mixer");		/*
 						   not general_mixer for conciseness 
 						 */
-  sprintf(xf->module.outputs[0]->u_label, "out");
+  snprintf(xf->module.outputs[0]->u_label, sizeof (xf->module.outputs[0]->u_label), "out");
   xf->module.outputs[0]->module = (module *) xf;
 
   xf->module.do_tick = (void *) general_mixer_calc_note;
@@ -105,8 +105,8 @@ general_mixer_clone(general_mixer * oxf)
   xf->module.outputs[0]->data = (bit16 *) (&(xf->tick_buffer));
   aube_module_clear_outputs((module *) xf);
 
-  sprintf(xf->module.u_label, "mixer");
-  sprintf(xf->module.outputs[0]->u_label, "out");
+  snprintf(xf->module.u_label, sizeof (xf->module.u_label), "mixer");
+  snprintf(xf->module.outputs[0]->u_label, sizeof (xf->module.outputs[0]->u_label), "out");
   xf->module.outputs[0]->module = (module *) xf;
 
   xf->module.do_tick = (void *) general_mixer_calc_note;

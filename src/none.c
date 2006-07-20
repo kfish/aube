@@ -47,10 +47,10 @@ none_new()
   nn->module.outputs[1]->data = (seq_channel *) (&(nn->seq_ch));
   aube_module_clear_outputs((module *) nn);
 
-  sprintf(nn->module.u_label, "None");
-  sprintf(nn->module.outputs[0]->u_label, "out");
+  snprintf(nn->module.u_label, sizeof (nn->module.u_label), "None");
+  snprintf(nn->module.outputs[0]->u_label, sizeof (nn->module.outputs[0]->u_label), "out");
   nn->module.outputs[0]->module = (module *) nn;
-  sprintf(nn->module.outputs[1]->u_label, "seq");
+  snprintf(nn->module.outputs[1]->u_label, sizeof (nn->module.outputs[1]->u_label), "seq");
   nn->module.outputs[1]->module = (module *) nn;
 
   nn->module.do_tick = (void *) none_calc_note;

@@ -54,7 +54,7 @@ atonal *atonal_new()
     (char *)"seq", (&(s->seq_ch)));
 
   aube_module_clear_outputs((module *)s);
-  sprintf(s->module.u_label, "atonal");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "atonal");
 
   s->module.do_tick = (void *)atonal_calc_note;
 
@@ -83,7 +83,7 @@ atonal *atonal_clone(atonal *orsq)
     (char *)"seq", (&(s->seq_ch)));
  
   aube_module_clear_outputs((module *)s);
-  sprintf(s->module.u_label, "atonal");
+  snprintf(s->module.u_label, sizeof (s->module.u_label), "atonal");
 
   s->module.do_tick = (void *)atonal_calc_note;
 

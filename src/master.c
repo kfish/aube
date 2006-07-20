@@ -191,9 +191,9 @@ aube_refresh_samplelist(GtkWidget * widget, gpointer * data)
   title[0] = buf1;
   title[2] = buf2;
   for (i = 0; i < aube_daddy->nr_samples; i++) {
-    sprintf(title[0], "%02d", i);
+    snprintf(title[0], sizeof(title[0]), "%02d", i);
     title[1] = aube_daddy->samples[i]->u_label;
-    sprintf(title[2], "%d",
+    snprintf(title[2], sizeof(title[2]), "%d",
 	    aube_daddy->samples[i]->parms.d.audio_sample_data.s_length);
     gtk_clist_append(clist, (gchar **) & title);
   }
