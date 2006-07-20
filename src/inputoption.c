@@ -9,8 +9,8 @@ extern aube_data *aube_daddy;
 
 extern bit16 zero_buffer[];
 
-guint inputoption_get_type(void);
-static void inputoption_class_init(InputoptionClass * class);
+
+static void inputoption_class_init(InputoptionClass * klass);
 static void inputoption_init(Inputoption * b);
 GtkWidget *inputoption_new();
 void inputoption_dnd_drop(GtkWidget * widget, GdkEvent * event);
@@ -18,45 +18,52 @@ void inputoption_dismiss(GtkWidget * widget, gpointer data);
 void reread_inputs_cb(GtkWidget * widget, gpointer data);
 void select_input_cb(GtkWidget * widget, gpointer data);
 
-guint
-inputoption_get_type()
+GType
+inputoption_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "Inputoption",
-      sizeof(Inputoption),
-      sizeof(InputoptionClass),
-      (GtkClassInitFunc) inputoption_class_init,
-      (GtkObjectInitFunc) inputoption_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
-    };
-
-    b_type = gtk_type_unique(gtk_frame_get_type(), &b_info);
+	  sizeof(InputoptionClass),
+	  NULL, /* base_init */
+	  NULL, /* base_finalize */
+	  (GClassInitFunc) inputoption_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+	  sizeof(Inputoption),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) inputoption_init,
+	};
+	
+    b_type = g_type_register_static(GTK_TYPE_FRAME,
+                                                       "Inputoption",
+                                                     	&b_info, 0);
   }
   return b_type;
 }
 
+/* FIXME: need these?
 enum {
   LAST_SIGNAL
 };
 
 static guint inputoption_signals[LAST_SIGNAL+1] =
 {0};
-
+*/
 static void
-inputoption_class_init(InputoptionClass * class)
+inputoption_class_init(InputoptionClass * klass)
 {
+/* FIXME: need these?	
+
   GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
+  object_class = (GtkObjectClass *) klass;
 
   gtk_object_class_add_signals(object_class, inputoption_signals, LAST_SIGNAL);
-
-  class->inputoption = NULL;
+*/
+  klass->inputoption = NULL;
 }
 
 static void

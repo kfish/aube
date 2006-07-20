@@ -15,8 +15,7 @@ extern drummachine *drummachine_new(void);
 extern int tick;
 extern char *note_names[97];
 
-guint drummachine_if_get_type(void);
-static void drummachine_if_class_init(DrumMachineIFClass * class);
+static void drummachine_if_class_init(DrumMachineIFClass * klass);
 static void drummachine_if_init(DrumMachineIF * b);
 GtkWidget *drummachine_if_new(drummachine * rsq);
 void drummachine_if_dismiss(GtkWidget * widget, gpointer data);
@@ -46,46 +45,36 @@ void dm_clear_track_cb (GtkWidget * widget, gpointer data);
 void dm_shift_track_left_cb (GtkWidget * widget, gpointer data);
 void dm_shift_track_right_cb (GtkWidget * widget, gpointer data);
 
-guint
-drummachine_if_get_type()
+GType
+drummachine_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "DrumMachineIF",
-      sizeof(DrumMachineIF),
       sizeof(DrumMachineIFClass),
-      (GtkClassInitFunc) drummachine_if_class_init,
-      (GtkObjectInitFunc) drummachine_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) drummachine_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(DrumMachineIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) drummachine_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "DrumMachineIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint drummachine_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-drummachine_if_class_init(DrumMachineIFClass * class)
+drummachine_if_class_init(DrumMachineIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, drummachine_if_signals, LAST_SIGNAL);
-
-
-  class->drummachine_if = NULL;
+  
 }
 
 static void

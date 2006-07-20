@@ -32,7 +32,7 @@ extern "C" {
     void (*lineout_if) (LINEOUTIF * a);
   };
 
-  guint lineout_if_get_type(void);
+  GType lineout_if_get_type(void);
   GtkWidget *lineout_if_new(oss_out * oss_p);
   void lineout_if_close_cb(GtkWidget * widget, gpointer data);
 

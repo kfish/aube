@@ -34,7 +34,7 @@ extern "C" {
     void (*master) (Master * a);
   };
 
-  guint master_get_type(void);
+  GType master_get_type(void);
   GtkWidget *master_new(void);
 void master_ack_channels_modified(void);
   void module_config_cb(GtkWidget * widget, gpointer data);

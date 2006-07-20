@@ -28,10 +28,11 @@ if test "x$HAVE_LIBSNDFILE" = xyes ; then
   AC_SUBST(SNDFILE_LIBS)
   fi
 
-AM_PATH_GTK(1.0.0, , echo "EEEEEK No GTK")
-#AM_PATH_GENERIC(xml, 0.99.0)
+PKG_CHECK_MODULES(GTK, gtk+-2.0)
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
 
-AM_PATH_GDK_IMLIB(1.9, ,AC_MSG_ERROR([*** IMLIB 1.9 not installed ***]))
+
 dnl Test for libXpm
 AC_CHECK_LIB(Xpm, XpmReadFileToXpmImage)
 

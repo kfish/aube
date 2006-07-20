@@ -38,7 +38,7 @@ extern "C" {
     void (*drummachine_if) (DrumMachineIF * a);
   };
 
-  guint drummachine_if_get_type(void);
+  GType drummachine_if_get_type(void);
   GtkWidget *drummachine_if_new(drummachine * rsq);
   void drummachine_if_close_cb(GtkWidget * widget, gpointer data);
 

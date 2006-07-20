@@ -107,7 +107,6 @@ module_class *module_classes[] =
 int nr_module_classes = (sizeof(module_classes) / sizeof(module_class *));
 
 
-guint master_get_type(void);
 static void master_class_init(MasterClass * class);
 static void master_init(Master * b);
 GtkWidget *master_new();
@@ -127,24 +126,28 @@ void clear_workspace_cb(GtkWidget * widget, gpointer data);
 void open_workspace_cb(GtkWidget * widget, gpointer data);
 void save_workspace_cb(GtkWidget * widget, gpointer data);
 
-guint
-master_get_type()
+GType
+master_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "Master",
-      sizeof(Master),
       sizeof(MasterClass),
-      (GtkClassInitFunc) master_class_init,
-      (GtkObjectInitFunc) master_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) master_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(Master),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) master_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "Master",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
@@ -155,23 +158,23 @@ enum {
 };
 
 /* static gint master_signals[LAST_SIGNAL] = { 0 }; */
-guint master_signals[LAST_SIGNAL+1] = {0};
+guint master_signals[LAST_SIGNAL] = {0};
 
 static void
-master_class_init(MasterClass * class)
+master_class_init(MasterClass * klass)
 {
   GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
+  object_class = (GtkObjectClass *) klass;
 
   master_signals[UNITS_CHANGED_SIGNAL] =
-    gtk_signal_new("modules_changed", GTK_RUN_FIRST, object_class->type,
-		   GTK_SIGNAL_OFFSET(MasterClass, master),
-		   gtk_signal_default_marshaller, GTK_TYPE_NONE, 0);
-
-  gtk_object_class_add_signals(object_class, master_signals, LAST_SIGNAL);
-
-  class->master = NULL;
+    g_signal_new("modules_changed",
+	                     G_TYPE_FROM_CLASS(klass),
+	                     G_SIGNAL_RUN_FIRST,
+                         G_STRUCT_OFFSET(MasterClass, master),
+                         NULL,
+	                     NULL,
+		                 g_cclosure_marshal_VOID__VOID, GTK_TYPE_NONE, 0);
 }
 
 static void
@@ -234,10 +237,8 @@ master_init(Master * master)
 
   GtkAccelGroup * accel_group;
 
-  GtkWidget * logo;
-  GdkPixmap * p, * m;
-  GdkImlibImage * im;
-  gint w, h;
+  GtkWidget * im;
+
 
   GtkWidget * scrolled;
   GtkWidget * clist;
@@ -246,8 +247,8 @@ master_init(Master * master)
   master->data = aube_data_new();
   aube_daddy = master->data;
 
-  gtk_signal_connect (GTK_OBJECT (master), "destroy",
-		      GTK_SIGNAL_FUNC (quit_cb), master);
+  g_signal_connect (G_OBJECT (master), "destroy",
+		      G_CALLBACK (quit_cb), master);
 
   gtk_window_set_title(GTK_WINDOW(master), "AUBE/Metadecks Live");
 
@@ -306,8 +307,8 @@ master_init(Master * master)
 
   menuitem = gtk_menu_item_new_with_label("About...");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(about_dialog_create), NULL);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(about_dialog_create), NULL);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new();
@@ -390,24 +391,11 @@ master_init(Master * master)
 
   gtk_widget_show(menubar);
 
-  im = gdk_imlib_load_image (g_strconcat (DATADIR, "/aube_mini.png", NULL));
-
-  if (im != NULL) {
-    /* Suck the image's original width and height out of the Image structure */
-    w=im->rgb_width;h=im->rgb_height;
+   im = gtk_image_new_from_file (g_strconcat (DATADIR, "/aube_mini.png", NULL));
     
-    /* Render the original 24-bit Image data into a pixmap of size w * h */
-    gdk_imlib_render(im,w,h);
-    /* Extract the Image and mask pixmaps from the Image */
-    p=gdk_imlib_move_image(im);
-    /* The mask will be NULL if the image has no transparency */
-    m=gdk_imlib_move_mask(im);
-    
-    logo = gtk_pixmap_new (p, m);
-    
-    gtk_box_pack_start(GTK_BOX(vbox2), logo, FALSE, TRUE, 0);
-    gtk_widget_show (logo);
-  }
+   gtk_box_pack_start(GTK_BOX(vbox2), im, FALSE, TRUE, 0);
+   gtk_widget_show (im);
+  
 
   /*
      M A S T E R 
@@ -739,4 +727,3 @@ clear_workspace_cb(GtkWidget * widget, gpointer data)
   }
 
 }
-

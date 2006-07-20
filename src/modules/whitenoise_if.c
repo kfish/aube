@@ -9,8 +9,7 @@
 #include "slider.h"
 #include "outputlabel.h"
 
-guint whitenoise_if_get_type(void);
-static void whitenoise_if_class_init(WhitenoiseIFClass * class);
+static void whitenoise_if_class_init(WhitenoiseIFClass * klass);
 static void whitenoise_if_init(WhitenoiseIF * b);
 GtkWidget *whitenoise_if_new(whitenoise * wn);
 void whitenoise_if_dismiss(GtkWidget * widget, gpointer data);
@@ -18,44 +17,36 @@ void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_onoff_cb(GtkWidget * widget, gpointer data);
 
-guint
-whitenoise_if_get_type()
+GType
+whitenoise_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "WhitenoiseIF",
-      sizeof(WhitenoiseIF),
       sizeof(WhitenoiseIFClass),
-      (GtkClassInitFunc) whitenoise_if_class_init,
-      (GtkObjectInitFunc) whitenoise_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) whitenoise_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(WhitenoiseIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) whitenoise_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "WhitenoiseIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint whitenoise_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-whitenoise_if_class_init(WhitenoiseIFClass * class)
+whitenoise_if_class_init(WhitenoiseIFClass * klass)
 {
-  GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, whitenoise_if_signals, LAST_SIGNAL);
-  class->whitenoise_if = NULL;
 }
 
 static void
@@ -122,9 +113,11 @@ whitenoise_if_new(whitenoise * wn)
   gtk_signal_connect(GTK_OBJECT(button), "clicked",
 	      GTK_SIGNAL_FUNC(whitenoise_if_onoff_cb), whitenoise_if->data);
   gtk_widget_show(button);
-  gtk_accel_group_add (accel_group, GDK_Escape, GDK_NONE, 0,
+/* FIXME: funky accel business 
+ gtk_accel_group_add (accel_group, GDK_Escape, GDK_NONE, 0,
 		       GTK_OBJECT(button), "clicked");
-
+ */
+                                             
   button = opsmenu_new((module *) whitenoise_if->data, GTK_WIDGET(whitenoise_if),
 		       whitenoise_if_hide_cb, whitenoise_if_close_cb);
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);

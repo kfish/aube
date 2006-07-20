@@ -34,7 +34,7 @@ extern "C" {
 
   void none_config_cb(module * u);
 
-  guint none_config_get_type(void);
+  GType none_config_get_type(void);
   GtkWidget *none_config_new(module * u);
 
 #ifdef __cplusplus

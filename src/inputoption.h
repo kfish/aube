@@ -44,7 +44,7 @@ extern "C" {
     void (*inputoption) (Inputoption * a);
   };
 
-  guint inputoption_get_type(void);
+  GType inputoption_get_type(void);
   GtkWidget *inputoption_new(char *label_str, module * module, int input_i);
   void reread_inputs_cb(GtkWidget * widget, gpointer data);
 

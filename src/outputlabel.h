@@ -36,7 +36,7 @@ extern "C" {
     void (*outputlabel) (Outputlabel * a);
   };
 
-  guint outputlabel_get_type(void);
+  GType outputlabel_get_type(void);
   GtkWidget *outputlabel_new(module * module, int output_i);
 
 

@@ -10,8 +10,7 @@
 #include "inputoption.h"
 #include "outputlabel.h"
 
-guint general_mixer_if_get_type(void);
-static void general_mixer_if_class_init(GeneralMixerIFClass * class);
+static void general_mixer_if_class_init(GeneralMixerIFClass * klass);
 static void general_mixer_if_init(GeneralMixerIF * b);
 GtkWidget *general_mixer_if_new(general_mixer * xf);
 void general_mixer_if_dismiss(GtkWidget * widget, gpointer data);
@@ -24,44 +23,36 @@ void general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i);
 void general_mixer_if_remove_input(GeneralMixerIF * general_mixer_if, int i);
 void general_mixer_if_mute_cb(GtkWidget * widget, gpointer data);
 
-guint
-general_mixer_if_get_type()
+GType
+general_mixer_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "GeneralMixerIF",
-      sizeof(GeneralMixerIF),
       sizeof(GeneralMixerIFClass),
-      (GtkClassInitFunc) general_mixer_if_class_init,
-      (GtkObjectInitFunc) general_mixer_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) general_mixer_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(GeneralMixerIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) general_mixer_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "GeneralMixerIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint general_mixer_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-general_mixer_if_class_init(GeneralMixerIFClass * class)
+general_mixer_if_class_init(GeneralMixerIFClass * klass)
 {
-  GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, general_mixer_if_signals, LAST_SIGNAL);
-  class->general_mixer_if = NULL;
 }
 
 static void

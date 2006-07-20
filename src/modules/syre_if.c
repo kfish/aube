@@ -17,8 +17,7 @@ extern bit16 wnwave[SINTAB_LEN];
 
 extern int tick;
 
-guint syre_if_get_type(void);
-static void syre_if_class_init(SyreIFClass * class);
+static void syre_if_class_init(SyreIFClass * klass);
 static void syre_if_init(SyreIF * b);
 GtkWidget *syre_if_new(syre_if_data * syre_if_data);
 void syre_if_dismiss(GtkWidget * widget, gpointer data);
@@ -39,46 +38,36 @@ gint set_sawtooth_cb(GtkWidget * widget, gpointer * data);
 gint set_wnwave_cb(GtkWidget * widget, gpointer * data);
 gint get_envelopes(gpointer data);
 
-guint
-syre_if_get_type()
+GType
+syre_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "SyreIF",
-      sizeof(SyreIF),
       sizeof(SyreIFClass),
-      (GtkClassInitFunc) syre_if_class_init,
-      (GtkObjectInitFunc) syre_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) syre_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(SyreIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) syre_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "SyreIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint syre_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-syre_if_class_init(SyreIFClass * class)
+syre_if_class_init(SyreIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, syre_if_signals, LAST_SIGNAL);
-
-
-  class->syre_if = NULL;
+ 
 }
 
 static void

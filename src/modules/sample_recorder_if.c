@@ -12,8 +12,7 @@
 
 extern int tick;
 
-guint sample_recorder_if_get_type(void);
-static void sample_recorder_if_class_init(SampleRecorderIFClass * class);
+static void sample_recorder_if_class_init(SampleRecorderIFClass * klass);
 static void sample_recorder_if_init(SampleRecorderIF * b);
 GtkWidget *sample_recorder_if_new(sample_recorder * pn);
 void sample_recorder_if_dismiss(GtkWidget * widget, gpointer data);
@@ -35,45 +34,36 @@ gint sample_recorder_if_update_record(gpointer data);
  */
 void sample_recorder_if_add_sample(GtkWidget * widget, gpointer data);
 
-
-guint
-sample_recorder_if_get_type()
+GType
+sample_recorder_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "SampleRecorderIF",
-      sizeof(SampleRecorderIF),
       sizeof(SampleRecorderIFClass),
-      (GtkClassInitFunc) sample_recorder_if_class_init,
-      (GtkObjectInitFunc) sample_recorder_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) sample_recorder_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(SampleRecorderIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc)sample_recorder_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "SampleRecorderIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint sample_recorder_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-sample_recorder_if_class_init(SampleRecorderIFClass * class)
+sample_recorder_if_class_init(SampleRecorderIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, sample_recorder_if_signals, LAST_SIGNAL);
-  class->sample_recorder_if = NULL;
+ 
 }
 
 static void

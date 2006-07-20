@@ -40,7 +40,7 @@ extern "C" {
     void (*modulemenu) (Unitmenu * a);
   };
 
-  guint modulemenu_get_type(void);
+  GType modulemenu_get_type(void);
   GtkWidget *modulemenu_new(module * this_module, int *include_criterion(), void *select_action());
 
 

@@ -34,7 +34,7 @@ extern "C" {
     void (*filter_reslp_if) (FilterResLP_IF * a);
   };
 
-  guint filter_reslp_if_get_type(void);
+  GType filter_reslp_if_get_type(void);
   GtkWidget *filter_reslp_if_new(filter_reslp * fr);
   void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data);
 

@@ -52,7 +52,7 @@ static void
 /*
    Klav Methods 
  */
-static void klav_class_init(KlavClass * class);
+static void klav_class_init(KlavClass * klass);
 static void klav_init(Klav * klav);
 
 /*
@@ -69,52 +69,73 @@ static gint klav_button_press(GtkWidget * widget, GdkEventButton * event);
 static gint klav_button_release(GtkWidget * widget, GdkEventButton * event);
 static gint klav_motion_notify(GtkWidget * widget, GdkEventMotion * event);
 
-guint
+GType
 klav_get_type(void)
 {
-  static guint klav_type = 0;
+  static GType b_type = 0;
 
-  if (!klav_type) {
-    GtkTypeInfo klav_info =
+  if (!b_type) {
+    static const GTypeInfo b_info =
     {
-      "Klav",
-      sizeof(Klav),
       sizeof(KlavClass),
-      (GtkClassInitFunc) klav_class_init,
-      (GtkObjectInitFunc) klav_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) klav_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(Klav),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) klav_init,
     };
 
-    klav_type = gtk_type_unique(gtk_drawing_area_get_type(), &klav_info);
+    b_type = g_type_register_static(GTK_TYPE_DRAWING_AREA,
+                                                      "Klav",
+	                                                   &b_info, 0);
   }
-  return klav_type;
+  return b_type;
 }
 
 static void
-klav_class_init(KlavClass * class)
+klav_class_init(KlavClass * klass)
 {
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
 
-  object_class = (GtkObjectClass *) class;
-  widget_class = (GtkWidgetClass *) class;
+  object_class = (GtkObjectClass *) klass;
+  widget_class = (GtkWidgetClass *) klass;
 
   parent_class = gtk_type_class(gtk_drawing_area_get_type());
 
   klav_signals[KLAVKEY_PRESS] =
-    gtk_signal_new("klavkey_press", GTK_RUN_FIRST, object_class->type,
+	g_signal_new("klavkey_press",
+	                     G_TYPE_FROM_CLASS(klass),
+	                     G_SIGNAL_RUN_FIRST,
+                         G_STRUCT_OFFSET(KlavClass, klavkey_press),
+                         NULL,
+	                     NULL,
+		                 g_cclosure_marshal_VOID__INT, GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+	
+   /* FIXME
+	gtk_signal_new("klavkey_press", GTK_RUN_FIRST, object_class->type,
 		   GTK_SIGNAL_OFFSET(KlavClass, klavkey_press),
 		   klav_marshal_signal_1, GTK_TYPE_NONE, 1,
 		   GTK_TYPE_INT);
-
+*/
   klav_signals[KLAVKEY_RELEASE] =
+        g_signal_new("klavkey_release",
+	                     G_TYPE_FROM_CLASS(klass),
+	                     G_SIGNAL_RUN_FIRST,
+                         G_STRUCT_OFFSET(KlavClass, klavkey_release),
+                         NULL,
+	                     NULL,
+		                 g_cclosure_marshal_VOID__INT, GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+	
+ /* FIXME
     gtk_signal_new("klavkey_release", GTK_RUN_FIRST, object_class->type,
 		   GTK_SIGNAL_OFFSET(KlavClass, klavkey_release),
 		   klav_marshal_signal_1, GTK_TYPE_NONE, 1,
 		   GTK_TYPE_INT);
-
-  gtk_object_class_add_signals(object_class, klav_signals, LAST_SIGNAL);
+*/
 
   object_class->destroy = klav_destroy;
 
@@ -157,11 +178,12 @@ klav_destroy(GtkObject * object)
      eventually free memory allocated for key info
    */
 
-  if (klav->key_info) {
-    g_free(klav->key_info);
-  }
   if (GTK_OBJECT_CLASS(parent_class)->destroy)
     (*GTK_OBJECT_CLASS(parent_class)->destroy) (object);
+ /* FIXME: double free occurs if this is enabled. 
+   if (klav->key_info) {
+    g_free(klav->key_info);
+  }*/
 }
 
 /*

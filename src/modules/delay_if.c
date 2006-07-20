@@ -15,8 +15,7 @@ extern int tick;
 
 extern GtkWidget *master_daddy;
 
-guint delay_if_get_type(void);
-static void delay_if_class_init(DelayIFClass * class);
+static void delay_if_class_init(DelayIFClass * klass);
 static void delay_if_init(DelayIF * b);
 GtkWidget *delay_if_new(delay * dl);
 void delay_if_dismiss(GtkWidget * widget, gpointer data);
@@ -25,44 +24,36 @@ void delay_if_close_cb(GtkWidget * widget, gpointer data);
 void delay_if_onoff_cb(GtkWidget * widget, gpointer data);
 void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data);
 
-guint
-delay_if_get_type()
+GType
+delay_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "DelayIF",
-      sizeof(DelayIF),
       sizeof(DelayIFClass),
-      (GtkClassInitFunc) delay_if_class_init,
-      (GtkObjectInitFunc) delay_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) delay_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(DelayIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc)delay_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "DelayIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint delay_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-delay_if_class_init(DelayIFClass * class)
+delay_if_class_init(DelayIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, delay_if_signals, LAST_SIGNAL);
-  class->delay_if = NULL;
+ 
 }
 
 static void

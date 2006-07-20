@@ -39,7 +39,7 @@ struct _AtonalIFClass
   void (* atonal_if) (AtonalIF *a);
 };
 
-guint          atonal_if_get_type        (void);
+GType         atonal_if_get_type        (void);
 GtkWidget*     atonal_if_new             (atonal *rsq);
 void atonal_if_close_cb(GtkWidget *widget, gpointer data);
 

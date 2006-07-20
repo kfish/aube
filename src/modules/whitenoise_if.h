@@ -30,7 +30,7 @@ extern "C" {
     void (*whitenoise_if) (WhitenoiseIF * a);
   };
 
-  guint whitenoise_if_get_type(void);
+  GType whitenoise_if_get_type(void);
   GtkWidget *whitenoise_if_new(whitenoise * wn);
   void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
 

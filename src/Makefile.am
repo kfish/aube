@@ -39,5 +39,5 @@ INCLUDES = -DDATADIR=\"$(pkgdatadir)\" \
  @GTK_CFLAGS@ @SNDFILE_CFLAGS@
 
 aube_LDADD = \
- modules/libmodules.a @SNDFILE_LIBS@ @GTK_LIBS@ -lgdk_imlib
+ modules/libmodules.a @SNDFILE_LIBS@ @GTK_LIBS@
 

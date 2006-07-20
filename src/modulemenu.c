@@ -9,52 +9,42 @@ extern aube_data *aube_daddy;
 
 extern bit16 zero_buffer[];
 
-guint modulemenu_get_type(void);
 static void modulemenu_class_init(UnitmenuClass * class);
 static void modulemenu_init(Unitmenu * b);
 GtkWidget *modulemenu_new(module * this_module, int *include_criterion(), void *select_action());
 void modulemenu_dismiss(GtkWidget * widget, gpointer data);
 void reread_modules_cb(GtkWidget * widget, gpointer data);
 
-guint
-modulemenu_get_type()
+GType
+modulemenu_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "Unitmenu",
-      sizeof(Unitmenu),
       sizeof(UnitmenuClass),
-      (GtkClassInitFunc) modulemenu_class_init,
-      (GtkObjectInitFunc) modulemenu_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) modulemenu_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(Unitmenu),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) modulemenu_init,
     };
 
-    b_type = gtk_type_unique(gtk_menu_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_MENU,
+                                                      "Unitmenu",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint modulemenu_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
 modulemenu_class_init(UnitmenuClass * class)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, modulemenu_signals, LAST_SIGNAL);
-
-  class->modulemenu = NULL;
+  /* chickens? */
 }
 
 static void
@@ -88,8 +78,8 @@ modulemenu_new(module * this_module, int *include_criterion(), void *select_acti
 
       menuitem = gtk_menu_item_new_with_label(buf);
       gtk_menu_append(GTK_MENU(modulemenu), menuitem);
-      gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-			 GTK_SIGNAL_FUNC(UNITMENU(modulemenu)->select_action), &UNITMENU(modulemenu)->up[k]);
+      g_signal_connect(G_OBJECT(menuitem), "activate",
+			 G_CALLBACK(UNITMENU(modulemenu)->select_action), &UNITMENU(modulemenu)->up[k]);
       gtk_widget_show(menuitem);
       k++;
     }

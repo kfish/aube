@@ -17,7 +17,7 @@ static char last_sample_dir[256];
 void
 sample_load_ok_cb(GtkWidget * widget, gpointer data)
 {
-  gchar *dir;
+  const gchar *dir;
 
   dir = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
   strncpy(last_sample_dir, dir, MIN(256, strlen(dir)));
@@ -69,7 +69,7 @@ sample_load_cb(GtkWidget * wiget, gpointer data)
 void
 sample_save_ok_cb(GtkWidget * widget, gpointer data)
 {
-  gchar *dir;
+  const gchar *dir;
 
   dir = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
   strncpy(last_sample_dir, dir, MIN(256, strlen(dir)));

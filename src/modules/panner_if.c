@@ -11,8 +11,7 @@
 
 extern int tick;
 
-guint panner_if_get_type(void);
-static void panner_if_class_init(PannerIFClass * class);
+static void panner_if_class_init(PannerIFClass * klass);
 static void panner_if_init(PannerIF * b);
 GtkWidget *panner_if_new(panner * pn);
 void panner_if_dismiss(GtkWidget * widget, gpointer data);
@@ -20,44 +19,36 @@ void panner_if_hide_cb(GtkWidget * widget, gpointer data);
 void panner_if_close_cb(GtkWidget * widget, gpointer data);
 void panner_if_onoff_cb(GtkWidget * widget, gpointer data);
 
-guint
-panner_if_get_type()
+GType
+panner_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "PannerIF",
-      sizeof(PannerIF),
       sizeof(PannerIFClass),
-      (GtkClassInitFunc) panner_if_class_init,
-      (GtkObjectInitFunc) panner_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) panner_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(PannerIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) panner_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "PannerIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint panner_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-panner_if_class_init(PannerIFClass * class)
+panner_if_class_init(PannerIFClass * klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, panner_if_signals, LAST_SIGNAL);
-  class->panner_if = NULL;
+ 
 }
 
 static void

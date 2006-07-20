@@ -33,7 +33,7 @@ extern "C" {
     void (*minimaube_if) (MiniMaubeIF * a);
   };
 
-  guint minimaube_if_get_type(void);
+  GType minimaube_if_get_type(void);
   GtkWidget *minimaube_if_new(minimaube * dl);
   void minimaube_if_close_cb(GtkWidget * widget, gpointer data);
 

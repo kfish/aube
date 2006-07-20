@@ -21,7 +21,7 @@
    Forward declarations 
  */
 
-static void levelmeter_class_init(LevelMeterClass * class);
+static void levelmeter_class_init(LevelMeterClass * klass);
 static void levelmeter_init(LevelMeter * levelmeter);
 static void levelmeter_destroy(GtkObject * object);
 static void levelmeter_realize(GtkWidget * widget);
@@ -39,36 +39,40 @@ static GtkWidgetClass *parent_class = NULL;
 static GdkColor col_red, col_green;
 static GtkStyle *levelmeter_style = NULL;
 
-guint
-levelmeter_get_type()
+GType
+levelmeter_get_type(void)
 {
-  static guint levelmeter_type = 0;
+  static GType levelmeter_type = 0;
 
   if (!levelmeter_type) {
-    GtkTypeInfo levelmeter_info =
+    static const GTypeInfo levelmeter_info =
     {
-      "LevelMeter",
-      sizeof(LevelMeter),
       sizeof(LevelMeterClass),
-      (GtkClassInitFunc) levelmeter_class_init,
-      (GtkObjectInitFunc) levelmeter_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalize */
+      (GClassInitFunc) levelmeter_class_init,
+      NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(LevelMeter),
+      0, /* n_preallocs */
+      (GInstanceInitFunc) levelmeter_init,
     };
 
-    levelmeter_type = gtk_type_unique(gtk_widget_get_type(), &levelmeter_info);
+    levelmeter_type = g_type_register_static(gtk_widget_get_type(),
+                                                                    "LevelMeter",
+	                                                                &levelmeter_info, 0);
   }
   return levelmeter_type;
 }
 
 static void
-levelmeter_class_init(LevelMeterClass * class)
+levelmeter_class_init(LevelMeterClass * klass)
 {
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
 
-  object_class = (GtkObjectClass *) class;
-  widget_class = (GtkWidgetClass *) class;
+  object_class = (GtkObjectClass *) klass;
+  widget_class = (GtkWidgetClass *) klass;
 
   parent_class = gtk_type_class(gtk_widget_get_type());
 

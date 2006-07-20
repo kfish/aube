@@ -8,8 +8,7 @@
 #include "opsmenu.h"
 #include "outputlabel.h"
 
-guint linein_if_get_type(void);
-static void linein_if_class_init(LINEINIFClass * class);
+static void linein_if_class_init(LINEINIFClass * klass);
 static void linein_if_init(LINEINIF * b);
 GtkWidget *linein_if_new(oss_in * oss_p);
 void linein_if_dismiss(GtkWidget * widget, gpointer data);
@@ -25,45 +24,36 @@ void linein_if_set_mode_input_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_mode_duplex_cb(GtkWidget * widget, gpointer data);
 #endif
 
-guint
-linein_if_get_type()
+GType
+linein_if_get_type(void)
 {
-  static guint b_type = 0;
+  static GType b_type = 0;
 
   if (!b_type) {
-    GtkTypeInfo b_info =
+    static const GTypeInfo b_info =
     {
-      "LINEINIF",
-      sizeof(LINEINIF),
       sizeof(LINEINIFClass),
-      (GtkClassInitFunc) linein_if_class_init,
-      (GtkObjectInitFunc) linein_if_init,
-      (GtkArgSetFunc) NULL,
-      (GtkArgGetFunc) NULL,
+      NULL, /* base_init */
+	  NULL, /* base_finalise */
+      (GClassInitFunc) linein_if_class_init,
+	  NULL, /* class_finalize */
+	  NULL, /* class_data */
+      sizeof(LINEINIF),
+	  0, /* n_preallocs */
+	  (GInstanceInitFunc) linein_if_init,
     };
 
-    b_type = gtk_type_unique(gtk_window_get_type(), &b_info);
+    b_type = g_type_register_static(GTK_TYPE_WINDOW,
+                                                      "LINEINIF",
+	                                                   &b_info, 0);
   }
   return b_type;
 }
 
-enum {
-  LAST_SIGNAL
-};
-
-static guint linein_if_signals[LAST_SIGNAL+1] =
-{0};
-
 static void
-linein_if_class_init(LINEINIFClass * class)
+linein_if_class_init(LINEINIFClass * klass)
 {
-  GtkObjectClass *object_class;
 
-  object_class = (GtkObjectClass *) class;
-
-  gtk_object_class_add_signals(object_class, linein_if_signals, LAST_SIGNAL);
-
-  class->linein_if = NULL;
 }
 
 static void
