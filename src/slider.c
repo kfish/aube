@@ -129,8 +129,8 @@ slider_float_new(char *label_str, float *data, float lower, float upper, int ver
   /* draw number above scale */
   gtk_scale_set_draw_value(GTK_SCALE(slider->scale), FALSE);
 
-  gtk_signal_connect(GTK_OBJECT(slider->adj), "value_changed",
-		     GTK_SIGNAL_FUNC(slider_cb), slider);
+  g_signal_connect(G_OBJECT(slider->adj), "value_changed",
+		     G_CALLBACK(slider_cb), slider);
   gtk_widget_show(GTK_WIDGET(slider->scale));
 
   label = gtk_label_new(label_str);

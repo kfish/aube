@@ -103,8 +103,8 @@ minitracker_if_new(minitracker * rsq)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(minitracker_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(minitracker_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
@@ -113,8 +113,8 @@ minitracker_if_new(minitracker * rsq)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(minitracker_if), "destroy",
-		     GTK_SIGNAL_FUNC(minitracker_if_close_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(minitracker_if), "destroy",
+		     G_CALLBACK(minitracker_if_close_cb), minitracker_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -128,8 +128,8 @@ minitracker_if_new(minitracker * rsq)
   button = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), minitracker_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	    GTK_SIGNAL_FUNC(minitracker_if_onoff_cb), minitracker_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	    G_CALLBACK(minitracker_if_onoff_cb), minitracker_if->data);
   gtk_widget_show(button);
 
   button = opsmenu_new((module *) minitracker_if->data, GTK_WIDGET(minitracker_if),
@@ -185,29 +185,29 @@ minitracker_if_new(minitracker * rsq)
 
   button = gtk_radio_button_new_with_label(NULL, "One note");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_play_once_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_play_once_cb), minitracker_if);
   gtk_widget_show(button);
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
   button = gtk_radio_button_new_with_label(rbgroup, "Straight 4/4");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_play_44_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_play_44_cb), minitracker_if);
   gtk_widget_show(button);
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
   button = gtk_radio_button_new_with_label(rbgroup, "Random 8/8");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_chaos8_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_chaos8_cb), minitracker_if);
   gtk_widget_show(button);
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
   button = gtk_radio_button_new_with_label(rbgroup, "Random 16/16");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(chaos_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(chaos_cb), minitracker_if);
   gtk_widget_show(button);
 
   vbox = gtk_vbox_new(FALSE, 2);
@@ -220,20 +220,20 @@ minitracker_if_new(minitracker * rsq)
 
   button = gtk_button_new_with_label("<<");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(lshift_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(lshift_cb), minitracker_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Restart");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(restart_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(restart_cb), minitracker_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label(">>");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(rshift_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(rshift_cb), minitracker_if);
   gtk_widget_show(button);
 
   hbox3 = gtk_hbox_new(FALSE, 2);
@@ -242,14 +242,14 @@ minitracker_if_new(minitracker * rsq)
 
   button = gtk_button_new_with_label("-1");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_transpose_d1_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_transpose_d1_cb), minitracker_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("+1");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_transpose_u1_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_transpose_u1_cb), minitracker_if);
   gtk_widget_show(button);
 
   hbox3 = gtk_hbox_new(FALSE, 2);
@@ -258,14 +258,14 @@ minitracker_if_new(minitracker * rsq)
 
   button = gtk_button_new_with_label("-12");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_transpose_d12_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_transpose_d12_cb), minitracker_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("+12");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(seq_transpose_u12_cb), minitracker_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(seq_transpose_u12_cb), minitracker_if);
   gtk_widget_show(button);
 
 

@@ -83,8 +83,8 @@ filter_reslp_if_new(filter_reslp * fr)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(filter_reslp_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(filter_reslp_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
@@ -93,8 +93,8 @@ filter_reslp_if_new(filter_reslp * fr)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(filter_reslp_if), "destroy",
-		     GTK_SIGNAL_FUNC(filter_reslp_if_close_cb), filter_reslp_if);
+  g_signal_connect(G_OBJECT(filter_reslp_if), "destroy",
+		     G_CALLBACK(filter_reslp_if_close_cb), filter_reslp_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -113,8 +113,8 @@ filter_reslp_if_new(filter_reslp * fr)
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      filter_reslp_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	 GTK_SIGNAL_FUNC(filter_reslp_startstop_cb), filter_reslp_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	 G_CALLBACK(filter_reslp_startstop_cb), filter_reslp_if->data);
   gtk_widget_show(button);
 
   button = opsmenu_new((module *) filter_reslp_if->data,
@@ -136,8 +136,8 @@ filter_reslp_if_new(filter_reslp * fr)
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      filter_reslp_if->data->use_trigger);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	 GTK_SIGNAL_FUNC(filter_reslp_usetoggle_cb), filter_reslp_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	 G_CALLBACK(filter_reslp_usetoggle_cb), filter_reslp_if->data);
   gtk_widget_show(button);
 
   button = outputlabel_new((module *) FILTERRESLP_IF(filter_reslp_if)->data, 0);
@@ -177,8 +177,8 @@ filter_reslp_if_new(filter_reslp * fr)
 #if 0
   slider = slider_int_new("Tune", &(filter_reslp_if->data->tune), 1, 1024, 1);
   gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(SLIDER(slider)->adj), "value_changed",
-	      GTK_SIGNAL_FUNC(harmonics_changed_cb), filter_reslp_if->data);
+  g_signal_connect(G_OBJECT(SLIDER(slider)->adj), "value_changed",
+	      G_CALLBACK(harmonics_changed_cb), filter_reslp_if->data);
   gtk_widget_show(slider);
 #endif
 

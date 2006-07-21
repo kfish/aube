@@ -91,8 +91,8 @@ minimaube_if_new(minimaube * s)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(minimaube_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(minimaube_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
@@ -101,8 +101,8 @@ minimaube_if_new(minimaube * s)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(minimaube_if), "destroy",
-		     GTK_SIGNAL_FUNC(minimaube_if_close_cb), minimaube_if);
+  g_signal_connect(G_OBJECT(minimaube_if), "destroy",
+		     G_CALLBACK(minimaube_if_close_cb), minimaube_if);
 #endif
 
   vbox = gtk_vbox_new(FALSE, 5);
@@ -118,8 +118,8 @@ minimaube_if_new(minimaube * s)
   widget = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget), minimaube_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		GTK_SIGNAL_FUNC(minimaube_if_onoff_cb), minimaube_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		G_CALLBACK(minimaube_if_onoff_cb), minimaube_if->data);
   gtk_widget_show(widget);
 
   widget = opsmenu_new((module *) minimaube_if->data, GTK_WIDGET(minimaube_if),
@@ -129,14 +129,14 @@ minimaube_if_new(minimaube * s)
 
   widget = gtk_button_new_with_label("Add");
   gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 2);
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		  GTK_SIGNAL_FUNC(minimaube_if_add_input_cb), minimaube_if);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		  G_CALLBACK(minimaube_if_add_input_cb), minimaube_if);
   gtk_widget_show(widget);
 
   widget = gtk_button_new_with_label("Remove");
   gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 2);
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-	       GTK_SIGNAL_FUNC(minimaube_if_remove_input_cb), minimaube_if);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+	       G_CALLBACK(minimaube_if_remove_input_cb), minimaube_if);
   gtk_widget_show(widget);
 
   for (i = 0; i < minimaube_if->data->nr_active_channels; i++) {

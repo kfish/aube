@@ -110,23 +110,23 @@ inputoption_new(char *label_str, module * module, int input_i)
 #if 0
   widget = gtk_button_new_with_label("Reread");
   gtk_box_pack_start(GTK_BOX(inputoption), widget, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(reread_inputs_cb), inputoption);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(reread_inputs_cb), inputoption);
   gtk_widget_show(widget);
 #endif
 
-  inputoption->handler_id = gtk_signal_connect(GTK_OBJECT(master_daddy),
-	 "modules_changed", GTK_SIGNAL_FUNC(reread_inputs_cb), inputoption);
+  inputoption->handler_id = g_signal_connect(G_OBJECT(master_daddy),
+	 "modules_changed", G_CALLBACK(reread_inputs_cb), inputoption);
 
 #if 0
   gtk_widget_realize(hbox);
-  gtk_signal_connect(GTK_OBJECT(hbox), "drop_data_available_event",
-		     GTK_SIGNAL_FUNC(inputoption_dnd_drop), hbox);
+  g_signal_connect(G_OBJECT(hbox), "drop_data_available_event",
+		     G_CALLBACK(inputoption_dnd_drop), hbox);
   gtk_widget_dnd_drop_set(hbox, TRUE, accepted_drop_types, 1, FALSE);
 #endif
 
-  gtk_signal_connect(GTK_OBJECT(inputoption), "destroy",
-		     GTK_SIGNAL_FUNC(inputoption_dismiss), inputoption);
+  g_signal_connect(G_OBJECT(inputoption), "destroy",
+		     G_CALLBACK(inputoption_dismiss), inputoption);
 
   return GTK_WIDGET(inputoption);
 }
@@ -142,7 +142,7 @@ inputoption_dnd_drop(GtkWidget * widget, GdkEvent * event)
 void
 inputoption_dismiss(GtkWidget * widget, gpointer data)
 {
-  gtk_signal_disconnect(GTK_OBJECT(master_daddy),
+  gtk_signal_disconnect(G_OBJECT(master_daddy),
 			INPUTOPTION(data)->handler_id);
   gtk_widget_destroy(GTK_WIDGET(data));
 }
@@ -192,8 +192,8 @@ reread_inputs_cb(GtkWidget * widget, gpointer data)
       menuitem = gtk_menu_item_new_with_label(buf);
       INPUTOPTION(data)->ip[k].data = data;
       gtk_menu_append(GTK_MENU(INPUTOPTION(data)->inputsmenu), menuitem);
-      gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	     GTK_SIGNAL_FUNC(select_input_cb), &(INPUTOPTION(data)->ip[k]));
+      g_signal_connect(G_OBJECT(menuitem), "activate",
+	     G_CALLBACK(select_input_cb), &(INPUTOPTION(data)->ip[k]));
       gtk_widget_show(menuitem);
       k++;
     }
@@ -226,8 +226,8 @@ reread_inputs_cb(GtkWidget * widget, gpointer data)
 	  menuitem = gtk_menu_item_new_with_label(buf);
 	  INPUTOPTION(data)->ip[k].data = data;
 	  gtk_menu_append(GTK_MENU(INPUTOPTION(data)->inputsmenu), menuitem);
-	  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	     GTK_SIGNAL_FUNC(select_input_cb), &(INPUTOPTION(data)->ip[k]));
+	  g_signal_connect(G_OBJECT(menuitem), "activate",
+	     G_CALLBACK(select_input_cb), &(INPUTOPTION(data)->ip[k]));
 	  gtk_widget_show(menuitem);
 	  k++;
 	}

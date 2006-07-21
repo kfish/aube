@@ -108,8 +108,8 @@ drummachine_if_new(drummachine * rsq)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(drummachine_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(drummachine_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
@@ -118,8 +118,8 @@ drummachine_if_new(drummachine * rsq)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(drummachine_if), "destroy",
-		     GTK_SIGNAL_FUNC(drummachine_if_close_cb), drummachine_if);
+  g_signal_connect(G_OBJECT(drummachine_if), "destroy",
+		     G_CALLBACK(drummachine_if_close_cb), drummachine_if);
 #endif
 
   vbox = gtk_vbox_new(FALSE, 5);
@@ -134,8 +134,8 @@ drummachine_if_new(drummachine * rsq)
   gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      drummachine_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(drummachine_if_onoff_cb),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(drummachine_if_onoff_cb),
 		     drummachine_if->data);
   gtk_widget_show(button);
 
@@ -161,19 +161,19 @@ drummachine_if_new(drummachine * rsq)
 
   button = gtk_button_new_with_label("Clear");
   gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 1);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(dm_clear_cb), drummachine_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(dm_clear_cb), drummachine_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Chaos");
   gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 1);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(dm_chaos_cb), drummachine_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(dm_chaos_cb), drummachine_if);
   gtk_widget_show(button);
 
   button = gtk_button_new ();
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(dm_shift_left_cb),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(dm_shift_left_cb),
 		     drummachine_if);
   gtk_button_set_relief (GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -183,8 +183,8 @@ drummachine_if_new(drummachine * rsq)
   gtk_widget_show (button);
   
   button = gtk_button_new ();
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(dm_shift_right_cb),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(dm_shift_right_cb),
 		     drummachine_if);
   gtk_button_set_relief (GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -216,10 +216,10 @@ drummachine_if_new(drummachine * rsq)
     gtk_widget_show(button);
 
     button = gtk_button_new_with_label ("Clear");
-    gtk_object_set_user_data (GTK_OBJECT(button), (gpointer)j);
+    g_object_set_data (G_OBJECT(button), "default", (gpointer) j);
     gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(dm_clear_track_cb), drummachine_if);
+    g_signal_connect(G_OBJECT(button), "clicked",
+		       G_CALLBACK(dm_clear_track_cb), drummachine_if);
     gtk_widget_show (button);
 
 #if 0
@@ -244,8 +244,8 @@ drummachine_if_new(drummachine * rsq)
       gtk_widget_set_usize(button, 10, 10);
       gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			(drummachine_if->data->sequence[j][i].note == 128));
-      gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	       GTK_SIGNAL_FUNC(drummachine_if_set_note_cb), drummachine_if);
+      g_signal_connect(G_OBJECT(button), "clicked",
+	       G_CALLBACK(drummachine_if_set_note_cb), drummachine_if);
       gtk_widget_show(button);
       drummachine_if->buttons[j][i].button = button;
     }
@@ -255,9 +255,9 @@ drummachine_if_new(drummachine * rsq)
     gtk_widget_show(button);
 
     button = gtk_button_new ();
-    gtk_object_set_user_data (GTK_OBJECT(button), (gpointer)j);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(dm_shift_track_left_cb),
+    g_object_set_data (G_OBJECT(button), "default", (gpointer) j);
+    g_signal_connect(G_OBJECT(button), "clicked",
+		       G_CALLBACK(dm_shift_track_left_cb),
 		       drummachine_if);
     gtk_button_set_relief (GTK_BUTTON(button), GTK_RELIEF_NONE);
     gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -267,9 +267,9 @@ drummachine_if_new(drummachine * rsq)
     gtk_widget_show (button);
 
     button = gtk_button_new ();
-    gtk_object_set_user_data (GTK_OBJECT(button), (gpointer)j);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(dm_shift_track_right_cb),
+    g_object_set_data (G_OBJECT(button), "default",  (gpointer) j);
+    g_signal_connect(G_OBJECT(button), "clicked",
+		       G_CALLBACK(dm_shift_track_right_cb),
 		       drummachine_if);
     gtk_button_set_relief (GTK_BUTTON(button), GTK_RELIEF_NONE);
     gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -299,9 +299,9 @@ drummachine_if_update_dm(GtkWidget * widget, gpointer data)
   drummachine_if = DRUMMACHINE_IF(data);
   for (j = 0; j < MAX_CHANNELS; j++) {
     for (i = 0; i < DM_LENGTH; i++) {
-      gtk_signal_handler_block_by_data(GTK_OBJECT(drummachine_if->buttons[j][i].button), drummachine_if);
+	  g_signal_handlers_block_matched (drummachine_if->buttons[j][i].button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, drummachine_if);
       gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(drummachine_if->buttons[j][i].button), (drummachine_if->data->sequence[j][i].note == 128));
-      gtk_signal_handler_unblock_by_data(GTK_OBJECT(drummachine_if->buttons[j][i].button), drummachine_if);
+	  g_signal_handlers_unblock_matched (drummachine_if->buttons[j][i].button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, drummachine_if);
     }
   }
 }
@@ -422,7 +422,7 @@ void
 dm_clear_track_cb (GtkWidget * widget, gpointer data)
 {
   DrumMachineIF * drummachine_if = DRUMMACHINE_IF (data);
-  int j = (int) gtk_object_get_user_data (GTK_OBJECT(widget));
+  int j = (int) g_object_get_data (G_OBJECT(widget), "default");
 
   dm_clear_track (drummachine_if->data, j);
 
@@ -433,7 +433,7 @@ void
 dm_shift_track_left_cb (GtkWidget * widget, gpointer data)
 {
   DrumMachineIF * drummachine_if = DRUMMACHINE_IF (data);
-  int j = (int) gtk_object_get_user_data (GTK_OBJECT(widget));
+  int j = (int) g_object_get_data (G_OBJECT(widget), "default");
 
   dm_shift_track (drummachine_if->data, j, -1);
 
@@ -444,7 +444,7 @@ void
 dm_shift_track_right_cb (GtkWidget * widget, gpointer data)
 {
   DrumMachineIF * drummachine_if = DRUMMACHINE_IF (data);
-  int j = (int) gtk_object_get_user_data (GTK_OBJECT(widget));
+  int j = (int) g_object_get_data (G_OBJECT(widget), "default");
 
   dm_shift_track (drummachine_if->data, j, 1);
 

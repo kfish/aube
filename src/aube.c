@@ -247,7 +247,7 @@ aube_module_add_if(module * m)
 {
   m->has_if = m->class->new_if(m);
   gtk_widget_show(m->has_if);
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
   return 1;
 }
 
@@ -257,7 +257,7 @@ aube_module_remove_if(module * u)
   u->has_if = NULL;
   master_ack_channels_modified();
 #if 0
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 #endif
   return 1;
 }
@@ -305,8 +305,8 @@ aube_add_module(module * module)
   module->last_tick = 0;
 
   /*
-     gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
-   */
+    g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
+  */
 
   return 1;
 }
@@ -328,7 +328,7 @@ aube_remove_module(module * module)
 
   master_ack_channels_modified();
 #if 0
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 #endif
 
   return 1;
@@ -342,7 +342,7 @@ aube_add_sample(channel * sample)
 
   master_ack_channels_modified();
 #if 0
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 #endif
 
   return 1;
@@ -362,7 +362,7 @@ aube_remove_sample(channel * sample)
   }
   master_ack_channels_modified();
 #if 0
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 #endif
 
   return 1;

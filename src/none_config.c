@@ -115,8 +115,8 @@ none_config_new(module * u)
 
   widget = gtk_button_new_with_label("Ok");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 2);
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(none_config_destroy), none_config);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(none_config_destroy), none_config);
   gtk_widget_show(widget);
 
   return GTK_WIDGET(none_config);

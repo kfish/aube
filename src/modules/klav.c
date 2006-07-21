@@ -41,15 +41,6 @@ typedef void (*KlavSignal1) (GtkObject * object,
 			     gpointer data);
 
 /*
-   Signal Marshalers 
- */
-static void
-     klav_marshal_signal_1(GtkObject * object,
-			   GtkSignalFunc func,
-			   gpointer func_data,
-			   GtkArg * args);
-
-/*
    Klav Methods 
  */
 static void klav_class_init(KlavClass * klass);
@@ -670,7 +661,7 @@ press_key(Klav * klav, gint key)
   klav->is_pressed = TRUE;
   klav->key_pressed = key;
 
-  gtk_signal_emit(GTK_OBJECT(klav), klav_signals[KLAVKEY_PRESS], key);
+  g_signal_emit(G_OBJECT(klav), klav_signals[KLAVKEY_PRESS], 0, key);
 
   /*
      printf("press: %i\n", key); 
@@ -682,9 +673,8 @@ release_key(Klav * klav)
 {
   klav->is_pressed = FALSE;
 
-  gtk_signal_emit(GTK_OBJECT(klav), klav_signals[KLAVKEY_RELEASE],
-		  klav->key_pressed);
-
+  g_signal_emit(G_OBJECT(klav), klav_signals[KLAVKEY_RELEASE], 0, klav->key_pressed);
+ 
   /*
      printf ("release: %i\n", klav->key_pressed); 
    */
@@ -858,21 +848,4 @@ void
 klav_set_klav_dir(Klav * klav, KlavDir dir)
 {
   klav->dir = dir;
-}
-
-/*
-   Signal Marshalers 
- */
-
-static void
-klav_marshal_signal_1(GtkObject * object,
-		      GtkSignalFunc func,
-		      gpointer func_data,
-		      GtkArg * args)
-{
-  KlavSignal1 rfunc;
-
-  rfunc = (KlavSignal1) func;
-
-  (*rfunc) (object, GTK_VALUE_INT(args[0]), func_data);
 }

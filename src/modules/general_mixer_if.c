@@ -78,13 +78,13 @@ general_mixer_if_new(general_mixer * xf)
   gtk_container_border_width(GTK_CONTAINER(general_mixer_if), 1);
 
 #if 0
-  gtk_signal_connect(GTK_OBJECT(general_mixer_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(general_mixer_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
-  gtk_signal_connect(GTK_OBJECT(general_mixer_if), "destroy",
-		     GTK_SIGNAL_FUNC(general_mixer_if_close_cb), general_mixer_if);
+  g_signal_connect(G_OBJECT(general_mixer_if), "destroy",
+		     G_CALLBACK(general_mixer_if_close_cb), general_mixer_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -102,8 +102,8 @@ general_mixer_if_new(general_mixer * xf)
   button = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), general_mixer_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	GTK_SIGNAL_FUNC(general_mixer_if_onoff_cb), general_mixer_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	G_CALLBACK(general_mixer_if_onoff_cb), general_mixer_if->data);
   gtk_widget_show(button);
 
   button = opsmenu_new((module *) general_mixer_if->data, GTK_WIDGET(general_mixer_if), general_mixer_if_hide_cb, general_mixer_if_close_cb);
@@ -112,14 +112,14 @@ general_mixer_if_new(general_mixer * xf)
 
   button = gtk_button_new_with_label("Add");
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	  GTK_SIGNAL_FUNC(general_mixer_if_add_input_cb), general_mixer_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	  G_CALLBACK(general_mixer_if_add_input_cb), general_mixer_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Remove");
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-       GTK_SIGNAL_FUNC(general_mixer_if_remove_input_cb), general_mixer_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+       G_CALLBACK(general_mixer_if_remove_input_cb), general_mixer_if);
   gtk_widget_show(button);
 
   button = outputlabel_new((module *) GENERAL_MIXER_IF(general_mixer_if)->data, 0);
@@ -142,8 +142,8 @@ general_mixer_if_new(general_mixer * xf)
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      general_mixer_if->data->master_mute);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(general_mixer_if_mute_cb),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(general_mixer_if_mute_cb),
 		     &(general_mixer_if->data->master_mute));
   gtk_widget_show(button);
 
@@ -253,8 +253,8 @@ general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i)
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      general_mixer_if->data->mute[i]);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(general_mixer_if_mute_cb),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(general_mixer_if_mute_cb),
 		     &(general_mixer_if->data->mute[i]));
   gtk_widget_show(button);
 

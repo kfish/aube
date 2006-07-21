@@ -99,16 +99,16 @@ atonal_if_new(atonal *rsq)
     * titlebar - we ask it to call the delete_event() function
     * as defined above. The data passed to the callback function is
     * NULL and is ignored in the callback. */
-   gtk_signal_connect(GTK_OBJECT(atonal_if), "delete_event",
-		      GTK_SIGNAL_FUNC(delete_event), NULL);
+   g_signal_connect(G_OBJECT(atonal_if), "delete_event",
+		      G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1   
    /* here we connect the "destroy" event to a signal handler.
     * This event occurs when we call gtk_widget_destroy() on the
     * window, or if we return "TRUE" in the "delete_event" callback. */
-   gtk_signal_connect(GTK_OBJECT(atonal_if), "destroy",
-		      GTK_SIGNAL_FUNC(atonal_if_close_cb), atonal_if);
+   g_signal_connect(G_OBJECT(atonal_if), "destroy",
+		      G_CALLBACK(atonal_if_close_cb), atonal_if);
 #endif
    
   vbox=gtk_vbox_new(FALSE, 5);
@@ -122,8 +122,8 @@ atonal_if_new(atonal *rsq)
   button = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), atonal_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-    GTK_SIGNAL_FUNC(atonal_if_onoff_cb), atonal_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+    G_CALLBACK(atonal_if_onoff_cb), atonal_if->data);
   gtk_widget_show(button);
    
   button = opsmenu_new((module *)atonal_if->data, GTK_WIDGET(atonal_if),
@@ -134,14 +134,14 @@ atonal_if_new(atonal *rsq)
 #if 0
   button = gtk_button_new_with_label("Clear");
   gtk_box_pack_start(GTK_BOX(hbox2), button, TRUE, TRUE, 1);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-    GTK_SIGNAL_FUNC(at_clear_cb), atonal_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+    G_CALLBACK(at_clear_cb), atonal_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Chaos");
   gtk_box_pack_start(GTK_BOX(hbox2), button, TRUE, TRUE, 1);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-    GTK_SIGNAL_FUNC(at_chaos_cb), atonal_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+    G_CALLBACK(at_chaos_cb), atonal_if);
   gtk_widget_show(button);
 #endif
 
@@ -185,8 +185,8 @@ atonal_if_new(atonal *rsq)
     gtk_widget_set_usize(button, 10, 10);
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
       (atonal_if->data->sequence[i].trigger==1));
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-      GTK_SIGNAL_FUNC(atonal_if_set_note_cb), atonal_if);
+    g_signal_connect(G_OBJECT(button), "clicked",
+      G_CALLBACK(atonal_if_set_note_cb), atonal_if);
     gtk_widget_show(button);
     atonal_if->buttons[i].button = button;
   }
@@ -208,9 +208,9 @@ void atonal_if_update_at(GtkWidget *widget, gpointer data)
 
   atonal_if = ATONAL_IF(data);
   for(i=0; i<AT_LENGTH; i++) {
-    gtk_signal_handler_block_by_data(GTK_OBJECT(atonal_if->buttons[i].button), atonal_if);
+	g_signal_handlers_block_matched (atonal_if->buttons[i].button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, atonal_if);
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(atonal_if->buttons[i].button), (atonal_if->data->sequence[i].trigger == 1));
-    gtk_signal_handler_unblock_by_data(GTK_OBJECT(atonal_if->buttons[i].button), atonal_if);
+	g_signal_handlers_unblock_matched (atonal_if->buttons[i].button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, atonal_if);
   }
 }
 

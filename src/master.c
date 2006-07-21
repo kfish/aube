@@ -276,8 +276,8 @@ master_init(Master * master)
 
   menuitem = gtk_menu_item_new_with_label("Load Sample...");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(sample_load_cb), NULL);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(sample_load_cb), NULL);
   gtk_widget_show(menuitem);
   gtk_widget_add_accelerator (menuitem, "activate", accel_group,
                               GDK_l, GDK_CONTROL_MASK,
@@ -287,8 +287,8 @@ master_init(Master * master)
   menuitem = gtk_menu_item_new_with_label("Samples...");
   gtk_menu_append(GTK_MENU(menu), menuitem);
 #if HAVE_LIBSNDFILE
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(aube_samplelist_create), NULL);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(aube_samplelist_create), NULL);
 #else
   gtk_widget_set_state(GTK_WIDGET(menuitem), GTK_STATE_INSENSITIVE);
 #endif
@@ -297,8 +297,8 @@ master_init(Master * master)
 
   menuitem = gtk_menu_item_new_with_label("Clear Workspace");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(clear_workspace_cb), NULL);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(clear_workspace_cb), NULL);
   gtk_widget_show(menuitem);
   
   menuitem = gtk_menu_item_new();
@@ -317,8 +317,8 @@ master_init(Master * master)
 
   menuitem = gtk_menu_item_new_with_label("Quit");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(quit_cb), master);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(quit_cb), master);
   gtk_widget_show(menuitem);
   gtk_widget_add_accelerator (menuitem, "activate", accel_group,
                               GDK_q, GDK_CONTROL_MASK,
@@ -353,8 +353,8 @@ master_init(Master * master)
   for (i = 0; i < (sizeof(module_classes) / sizeof(module_class *)); i++) {
     menuitem = gtk_menu_item_new_with_label(module_classes[i]->u_name);
     gtk_menu_append(GTK_MENU(module_type_menus[module_classes[i]->category]), menuitem);
-    gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		       GTK_SIGNAL_FUNC(new_module_cb), module_classes[i]);
+    g_signal_connect(G_OBJECT(menuitem), "activate",
+		       G_CALLBACK(new_module_cb), module_classes[i]);
     gtk_widget_show(menuitem);
   }
 #endif
@@ -380,8 +380,8 @@ master_init(Master * master)
   menu2 = modulemenu_new(NULL, (void *) include_unhidden, (void *) select_unhidden);
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu2);
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(master), "modules_changed",
-		     GTK_SIGNAL_FUNC(change_unhide_menu_cb), menuitem);
+  g_signal_connect(G_OBJECT(master), "modules_changed",
+		     G_CALLBACK(change_unhide_menu_cb), menuitem);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label("Modules");
@@ -429,8 +429,8 @@ master_init(Master * master)
   for (i = 0; i < (sizeof(module_classes) / sizeof(module_class *)); i++) {
     button = gtk_button_new_with_label (module_classes[i]->u_name);
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 1);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(new_module_cb), module_classes[i]);
+    g_signal_connect(G_OBJECT(button), "clicked",
+		       G_CALLBACK(new_module_cb), module_classes[i]);
     gtk_widget_show (button);
   }
 
@@ -461,12 +461,12 @@ master_init(Master * master)
   gtk_widget_show(clist);
 
   /*  aube_samplelist->handler_id =*/
-    gtk_signal_connect(GTK_OBJECT(master),
+    g_signal_connect(G_OBJECT(master),
 		       "modules_changed",
-		       GTK_SIGNAL_FUNC(aube_refresh_samplelist),
+		       G_CALLBACK(aube_refresh_samplelist),
 		       clist);
-  gtk_signal_connect(GTK_OBJECT(clist), "button_press_event",
-		     GTK_SIGNAL_FUNC(aube_samplelist_events), clist);
+  g_signal_connect(G_OBJECT(clist), "button_press_event",
+		     G_CALLBACK(aube_samplelist_events), clist);
 
   /*  aube_samplelist->commands_menu = gtk_menu_new();*/
 
@@ -476,14 +476,14 @@ master_init(Master * master)
 
   menuitem = gtk_menu_item_new_with_label("Save...");
   gtk_menu_append(GTK_MENU(commands_menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(sample_save_cb), NULL);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(sample_save_cb), NULL);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label("Close");
   gtk_menu_append(GTK_MENU(commands_menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(aube_remove_sample_cb), clist);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(aube_remove_sample_cb), clist);
   gtk_widget_show(menuitem);
 
 }
@@ -541,7 +541,7 @@ destroy(GtkWidget * widget, gpointer data)
 void
 master_ack_channels_modified(void)
 {
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 }
 
 void
@@ -562,7 +562,7 @@ new_module_cb(GtkWidget * widget, gpointer data)
   u->has_if = w;
   u->class = ui;
   gtk_widget_show(w);
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 #endif
 }
 
@@ -593,7 +593,7 @@ module_clone_cb(GtkWidget * widget, gpointer data)
     u->has_if = w;
     u->class = ui;
     gtk_widget_show(w);
-    gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+    g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
   } else {
     aube_error(AUBE_MESSAGE, "This module cannot be cloned.");
   }
@@ -621,8 +621,8 @@ module_replace_cb(GtkWidget * widget, gpointer data)
     }
   }
   if (l > 0)
-    gtk_signal_emit(GTK_OBJECT(master_daddy),
-		    master_signals[UNITS_CHANGED_SIGNAL]);
+	  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
+
 }
 
 void
@@ -665,7 +665,7 @@ select_unhidden(GtkWidget * widget, gpointer data)
   w = ui->new_if(u);
   u->has_if = w;
   gtk_widget_show(w);
-  gtk_signal_emit(GTK_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL]);
+  g_signal_emit(G_OBJECT(master_daddy), master_signals[UNITS_CHANGED_SIGNAL], 0);
 }
 
 void

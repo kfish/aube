@@ -54,13 +54,13 @@ sample_load_cb(GtkWidget * wiget, gpointer data)
   chdir(last_sample_dir);
 
   filesel = gtk_file_selection_new("Load Sample");
-  gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
-		     "clicked", GTK_SIGNAL_FUNC(sample_load_ok_cb), filesel);
-  gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(filesel)->cancel_button),
-		"clicked", GTK_SIGNAL_FUNC(sample_load_cancel_cb), filesel);
+  g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
+		     "clicked", G_CALLBACK(sample_load_ok_cb), filesel);
+  g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->cancel_button),
+		"clicked", G_CALLBACK(sample_load_cancel_cb), filesel);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(filesel)->help_button),
-		  "clicked", GTK_SIGNAL_FUNC(sample_load_help_cb), filesel);
+  g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->help_button),
+		  "clicked", G_CALLBACK(sample_load_help_cb), filesel);
 #endif
 
   gtk_widget_show(filesel);
@@ -105,13 +105,13 @@ sample_save_cb(GtkWidget * wiget, gpointer data)
   chdir(last_sample_dir);
 
   filesel = gtk_file_selection_new("Save Sample");
-  gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
-		     "clicked", GTK_SIGNAL_FUNC(sample_save_ok_cb), filesel);
-  gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(filesel)->cancel_button),
-		"clicked", GTK_SIGNAL_FUNC(sample_save_cancel_cb), filesel);
+  g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
+		     "clicked", G_CALLBACK(sample_save_ok_cb), filesel);
+  g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->cancel_button),
+		"clicked", G_CALLBACK(sample_save_cancel_cb), filesel);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(filesel)->help_button),
-		  "clicked", GTK_SIGNAL_FUNC(sample_save_help_cb), filesel);
+  g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->help_button),
+		  "clicked", G_CALLBACK(sample_save_help_cb), filesel);
 #endif
 
   gtk_widget_show(filesel);

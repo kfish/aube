@@ -79,13 +79,13 @@ linein_if_new(oss_in * oss_p)
   gtk_container_border_width(GTK_CONTAINER(linein_if), 1);
 
 #if 0
-  gtk_signal_connect(GTK_OBJECT(linein_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(linein_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
-  gtk_signal_connect(GTK_OBJECT(linein_if), "destroy",
-		     GTK_SIGNAL_FUNC(linein_if_close_cb), linein_if);
+  g_signal_connect(G_OBJECT(linein_if), "destroy",
+		     G_CALLBACK(linein_if_close_cb), linein_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -108,8 +108,8 @@ linein_if_new(oss_in * oss_p)
 
   menuitem = gtk_menu_item_new_with_label("Close");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-		     GTK_SIGNAL_FUNC(linein_if_close_cb), linein_if);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+		     G_CALLBACK(linein_if_close_cb), linein_if);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label("File");
@@ -128,8 +128,8 @@ linein_if_new(oss_in * oss_p)
   gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget),
     linein_if->data->input_module.on);
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(linein_if_onoff_cb), linein_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(linein_if_onoff_cb), linein_if->data);
   gtk_widget_show(widget);
 
   widget = opsmenu_new(&linein_if->data->input_module, GTK_WIDGET(linein_if),
@@ -201,20 +201,20 @@ linein_if_new(oss_in * oss_p)
 
   menuitem = gtk_menu_item_new_with_label((char *) "Output");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	    GTK_SIGNAL_FUNC(linein_if_set_mode_output_cb), linein_if->data);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+	    G_CALLBACK(linein_if_set_mode_output_cb), linein_if->data);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label((char *) "Input");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	     GTK_SIGNAL_FUNC(linein_if_set_mode_input_cb), linein_if->data);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+	     G_CALLBACK(linein_if_set_mode_input_cb), linein_if->data);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label((char *) "Duplex");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	    GTK_SIGNAL_FUNC(linein_if_set_mode_duplex_cb), linein_if->data);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+	    G_CALLBACK(linein_if_set_mode_duplex_cb), linein_if->data);
   gtk_widget_show(menuitem);
 
   gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
@@ -232,14 +232,14 @@ linein_if_new(oss_in * oss_p)
 
   menuitem = gtk_menu_item_new_with_label((char *) "/dev/dsp");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	     GTK_SIGNAL_FUNC(linein_if_set_device_dsp_cb), linein_if->data);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+	     G_CALLBACK(linein_if_set_device_dsp_cb), linein_if->data);
   gtk_widget_show(menuitem);
 
   menuitem = gtk_menu_item_new_with_label((char *) "/dev/dsp1");
   gtk_menu_append(GTK_MENU(menu), menuitem);
-  gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
-	    GTK_SIGNAL_FUNC(linein_if_set_device_dsp1_cb), linein_if->data);
+  g_signal_connect(G_OBJECT(menuitem), "activate",
+	    G_CALLBACK(linein_if_set_device_dsp1_cb), linein_if->data);
   gtk_widget_show(menuitem);
 
   gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
@@ -262,8 +262,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(NULL, "Mono");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_sinwave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_sinwave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -271,8 +271,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(rbgroup, "Stereo");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_squarewave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_squarewave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -293,8 +293,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(NULL, "8 bit");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_sinwave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_sinwave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -302,8 +302,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(rbgroup, "16 bit");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_squarewave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_squarewave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -324,8 +324,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(NULL, "44100 Hz");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_sinwave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_sinwave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -333,8 +333,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(rbgroup, "22050 Hz");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_squarewave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_squarewave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -342,8 +342,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(rbgroup, "11025 Hz");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_squarewave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_squarewave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 
@@ -351,8 +351,8 @@ linein_if_new(oss_in * oss_p)
   widget = gtk_radio_button_new_with_label(rbgroup, "5512 Hz");
   gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
 #if 0
-  gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-		     GTK_SIGNAL_FUNC(set_squarewave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(widget), "clicked",
+		     G_CALLBACK(set_squarewave_cb), syre_if->data);
 #endif
   gtk_widget_show(widget);
 #endif

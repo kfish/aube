@@ -97,8 +97,8 @@ opsmenu_new(module * module, GtkWidget * parent_if, void *if_hide_cb, void *if_c
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu2);
 
     gtk_menu_append(GTK_MENU(menu), menuitem);
-    gtk_signal_connect(GTK_OBJECT(master_daddy), "modules_changed",
-		       GTK_SIGNAL_FUNC(change_replace_menu_cb), module);
+    g_signal_connect(G_OBJECT(master_daddy), "modules_changed",
+		       G_CALLBACK(change_replace_menu_cb), module);
     gtk_widget_show(menuitem);
   } else {
     fprintf(stderr, "module->class==NULL\n");

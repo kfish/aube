@@ -33,9 +33,9 @@ about_dialog_create()
     gtk_window_set_title(GTK_WINDOW(about_dialog), "About AUBE");
     gtk_window_set_policy(GTK_WINDOW(about_dialog), FALSE, FALSE, FALSE);
     gtk_window_position(GTK_WINDOW(about_dialog), GTK_WIN_POS_CENTER);
-    gtk_signal_connect(GTK_OBJECT(about_dialog), "destroy",
+    g_signal_connect(G_OBJECT(about_dialog), "destroy",
 		       (GtkSignalFunc) about_dialog_destroy, NULL);
-    gtk_signal_connect(GTK_OBJECT(about_dialog), "button_press_event",
+    g_signal_connect(G_OBJECT(about_dialog), "button_press_event",
 		       (GtkSignalFunc) about_dialog_button, NULL);
     gtk_widget_set_events(about_dialog, GDK_BUTTON_PRESS_MASK);
 
@@ -56,7 +56,7 @@ about_dialog_create()
     gtk_widget_show(aboutframe);
 
     logo_area = gtk_drawing_area_new();
-    gtk_signal_connect(GTK_OBJECT(logo_area), "expose_event",
+    g_signal_connect(G_OBJECT(logo_area), "expose_event",
 		       (GtkSignalFunc) about_dialog_logo_expose, NULL);
     gtk_drawing_area_size(GTK_DRAWING_AREA(logo_area), logo_width, logo_height);
     gtk_widget_set_events(logo_area, GDK_EXPOSURE_MASK);

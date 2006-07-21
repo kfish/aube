@@ -98,8 +98,8 @@ sample_recorder_if_new(sample_recorder * pn)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(sample_recorder_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(sample_recorder_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
@@ -108,8 +108,8 @@ sample_recorder_if_new(sample_recorder * pn)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(sample_recorder_if), "destroy",
-		     GTK_SIGNAL_FUNC(sample_recorder_if_close_cb), sample_recorder_if);
+  g_signal_connect(G_OBJECT(sample_recorder_if), "destroy",
+		     G_CALLBACK(sample_recorder_if_close_cb), sample_recorder_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -127,8 +127,8 @@ sample_recorder_if_new(sample_recorder * pn)
   button = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), sample_recorder_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-    GTK_SIGNAL_FUNC(sample_recorder_if_onoff_cb), sample_recorder_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+    G_CALLBACK(sample_recorder_if_onoff_cb), sample_recorder_if->data);
   gtk_widget_show(button);
 
   button = opsmenu_new((module *) sample_recorder_if->data,
@@ -172,8 +172,8 @@ sample_recorder_if_new(sample_recorder * pn)
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      sample_recorder_if->data->record_next);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-       GTK_SIGNAL_FUNC(sample_recorder_if_record_next), sample_recorder_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+       G_CALLBACK(sample_recorder_if_record_next), sample_recorder_if);
   gtk_widget_show(button);
   sample_recorder_if->record_next_check = button;
 
@@ -185,15 +185,15 @@ sample_recorder_if_new(sample_recorder * pn)
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      sample_recorder_if->data->recording);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	    GTK_SIGNAL_FUNC(sample_recorder_if_record), sample_recorder_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	    G_CALLBACK(sample_recorder_if_record), sample_recorder_if);
   gtk_widget_show(button);
   sample_recorder_if->record_toggle = button;
 
   button = gtk_button_new_with_label("Stop");
   gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-	      GTK_SIGNAL_FUNC(sample_recorder_if_stop), sample_recorder_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+	      G_CALLBACK(sample_recorder_if_stop), sample_recorder_if);
   gtk_widget_show(button);
 
   hbox3 = gtk_hbox_new(FALSE, 5);
@@ -214,8 +214,8 @@ sample_recorder_if_new(sample_recorder * pn)
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      (sample_recorder_if->data->passthrough_mode == AUBE_SAMPLE_RECORDER_PASSTHROUGH_ALWAYS));
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(sample_recorder_if_passthrough_always),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(sample_recorder_if_passthrough_always),
 		     sample_recorder_if->data);
   gtk_widget_show(button);
 
@@ -225,8 +225,8 @@ sample_recorder_if_new(sample_recorder * pn)
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      (sample_recorder_if->data->passthrough_mode == AUBE_SAMPLE_RECORDER_PASSTHROUGH_REC));
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(sample_recorder_if_passthrough_rec),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(sample_recorder_if_passthrough_rec),
 		     sample_recorder_if->data);
   gtk_widget_show(button);
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
@@ -235,15 +235,15 @@ sample_recorder_if_new(sample_recorder * pn)
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
 			      (sample_recorder_if->data->passthrough_mode == AUBE_SAMPLE_RECORDER_PASSTHROUGH_NEVER));
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(sample_recorder_if_passthrough_never),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(sample_recorder_if_passthrough_never),
 		     sample_recorder_if->data);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Restart");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(sample_recorder_if_restart),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(sample_recorder_if_restart),
 		     sample_recorder_if->data);
   gtk_widget_show(button);
 
@@ -278,8 +278,8 @@ sample_recorder_if_new(sample_recorder * pn)
   button = gtk_entry_new();
   gtk_box_pack_start(GTK_BOX(hbox3), button, TRUE, TRUE, 0);
 /*
-   gtk_signal_connect(GTK_OBJECT(button), "key_press_event",
-   GTK_SIGNAL_FUNC(sample_recorder_if_name_changed),
+   g_signal_connect(G_OBJECT(button), "key_press_event",
+   G_CALLBACK(sample_recorder_if_name_changed),
    button);
  */
   gtk_widget_show(button);
@@ -287,8 +287,8 @@ sample_recorder_if_new(sample_recorder * pn)
 
   button = gtk_button_new_with_label("Add to sample list");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(sample_recorder_if_add_sample),
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(sample_recorder_if_add_sample),
 		     sample_recorder_if);
   gtk_widget_show(button);
 
@@ -411,14 +411,16 @@ sample_recorder_if_update_record(gpointer data)
   SampleRecorderIF *SR = (SampleRecorderIF *) data;
   gfloat percent;
 
-  gtk_signal_handler_block_by_data(GTK_OBJECT(SR->record_next_check), SR);
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(GTK_CHECK_BUTTON(SR->record_next_check)), SR->data->record_next);
-  gtk_signal_handler_unblock_by_data(GTK_OBJECT(SR->record_next_check), SR);
 
-  gtk_signal_handler_block_by_data(GTK_OBJECT(SR->record_toggle), SR);
+  g_signal_handlers_block_matched (SR->record_next_check, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, SR);
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(GTK_CHECK_BUTTON(SR->record_next_check)), SR->data->record_next);
+  g_signal_handlers_unblock_matched (SR->record_next_check, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, SR);
+
+
+  g_signal_handlers_block_matched (SR->record_toggle, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, SR);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(SR->record_toggle),
 			      SR->data->recording);
-  gtk_signal_handler_unblock_by_data(GTK_OBJECT(SR->record_toggle), SR);
+  g_signal_handlers_unblock_matched (SR->record_toggle, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, SR);
 
   if (!SR->data->recording && !SR->data->record_next) {
     gtk_idle_remove(SR->recordfunc_tag);

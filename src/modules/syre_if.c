@@ -105,8 +105,8 @@ syre_if_new(syre_if_data * sd)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(syre_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(syre_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 #endif
 
 #if 1
@@ -115,8 +115,8 @@ syre_if_new(syre_if_data * sd)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(syre_if), "destroy",
-		     GTK_SIGNAL_FUNC(syre_if_close_cb), syre_if);
+  g_signal_connect(G_OBJECT(syre_if), "destroy",
+		     G_CALLBACK(syre_if_close_cb), syre_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -135,8 +135,8 @@ syre_if_new(syre_if_data * sd)
   button = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), syre_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(startstop_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(startstop_cb), syre_if->data);
   gtk_widget_show(button);
 
   button = opsmenu_new((module *) syre_if->data, GTK_WIDGET(syre_if), syre_if_hide_cb,
@@ -180,8 +180,8 @@ syre_if_new(syre_if_data * sd)
 
   button = gtk_button_new_with_label("Copy\nAccented");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(copy_accented_cb), syre_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(copy_accented_cb), syre_if);
   gtk_widget_show(button);
 
   /*
@@ -242,8 +242,8 @@ syre_if_new(syre_if_data * sd)
 
   button = gtk_button_new_with_label("Copy\nUnaccented");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(copy_unaccented_cb), syre_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(copy_unaccented_cb), syre_if);
   gtk_widget_show(button);
 
   /*
@@ -309,20 +309,20 @@ syre_if_new(syre_if_data * sd)
 
   button = gtk_button_new_with_label("Clear");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(clear_harmonics_cb), syre_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(clear_harmonics_cb), syre_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Clear Odds");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(clear_odd_harmonics_cb), syre_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(clear_odd_harmonics_cb), syre_if);
   gtk_widget_show(button);
 
   button = gtk_button_new_with_label("Randomise");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(chaos_harmonics_cb), syre_if);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(chaos_harmonics_cb), syre_if);
   gtk_widget_show(button);
 
   frame = gtk_frame_new("Harmonics");
@@ -344,8 +344,8 @@ syre_if_new(syre_if_data * sd)
     snprintf(nc, sizeof (nc), "%d", i);
     syre_if->sliders[i] =
       slider_int_new(nc, &(syre_if->data->overtones[i].vol), 0, 32, 1);
-    gtk_signal_connect(GTK_OBJECT(SLIDER(syre_if->sliders[i])->adj), "value_changed",
-		       GTK_SIGNAL_FUNC(harmonics_changed_cb), syre_if->data);
+    g_signal_connect(G_OBJECT(SLIDER(syre_if->sliders[i])->adj), "value_changed",
+		       G_CALLBACK(harmonics_changed_cb), syre_if->data);
     gtk_box_pack_start(GTK_BOX(hbox3), syre_if->sliders[i], FALSE, FALSE, 0);
     gtk_widget_show(syre_if->sliders[i]);
   }
@@ -399,30 +399,30 @@ syre_if_new(syre_if_data * sd)
 
   button = gtk_radio_button_new_with_label(NULL, "sinwave");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(set_sinwave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(set_sinwave_cb), syre_if->data);
   gtk_widget_show(button);
 
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
   button = gtk_radio_button_new_with_label(rbgroup, "squarewave");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(set_squarewave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(set_squarewave_cb), syre_if->data);
   gtk_widget_show(button);
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
   button = gtk_radio_button_new_with_label(rbgroup, "sawtooth");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(set_sawtooth_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(set_sawtooth_cb), syre_if->data);
   gtk_widget_show(button);
   rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
   button = gtk_radio_button_new_with_label(rbgroup, "whitenoise");
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(set_wnwave_cb), syre_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(set_wnwave_cb), syre_if->data);
   gtk_widget_show(button);
 
   syre_if->env_tag = gtk_idle_add((GtkFunction) (get_envelopes), syre_if);

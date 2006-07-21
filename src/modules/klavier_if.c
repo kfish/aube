@@ -97,8 +97,8 @@ klavier_if_new(klavier * k)
      * as defined above. The data passed to the callback function is
      * NULL and is ignored in the callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(klavier_if), "delete_event",
-		     GTK_SIGNAL_FUNC(delete_event), NULL);
+  g_signal_connect(G_OBJECT(klavier_if), "delete_event",
+		     G_CALLBACK(delete_event), NULL);
 
 #endif
 
@@ -108,8 +108,8 @@ klavier_if_new(klavier * k)
      * This event occurs when we call gtk_widget_destroy() on the
      * window, or if we return "TRUE" in the "delete_event" callback. 
    */
-  gtk_signal_connect(GTK_OBJECT(klavier_if), "destroy",
-		     GTK_SIGNAL_FUNC(klavier_if_close_cb), klavier_if);
+  g_signal_connect(G_OBJECT(klavier_if), "destroy",
+		     G_CALLBACK(klavier_if_close_cb), klavier_if);
 #endif
 
   vbox2 = gtk_vbox_new(FALSE, 5);
@@ -123,8 +123,8 @@ klavier_if_new(klavier * k)
   button = gtk_toggle_button_new_with_label("On");
   gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), klavier_if->data->module.on);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(klavier_if_onoff_cb), klavier_if->data);
+  g_signal_connect(G_OBJECT(button), "clicked",
+		     G_CALLBACK(klavier_if_onoff_cb), klavier_if->data);
   gtk_widget_show(button);
 
   button = opsmenu_new((module *) klavier_if->data, GTK_WIDGET(klavier_if),
@@ -216,20 +216,20 @@ klavier_if_new(klavier * k)
 
   klav_set_klav_type(KLAV(klav), klavtype);
 
-  gtk_signal_connect(GTK_OBJECT(klav), "klavkey_press",
-		     GTK_SIGNAL_FUNC(klavkey_press_event),
+  g_signal_connect(G_OBJECT(klav), "klavkey_press",
+		     G_CALLBACK(klavkey_press_event),
 		     klavier_if);
 
-  gtk_signal_connect(GTK_OBJECT(klav), "klavkey_release",
-		     GTK_SIGNAL_FUNC(klavkey_release_event),
+  g_signal_connect(G_OBJECT(klav), "klavkey_release",
+		     G_CALLBACK(klavkey_release_event),
 		     klavier_if);
 
-  gtk_signal_connect(GTK_OBJECT(ebox), "key_press_event",
-		     GTK_SIGNAL_FUNC(klavkey_key_press_event),
+  g_signal_connect(G_OBJECT(ebox), "key_press_event",
+		     G_CALLBACK(klavkey_key_press_event),
 		     klavier_if);
 
-  gtk_signal_connect(GTK_OBJECT(ebox), "key_release_event",
-		     GTK_SIGNAL_FUNC(klavkey_key_release_event),
+  g_signal_connect(G_OBJECT(ebox), "key_release_event",
+		     G_CALLBACK(klavkey_key_release_event),
 		     klavier_if);
 
   /*

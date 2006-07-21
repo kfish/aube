@@ -218,7 +218,7 @@ shape_create_icon(char *xpm_file,
   gtk_widget_shape_combine_mask(window, gdk_pixmap_mask, px, py);
 
   icon_pos = g_new(CursorOffset, 1);
-  gtk_object_set_user_data(GTK_OBJECT(window), icon_pos);
+  gtk_object_set_user_data(G_OBJECT(window), "default",  icon_pos);
 
   gtk_widget_set_uposition(window, x, y);
   gtk_widget_show(window);
