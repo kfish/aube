@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <gdk_imlib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
