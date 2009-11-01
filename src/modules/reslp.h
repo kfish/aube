@@ -10,13 +10,13 @@
  */
 
 typedef struct {
-  unsigned int length;		/*
+	unsigned int length;	/*
 				   size of filter 
 				 */
-  float *history;		/*
+	float *history;		/*
 				   pointer to history in filter 
 				 */
-  float *coef;			/*
+	float *coef;		/*
 				   pointer to coefficients of filter 
 				 */
 } RESLP_FILTER;
@@ -26,31 +26,30 @@ typedef struct {
 				 */
 
 typedef struct {
-  double a0, a1, a2;		/*
+	double a0, a1, a2;	/*
 				   numerator coefficients 
 				 */
-  double b0, b1, b2;		/*
+	double b0, b1, b2;	/*
 				   denominator coefficients 
 				 */
 } BIQUAD;
 
-void szxform(
-	      double *a0, double *a1, double *a2,	/*
+void szxform(double *a0, double *a1, double *a2,	/*
 							   numerator coefficients 
 							 */
-	      double *b0, double *b1, double *b2,	/*
+	     double *b0, double *b1, double *b2,	/*
 							   denominator coefficients 
 							 */
-	      double fc,	/*
+	     double fc,		/*
 				   Filter cutoff frequency 
 				 */
-	      double fs,	/*
+	     double fs,		/*
 				   sampling rate 
 				 */
-	      double *k,	/*
+	     double *k,		/*
 				   overall gain factor 
 				 */
-	      float *coef);	/*
+	     float *coef);	/*
 				   pointer to 4 iir coefficients 
 				 */
 
@@ -59,6 +58,6 @@ float iir_filter(float input, RESLP_FILTER * iir);
 RESLP_FILTER *reslp_new();
 int reslp_calc(RESLP_FILTER * iir, double Q, double fc, double k);
 
-#endif /*
-          __RESLP_H__ 
-        */
+#endif				/*
+				   __RESLP_H__ 
+				 */

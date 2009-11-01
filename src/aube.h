@@ -50,14 +50,14 @@ typedef long bit64;
    Module types 
  */
 enum {
-  CONTROLLER,
-  SEQUENCER,
-  GENERATOR,
-  FILTER,
-  EFFECT,
-  MIXER,
-  OUTPUT,
-  LAST_UNIT_TYPE
+	CONTROLLER,
+	SEQUENCER,
+	GENERATOR,
+	FILTER,
+	EFFECT,
+	MIXER,
+	OUTPUT,
+	LAST_UNIT_TYPE
 };
 
 typedef struct _aube_type aube_type;
@@ -74,22 +74,22 @@ typedef struct _aube_sample aube_sample;
 
 #if 0
 struct _aube_type {
-  int type;
-  int instances;
-  char *type_label[TYPE_LABEL_LEN];
+	int type;
+	int instances;
+	char *type_label[TYPE_LABEL_LEN];
 };
 #endif
 
 struct _aube_data {
-  int nr_modules;
-  module *modules[MAX_UNITS];
-  int nr_channels;
+	int nr_modules;
+	module *modules[MAX_UNITS];
+	int nr_channels;
 #if 0
-  int nr_types;
-  aube_type types[MAX_TYPES];
+	int nr_types;
+	aube_type types[MAX_TYPES];
 #endif
-  channel *samples[MAX_SAMPLES];
-  int nr_samples;
+	channel *samples[MAX_SAMPLES];
+	int nr_samples;
 };
 
 #define CH_TYPE_SEQUENCE      0
@@ -97,33 +97,33 @@ struct _aube_data {
 #define CH_TYPE_AUDIO_SAMPLE  2
 
 struct _ch_parameters {
-  int ch_type;
-  union {
-    int sequence_data;
-    struct {
-      int nr_channels;
-      int bitrate;
-      int frequency;
-    } audio_stream_data;
-    struct {
-      int s_length;
-    } audio_sample_data;
-  } d;
+	int ch_type;
+	union {
+		int sequence_data;
+		struct {
+			int nr_channels;
+			int bitrate;
+			int frequency;
+		} audio_stream_data;
+		struct {
+			int s_length;
+		} audio_sample_data;
+	} d;
 };
 
 struct _channel {
-  ch_parameters parms;
-  module *module;
-  char u_label[LABEL_LEN];
-  void *data;
+	ch_parameters parms;
+	module *module;
+	char u_label[LABEL_LEN];
+	void *data;
 };
 
 struct _seq_channel {
-  int trigger;
-  int vol;
-  int pan;
-  int accent;
-  double pitch;
+	int trigger;
+	int vol;
+	int pan;
+	int accent;
+	double pitch;
 };
 
 /*
@@ -131,48 +131,48 @@ struct _seq_channel {
  * an associated type.
  */
 struct _input {
-  int ch_type;
-  channel *channel;
+	int ch_type;
+	channel *channel;
 };
 
 struct _module {
-  module_class *class;
-  /*int type;*/
-  int on;
-  void *has_if;			/*
+	module_class *class;
+	/*int type; */
+	int on;
+	void *has_if;		/*
 				   XXX: pointer to widget 
 				 */
-  char u_label[LABEL_LEN];
-  int last_tick;		/*
+	char u_label[LABEL_LEN];
+	int last_tick;		/*
 				   last tick calculated 
 				 */
-  int (*do_tick) (void *i);
-  int nr_inputs;
-  input *inputs[MAX_CHANNELS];
-  int nr_outputs;
-  channel *outputs[MAX_CHANNELS];
+	int (*do_tick) (void *i);
+	int nr_inputs;
+	input *inputs[MAX_CHANNELS];
+	int nr_outputs;
+	channel *outputs[MAX_CHANNELS];
 };
 
 struct _module_class {
-  int category;
-  int instances;
-  char *type_label;
-  char *u_name;
-  void (*class_init) ();
-  module *(*new_module) ();
-  module *(*clone_module) ();
-  int (*module_off) ();
-  int (*module_on) ();
-  int (*config_module) ();
-  GtkWidget *(*new_if) ();
-  GtkWidget *(*close_if) ();
-  GtkWidget *replace_menuitem;
+	int category;
+	int instances;
+	char *type_label;
+	char *u_name;
+	void (*class_init) ();
+	module *(*new_module) ();
+	module *(*clone_module) ();
+	int (*module_off) ();
+	int (*module_on) ();
+	int (*config_module) ();
+	GtkWidget *(*new_if) ();
+	GtkWidget *(*close_if) ();
+	GtkWidget *replace_menuitem;
 };
 
 aube_data *aube_data_new();
-module_class * aube_get_module_class(char * class_label);
+module_class *aube_get_module_class(char *class_label);
 int aube_module_add_if(module * m);
-module * aube_module_new_instance(module_class *mc);
+module *aube_module_new_instance(module_class * mc);
 int aube_add_module(module * module);
 int aube_remove_module(module * module);
 int aube_add_sample(channel * sample);
@@ -183,11 +183,11 @@ channel *new_output(int ch_type, module * m, char *label, void *data);
 channel *clone_output(channel * out0, module * m, void *data);
 int aube_module_clear_outputs(module * u);
 int aube_module_toggle(module * u);
-int aube_module_set_on(module *m, int on);
+int aube_module_set_on(module * m, int on);
 /*
    int aube_module_add_if(module *u);
  */
 int aube_module_remove_if(module * u);
 int aube_module_cmp_type(module * u1, module * u2);
 
-#endif /* __AUBE_H__  */
+#endif				/* __AUBE_H__  */

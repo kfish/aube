@@ -24,28 +24,28 @@ typedef struct _oss_out oss_out;
 typedef struct _oss_in oss_in;
 
 struct _oss_dev {
-  int file;
-  char devicename[DEVICENAME_LEN];
-  module *reader;		/* a line-in module */
-  module *writer;		/* a line-out module */
-  int mode;
-  int mask;
-  int format;
-  int stereo;
-  int frequency;
-  int numfrags;
-  int fragsize;
+	int file;
+	char devicename[DEVICENAME_LEN];
+	module *reader;		/* a line-in module */
+	module *writer;		/* a line-out module */
+	int mode;
+	int mask;
+	int format;
+	int stereo;
+	int frequency;
+	int numfrags;
+	int fragsize;
 };
 
 struct _oss_out {
-  module output_module;
-  oss_dev *dev;
+	module output_module;
+	oss_dev *dev;
 };
 
 struct _oss_in {
-  module input_module;
-  oss_dev *dev;
-  bit16 tick_buffer[2 * DEFAULT_FREQUENCY];	/* one second of sound */
+	module input_module;
+	oss_dev *dev;
+	bit16 tick_buffer[2 * DEFAULT_FREQUENCY];	/* one second of sound */
 };
 
 oss_out *oss_out_new(void);
@@ -63,4 +63,4 @@ int oss_dev_remove_reader(oss_dev * oss_d);
 extern module_class linein_mif;
 extern module_class lineout_mif;
 
-#endif /* _OSS_H_ */
+#endif				/* _OSS_H_ */

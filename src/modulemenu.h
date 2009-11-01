@@ -18,35 +18,36 @@ extern "C" {
 #define IS_UNITMENU(obj)       GTK_CHECK_TYPE (obj, modulemenu_get_type ())
 
 
-  typedef struct _Unitmenu Unitmenu;
-  typedef struct _UnitmenuClass UnitmenuClass;
+	typedef struct _Unitmenu Unitmenu;
+	typedef struct _UnitmenuClass UnitmenuClass;
 
-  typedef struct {
-    module *this_module;
-    module *selected_module;
-  } modulepack;
+	typedef struct {
+		module *this_module;
+		module *selected_module;
+	} modulepack;
 
-  struct _Unitmenu {
-    GtkMenu menu;
+	struct _Unitmenu {
+		GtkMenu menu;
 
-    int (*include_criterion) (module * u1, module * u2);
-    void (*select_action) (GtkWidget * widget, gpointer data);
-    modulepack *up;
-  };
+		int (*include_criterion) (module * u1, module * u2);
+		void (*select_action) (GtkWidget * widget, gpointer data);
+		modulepack *up;
+	};
 
-  struct _UnitmenuClass {
-    GtkMenuClass parent_class;
+	struct _UnitmenuClass {
+		GtkMenuClass parent_class;
 
-    void (*modulemenu) (Unitmenu * a);
-  };
+		void (*modulemenu) (Unitmenu * a);
+	};
 
-  GType modulemenu_get_type(void);
-  GtkWidget *modulemenu_new(module * this_module, int *include_criterion(), void *select_action());
+	GType modulemenu_get_type(void);
+	GtkWidget *modulemenu_new(module * this_module,
+				  int *include_criterion(),
+				  void *select_action());
 
 
 #ifdef __cplusplus
 }
-
 #endif				/*
 				   __cplusplus 
 				 */

@@ -15,28 +15,27 @@ extern "C" {
 #define IS_DELAY_IF(obj)       GTK_CHECK_TYPE (obj, delay_if_get_type ())
 
 
-  typedef struct _DelayIF DelayIF;
-  typedef struct _DelayIFClass DelayIFClass;
+	typedef struct _DelayIF DelayIF;
+	typedef struct _DelayIFClass DelayIFClass;
 
-  struct _DelayIF {
-    GtkWindow window;
+	struct _DelayIF {
+		GtkWindow window;
 
-    GtkWidget *replace_menuitem;
-    delay *data;
-  };
+		GtkWidget *replace_menuitem;
+		delay *data;
+	};
 
-  struct _DelayIFClass {
-    GtkWindowClass parent_class;
+	struct _DelayIFClass {
+		GtkWindowClass parent_class;
 
-    void (*delay_if) (DelayIF * a);
-  };
+		void (*delay_if) (DelayIF * a);
+	};
 
-  GType delay_if_get_type(void);
-  GtkWidget *delay_if_new(delay * dl);
-  void delay_if_close_cb(GtkWidget * widget, gpointer data);
+	GType delay_if_get_type(void);
+	GtkWidget *delay_if_new(delay * dl);
+	void delay_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-
 #endif				/* __DELAY_IF_H__ */

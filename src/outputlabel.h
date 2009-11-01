@@ -17,32 +17,31 @@ extern "C" {
 #define IS_OUTPUTLABEL(obj)       GTK_CHECK_TYPE (obj, outputlabel_get_type ())
 
 
-  typedef struct _Outputlabel Outputlabel;
-  typedef struct _OutputlabelClass OutputlabelClass;
+	typedef struct _Outputlabel Outputlabel;
+	typedef struct _OutputlabelClass OutputlabelClass;
 
-  struct _Outputlabel {
-    GtkFrame frame;
+	struct _Outputlabel {
+		GtkFrame frame;
 
-    module *module;
-    int output_i;
-    guint handler_id;
-    guint timeout_tag;
-    GtkWidget *levelmeter_left, *levelmeter_right;
-  };
+		module *module;
+		int output_i;
+		guint handler_id;
+		guint timeout_tag;
+		GtkWidget *levelmeter_left, *levelmeter_right;
+	};
 
-  struct _OutputlabelClass {
-    GtkWindowClass parent_class;
+	struct _OutputlabelClass {
+		GtkWindowClass parent_class;
 
-    void (*outputlabel) (Outputlabel * a);
-  };
+		void (*outputlabel) (Outputlabel * a);
+	};
 
-  GType outputlabel_get_type(void);
-  GtkWidget *outputlabel_new(module * module, int output_i);
+	GType outputlabel_get_type(void);
+	GtkWidget *outputlabel_new(module * module, int output_i);
 
 
 #ifdef __cplusplus
 }
-
 #endif				/*
 				   __cplusplus 
 				 */

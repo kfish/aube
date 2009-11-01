@@ -6,13 +6,13 @@
 #define MAX_INPUTS MAX_CHANNELS
 
 typedef struct {
-  module module;
-  bit16 tick_buffer[2 * PLAYBACK_FREQ];		/* one second of sound */
-  int nr_active_channels;
-  int vol[MAX_INPUTS];
-  int mute[MAX_INPUTS];
-  int master_vol;
-  int master_mute;
+	module module;
+	bit16 tick_buffer[2 * PLAYBACK_FREQ];	/* one second of sound */
+	int nr_active_channels;
+	int vol[MAX_INPUTS];
+	int mute[MAX_INPUTS];
+	int master_vol;
+	int master_mute;
 } general_mixer;
 
 general_mixer *general_mixer_new(void);
@@ -22,4 +22,4 @@ int general_mixer_remove_input(general_mixer * gm);
 
 extern module_class general_mixer_mif;
 
-#endif /* __GENERAL_MIXER_H__  */
+#endif				/* __GENERAL_MIXER_H__  */

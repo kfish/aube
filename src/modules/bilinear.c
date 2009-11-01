@@ -69,20 +69,19 @@
 #include <math.h>
 
 void prewarp(double *a0, double *a1, double *a2, double fc, double fs);
-void bilinear(
-	       double a0, double a1, double a2,		/*
-							   numerator coefficients 
-							 */
-	       double b0, double b1, double b2,		/*
-							   denominator coefficients 
-							 */
-	       double *k,	/*
+void bilinear(double a0, double a1, double a2,	/*
+						   numerator coefficients 
+						 */
+	      double b0, double b1, double b2,	/*
+						   denominator coefficients 
+						 */
+	      double *k,	/*
 				   overall gain factor 
 				 */
-	       double fs,	/*
+	      double fs,	/*
 				   sampling rate 
 				 */
-	       float *coef);	/*
+	      float *coef);	/*
 				   pointer to 4 iir coefficients 
 				 */
 
@@ -94,18 +93,15 @@ void bilinear(
  *      of it.
  * ----------------------------------------------------------
  */
-void 
-prewarp(
-	 double *a0, double *a1, double *a2,
-	 double fc, double fs)
+void prewarp(double *a0, double *a1, double *a2, double fc, double fs)
 {
-  double wp, pi;
+	double wp, pi;
 
-  pi = 4.0 * atan(1.0);
-  wp = 2.0 * fs * tan(pi * fc / fs);
+	pi = 4.0 * atan(1.0);
+	wp = 2.0 * fs * tan(pi * fc / fs);
 
-  *a2 = (*a2) / (wp * wp);
-  *a1 = (*a1) / wp;
+	*a2 = (*a2) / (wp * wp);
+	*a1 = (*a1) / wp;
 }
 
 
@@ -138,62 +134,60 @@ prewarp(
  *             On return, set coef z-domain coefficients
  * ----------------------------------------------------------
  */
-void 
-bilinear(
-	  double a0, double a1, double a2,	/*
+void bilinear(double a0, double a1, double a2,	/*
 						   numerator coefficients 
 						 */
-	  double b0, double b1, double b2,	/*
+	      double b0, double b1, double b2,	/*
 						   denominator coefficients 
 						 */
-	  double *k,		/*
+	      double *k,	/*
 				   overall gain factor 
 				 */
-	  double fs,		/*
+	      double fs,	/*
 				   sampling rate 
 				 */
-	  float *coef		/*
+	      float *coef	/*
 				   pointer to 4 iir coefficients 
 				 */
-)
+    )
 {
-  double ad, bd;
+	double ad, bd;
 
-  /*
-     alpha (Numerator in s-domain) 
-   */
-  ad = 4. * a2 * fs * fs + 2. * a1 * fs + a0;
-  /*
-     beta (Denominator in s-domain) 
-   */
-  bd = 4. * b2 * fs * fs + 2. * b1 * fs + b0;
+	/*
+	   alpha (Numerator in s-domain) 
+	 */
+	ad = 4. * a2 * fs * fs + 2. * a1 * fs + a0;
+	/*
+	   beta (Denominator in s-domain) 
+	 */
+	bd = 4. * b2 * fs * fs + 2. * b1 * fs + b0;
 
-  /*
-     update gain constant for this section 
-   */
-  *k *= ad / bd;
+	/*
+	   update gain constant for this section 
+	 */
+	*k *= ad / bd;
 
-  /*
-     Denominator 
-   */
-  *coef++ = (2. * b0 - 8. * b2 * fs * fs)
-    / bd;			/*
+	/*
+	   Denominator 
+	 */
+	*coef++ = (2. * b0 - 8. * b2 * fs * fs)
+	    / bd;		/*
 				   beta1 
 				 */
-  *coef++ = (4. * b2 * fs * fs - 2. * b1 * fs + b0)
-    / bd;			/*
+	*coef++ = (4. * b2 * fs * fs - 2. * b1 * fs + b0)
+	    / bd;		/*
 				   beta2 
 				 */
 
-  /*
-     Nominator 
-   */
-  *coef++ = (2. * a0 - 8. * a2 * fs * fs)
-    / ad;			/*
+	/*
+	   Nominator 
+	 */
+	*coef++ = (2. * a0 - 8. * a2 * fs * fs)
+	    / ad;		/*
 				   alpha1 
 				 */
-  *coef = (4. * a2 * fs * fs - 2. * a1 * fs + a0)
-    / ad;			/*
+	*coef = (4. * a2 * fs * fs - 2. * a1 * fs + a0)
+	    / ad;		/*
 				   alpha2 
 				 */
 }
@@ -214,31 +208,29 @@ bilinear(
  * Note: frequencies are in Hz.
  * ----------------------------------------------------------
  */
-void 
-szxform(
-	 double *a0, double *a1, double *a2,	/*
-						   numerator coefficients 
-						 */
-	 double *b0, double *b1, double *b2,	/*
-						   denominator coefficients 
-						 */
-	 double fc,		/*
+void szxform(double *a0, double *a1, double *a2,	/*
+							   numerator coefficients 
+							 */
+	     double *b0, double *b1, double *b2,	/*
+							   denominator coefficients 
+							 */
+	     double fc,		/*
 				   Filter cutoff frequency 
 				 */
-	 double fs,		/*
+	     double fs,		/*
 				   sampling rate 
 				 */
-	 double *k,		/*
+	     double *k,		/*
 				   overall gain factor 
 				 */
-	 float *coef)
+	     float *coef)
 {				/*
 				   pointer to 4 iir coefficients 
 				 */
-  /*
-     Calculate a1 and a2 and overwrite the original values 
-   */
-  prewarp(a0, a1, a2, fc, fs);
-  prewarp(b0, b1, b2, fc, fs);
-  bilinear(*a0, *a1, *a2, *b0, *b1, *b2, k, fs, coef);
+	/*
+	   Calculate a1 and a2 and overwrite the original values 
+	 */
+	prewarp(a0, a1, a2, fc, fs);
+	prewarp(b0, b1, b2, fc, fs);
+	bilinear(*a0, *a1, *a2, *b0, *b1, *b2, k, fs, coef);
 }

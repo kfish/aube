@@ -15,27 +15,26 @@ extern "C" {
 #define IS_WHITENOISE_IF(obj)       GTK_CHECK_TYPE (obj, whitenoise_if_get_type ())
 
 
-  typedef struct _WhitenoiseIF WhitenoiseIF;
-  typedef struct _WhitenoiseIFClass WhitenoiseIFClass;
+	typedef struct _WhitenoiseIF WhitenoiseIF;
+	typedef struct _WhitenoiseIFClass WhitenoiseIFClass;
 
-  struct _WhitenoiseIF {
-    GtkWindow window;
+	struct _WhitenoiseIF {
+		GtkWindow window;
 
-    whitenoise *data;
-  };
+		whitenoise *data;
+	};
 
-  struct _WhitenoiseIFClass {
-    GtkWindowClass parent_class;
+	struct _WhitenoiseIFClass {
+		GtkWindowClass parent_class;
 
-    void (*whitenoise_if) (WhitenoiseIF * a);
-  };
+		void (*whitenoise_if) (WhitenoiseIF * a);
+	};
 
-  GType whitenoise_if_get_type(void);
-  GtkWidget *whitenoise_if_new(whitenoise * wn);
-  void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
+	GType whitenoise_if_get_type(void);
+	GtkWidget *whitenoise_if_new(whitenoise * wn);
+	void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-
-#endif  /* __WHITENOISE_IF_H__ */
+#endif				/* __WHITENOISE_IF_H__ */

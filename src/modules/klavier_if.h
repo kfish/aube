@@ -15,27 +15,26 @@ extern "C" {
 #define IS_KLAVIER_IF(obj)       GTK_CHECK_TYPE (obj, klavier_if_get_type ())
 
 
-  typedef struct _KlavierIF KlavierIF;
-  typedef struct _KlavierIFClass KlavierIFClass;
+	typedef struct _KlavierIF KlavierIF;
+	typedef struct _KlavierIFClass KlavierIFClass;
 
-  struct _KlavierIF {
-    GtkWindow window;
+	struct _KlavierIF {
+		GtkWindow window;
 
-    klavier *data;
-  };
+		klavier *data;
+	};
 
-  struct _KlavierIFClass {
-    GtkWindowClass parent_class;
+	struct _KlavierIFClass {
+		GtkWindowClass parent_class;
 
-    void (*klavier_if) (KlavierIF * a);
-  };
+		void (*klavier_if) (KlavierIF * a);
+	};
 
-  GType klavier_if_get_type(void);
-  GtkWidget *klavier_if_new(klavier * k);
-  void klavier_if_close_cb(GtkWidget * widget, gpointer data);
+	GType klavier_if_get_type(void);
+	GtkWidget *klavier_if_new(klavier * k);
+	void klavier_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
-
 #endif				/* __cplusplus */
 #endif				/* __KLAVIER_IF_H__ */

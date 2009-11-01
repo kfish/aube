@@ -7,7 +7,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif				/* __cplusplus */
 
 
 #define ATONAL_IF(obj)          GTK_CHECK_CAST (obj, atonal_if_get_type (), AtonalIF)
@@ -15,36 +15,33 @@ extern "C" {
 #define IS_ATONAL_IF(obj)       GTK_CHECK_TYPE (obj, atonal_if_get_type ())
 
 
-typedef struct _AtonalIF       AtonalIF;
-typedef struct _AtonalIFClass  AtonalIFClass;
+	typedef struct _AtonalIF AtonalIF;
+	typedef struct _AtonalIFClass AtonalIFClass;
 
-typedef struct {
-  int index;
-  GtkWidget *button;
-} AtButton;
-  
-struct _AtonalIF
-{
-  GtkWindow window;
-  
-  AtButton buttons[AT_LENGTH];
+	typedef struct {
+		int index;
+		GtkWidget *button;
+	} AtButton;
 
-  atonal *data;
-};
+	struct _AtonalIF {
+		GtkWindow window;
 
-struct _AtonalIFClass
-{
-  GtkWindowClass parent_class;
+		AtButton buttons[AT_LENGTH];
 
-  void (* atonal_if) (AtonalIF *a);
-};
+		atonal *data;
+	};
 
-GType         atonal_if_get_type        (void);
-GtkWidget*     atonal_if_new             (atonal *rsq);
-void atonal_if_close_cb(GtkWidget *widget, gpointer data);
+	struct _AtonalIFClass {
+		GtkWindowClass parent_class;
+
+		void (*atonal_if) (AtonalIF * a);
+	};
+
+	GType atonal_if_get_type(void);
+	GtkWidget *atonal_if_new(atonal * rsq);
+	void atonal_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
-
-#endif /* __ATONAL_IF_H__ */
+#endif				/* __cplusplus */
+#endif				/* __ATONAL_IF_H__ */

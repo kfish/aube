@@ -15,26 +15,26 @@ extern "C" {
 #define IS_XFADER_IF(obj)       GTK_CHECK_TYPE (obj, xfader_if_get_type ())
 
 
-  typedef struct _XFaderIF XFaderIF;
-  typedef struct _XFaderIFClass XFaderIFClass;
+	typedef struct _XFaderIF XFaderIF;
+	typedef struct _XFaderIFClass XFaderIFClass;
 
-  struct _XFaderIF {
-    GtkWindow window;
+	struct _XFaderIF {
+		GtkWindow window;
 
-    xfader *data;
-  };
+		xfader *data;
+	};
 
-  struct _XFaderIFClass {
-    GtkWindowClass parent_class;
+	struct _XFaderIFClass {
+		GtkWindowClass parent_class;
 
-    void (*xfader_if) (XFaderIF * a);
-  };
+		void (*xfader_if) (XFaderIF * a);
+	};
 
-  GType xfader_if_get_type(void);
-  GtkWidget *xfader_if_new(xfader * xf);
-  void xfader_if_close_cb(GtkWidget * widget, gpointer data);
+	GType xfader_if_get_type(void);
+	GtkWidget *xfader_if_new(xfader * xf);
+	void xfader_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-#endif  /* __XFADER_IF_H__ */
+#endif				/* __XFADER_IF_H__ */

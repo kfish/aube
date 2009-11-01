@@ -18,28 +18,28 @@ extern "C" {
 #define IS_OPSMENU(obj)       GTK_CHECK_TYPE (obj, opsmenu_get_type ())
 
 
-  typedef struct _Opsmenu Opsmenu;
-  typedef struct _OpsmenuClass OpsmenuClass;
+	typedef struct _Opsmenu Opsmenu;
+	typedef struct _OpsmenuClass OpsmenuClass;
 
-  struct _Opsmenu {
-    GtkMenuBar menubar;
+	struct _Opsmenu {
+		GtkMenuBar menubar;
 
-    module *module;
-  };
+		module *module;
+	};
 
-  struct _OpsmenuClass {
-    GtkMenuBarClass parent_class;
+	struct _OpsmenuClass {
+		GtkMenuBarClass parent_class;
 
-    void (*opsmenu) (Opsmenu * a);
-  };
+		void (*opsmenu) (Opsmenu * a);
+	};
 
-  GType opsmenu_get_type(void);
-  GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if, void *if_hide_cb, void *if_close_cb);
+	GType opsmenu_get_type(void);
+	GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if,
+			       void *if_hide_cb, void *if_close_cb);
 
 
 #ifdef __cplusplus
 }
-
 #endif				/*
 				   __cplusplus 
 				 */

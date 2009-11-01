@@ -15,27 +15,26 @@ extern "C" {
 #define IS_PANNER_IF(obj)       GTK_CHECK_TYPE (obj, panner_if_get_type ())
 
 
-  typedef struct _PannerIF PannerIF;
-  typedef struct _PannerIFClass PannerIFClass;
+	typedef struct _PannerIF PannerIF;
+	typedef struct _PannerIFClass PannerIFClass;
 
-  struct _PannerIF {
-    GtkWindow window;
+	struct _PannerIF {
+		GtkWindow window;
 
-    panner *data;
-  };
+		panner *data;
+	};
 
-  struct _PannerIFClass {
-    GtkWindowClass parent_class;
+	struct _PannerIFClass {
+		GtkWindowClass parent_class;
 
-    void (*panner_if) (PannerIF * a);
-  };
+		void (*panner_if) (PannerIF * a);
+	};
 
-  GType panner_if_get_type(void);
-  GtkWidget *panner_if_new(panner * pn);
-  void panner_if_close_cb(GtkWidget * widget, gpointer data);
+	GType panner_if_get_type(void);
+	GtkWidget *panner_if_new(panner * pn);
+	void panner_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-
 #endif				/* __PANNER_IF_H__ */

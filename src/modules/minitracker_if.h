@@ -15,25 +15,25 @@ extern "C" {
 #define IS_MINITRACKER_IF(obj)       GTK_CHECK_TYPE (obj, minitracker_if_get_type ())
 
 
-  typedef struct _MinitrackerIF MinitrackerIF;
-  typedef struct _MinitrackerIFClass MinitrackerIFClass;
+	typedef struct _MinitrackerIF MinitrackerIF;
+	typedef struct _MinitrackerIFClass MinitrackerIFClass;
 
-  struct _MinitrackerIF {
-    GtkWindow window;
+	struct _MinitrackerIF {
+		GtkWindow window;
 
-    GtkWidget *tl;
-    minitracker *data;
-  };
+		GtkWidget *tl;
+		minitracker *data;
+	};
 
-  struct _MinitrackerIFClass {
-    GtkWindowClass parent_class;
+	struct _MinitrackerIFClass {
+		GtkWindowClass parent_class;
 
-    void (*minitracker_if) (MinitrackerIF * a);
-  };
+		void (*minitracker_if) (MinitrackerIF * a);
+	};
 
-  GType minitracker_if_get_type(void);
-  GtkWidget *minitracker_if_new(minitracker * rsq);
-  void minitracker_if_close_cb(GtkWidget * widget, gpointer data);
+	GType minitracker_if_get_type(void);
+	GtkWidget *minitracker_if_new(minitracker * rsq);
+	void minitracker_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }

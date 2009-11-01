@@ -21,24 +21,24 @@
 
 
 typedef struct {
-  int note;
-  int portamento_toggle;	/* boolean */
-  int accent;
+	int note;
+	int portamento_toggle;	/* boolean */
+	int accent;
 } sequence_data;
 
 typedef struct {
-  module module;
-  seq_channel seq_ch;
-  sequence_data sequence[SEQ_LENGTH];
-  int wi;			/* waveform index */
-  int bi;			/* beat index */
-  int vol;
-  int pan;
-  int tune;
-  int portamento;
-  int seq_on;
-  int seqi;
-  int port_sub, port_val, port_delta;
+	module module;
+	seq_channel seq_ch;
+	sequence_data sequence[SEQ_LENGTH];
+	int wi;			/* waveform index */
+	int bi;			/* beat index */
+	int vol;
+	int pan;
+	int tune;
+	int portamento;
+	int seq_on;
+	int seqi;
+	int port_sub, port_val, port_delta;
 } minitracker;
 
 extern module_class minitracker_mif;
@@ -59,4 +59,4 @@ void seq_transpose_u1(minitracker * syre_if);
 void seq_transpose_d1(minitracker * syre_if);
 void seq_transpose(minitracker * syre_if, int t);
 
-#endif /* __MINITRACKER_H__  */
+#endif				/* __MINITRACKER_H__  */

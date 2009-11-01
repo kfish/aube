@@ -17,32 +17,32 @@
 
 
 typedef struct {
-  int si, r;
-  int vol;
+	int si, r;
+	int vol;
 } harmonic;
 
 typedef struct {
-  module module;
-  bit16 tick_buffer[2 * PLAYBACK_FREQ];		/* one second of sound */
-  harmonic overtones[NUM_HARMONICS];
-  bit16 *current_wave;
-  bit32 waveform[SINTAB_LEN];
-  int waveform_length;
-  float wi;			/* waveform index */
-  int bi;			/* beat index */
-  int tune;
+	module module;
+	bit16 tick_buffer[2 * PLAYBACK_FREQ];	/* one second of sound */
+	harmonic overtones[NUM_HARMONICS];
+	bit16 *current_wave;
+	bit32 waveform[SINTAB_LEN];
+	int waveform_length;
+	float wi;		/* waveform index */
+	int bi;			/* beat index */
+	int tune;
 #if 0
-  int vol;
-  int pan;
+	int vol;
+	int pan;
 #endif
-  float amp_envelope[ENVELOPE_LEN];
-  float pitch_envelope[ENVELOPE_LEN];
-  float amp_envelope_accented[ENVELOPE_LEN];
-  float pitch_envelope_accented[ENVELOPE_LEN];
-  float freq_envelope[ENVELOPE_LEN];
-  int env_i;
-  int cleanbuffer;		/* boolean, true if buffer all zero */
-  int harmonics_changed;	/* boolean */
+	float amp_envelope[ENVELOPE_LEN];
+	float pitch_envelope[ENVELOPE_LEN];
+	float amp_envelope_accented[ENVELOPE_LEN];
+	float pitch_envelope_accented[ENVELOPE_LEN];
+	float freq_envelope[ENVELOPE_LEN];
+	int env_i;
+	int cleanbuffer;	/* boolean, true if buffer all zero */
+	int harmonics_changed;	/* boolean */
 } syre_if_data;
 
 void syre_if_data_init();
@@ -56,4 +56,4 @@ void clear_odd_harmonics(syre_if_data * syre_if);
 
 extern module_class syre_mif;
 
-#endif /* __SYRE_H__  */
+#endif				/* __SYRE_H__  */

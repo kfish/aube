@@ -15,31 +15,30 @@ extern "C" {
 #define IS_FILTERRESLP_IF(obj)       GTK_CHECK_TYPE (obj, filter_reslp_if_get_type ())
 
 
-  typedef struct _FilterResLP_IF FilterResLP_IF;
-  typedef struct _FilterResLP_IFClass FilterResLP_IFClass;
+	typedef struct _FilterResLP_IF FilterResLP_IF;
+	typedef struct _FilterResLP_IFClass FilterResLP_IFClass;
 
-  struct _FilterResLP_IF {
-    GtkWindow window;
+	struct _FilterResLP_IF {
+		GtkWindow window;
 
-    GtkWidget *resonance_env_curve;
-    GtkWidget *cutoff_env_curve;
+		GtkWidget *resonance_env_curve;
+		GtkWidget *cutoff_env_curve;
 
-    gint env_tag;
-    filter_reslp *data;
-  };
+		gint env_tag;
+		filter_reslp *data;
+	};
 
-  struct _FilterResLP_IFClass {
-    GtkWindowClass parent_class;
+	struct _FilterResLP_IFClass {
+		GtkWindowClass parent_class;
 
-    void (*filter_reslp_if) (FilterResLP_IF * a);
-  };
+		void (*filter_reslp_if) (FilterResLP_IF * a);
+	};
 
-  GType filter_reslp_if_get_type(void);
-  GtkWidget *filter_reslp_if_new(filter_reslp * fr);
-  void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data);
+	GType filter_reslp_if_get_type(void);
+	GtkWidget *filter_reslp_if_new(filter_reslp * fr);
+	void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-
-#endif	/* __FILTERRESLP_IF_H__ */
+#endif				/* __FILTERRESLP_IF_H__ */

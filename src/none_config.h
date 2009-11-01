@@ -19,27 +19,26 @@ extern "C" {
 #define IS_NONE_CONFIG(obj)       GTK_CHECK_TYPE (obj, none_config_get_type ())
 
 
-  typedef struct _NoneConfig NoneConfig;
-  typedef struct _NoneConfigClass NoneConfigClass;
+	typedef struct _NoneConfig NoneConfig;
+	typedef struct _NoneConfigClass NoneConfigClass;
 
-  struct _NoneConfig {
-    GtkWindow window;
-  };
+	struct _NoneConfig {
+		GtkWindow window;
+	};
 
-  struct _NoneConfigClass {
-    GtkWindowClass parent_class;
+	struct _NoneConfigClass {
+		GtkWindowClass parent_class;
 
-    void (*none_config) (NoneConfig * a);
-  };
+		void (*none_config) (NoneConfig * a);
+	};
 
-  void none_config_cb(module * u);
+	void none_config_cb(module * u);
 
-  GType none_config_get_type(void);
-  GtkWidget *none_config_new(module * u);
+	GType none_config_get_type(void);
+	GtkWidget *none_config_new(module * u);
 
 #ifdef __cplusplus
 }
-
 #endif				/*
 				   __cplusplus 
 				 */

@@ -16,29 +16,28 @@ extern "C" {
 #define IS_LINEIN_IF(obj)       GTK_CHECK_TYPE (obj, linein_if_get_type ())
 
 
-  typedef struct _LINEINIF LINEINIF;
-  typedef struct _LINEINIFClass LINEINIFClass;
+	typedef struct _LINEINIF LINEINIF;
+	typedef struct _LINEINIFClass LINEINIFClass;
 
-  struct _LINEINIF {
-    GtkWindow window;
+	struct _LINEINIF {
+		GtkWindow window;
 
-    GtkWidget *inputs_om;
-    GtkWidget *inputsmenu;
-    oss_in *data;
-  };
+		GtkWidget *inputs_om;
+		GtkWidget *inputsmenu;
+		oss_in *data;
+	};
 
-  struct _LINEINIFClass {
-    GtkWindowClass parent_class;
+	struct _LINEINIFClass {
+		GtkWindowClass parent_class;
 
-    void (*linein_if) (LINEINIF * a);
-  };
+		void (*linein_if) (LINEINIF * a);
+	};
 
-  GType linein_if_get_type(void);
-  GtkWidget *linein_if_new(oss_in * oss_p);
-  void linein_if_close_cb(GtkWidget * widget, gpointer data);
+	GType linein_if_get_type(void);
+	GtkWidget *linein_if_new(oss_in * oss_p);
+	void linein_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
-
 #endif				/* __cplusplus */
 #endif				/* __LINEIN_IF_H__ */

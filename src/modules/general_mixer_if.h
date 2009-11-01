@@ -15,29 +15,28 @@ extern "C" {
 #define IS_GENERAL_MIXER_IF(obj)       GTK_CHECK_TYPE (obj, general_mixer_if_get_type ())
 
 
-  typedef struct _GeneralMixerIF GeneralMixerIF;
-  typedef struct _GeneralMixerIFClass GeneralMixerIFClass;
+	typedef struct _GeneralMixerIF GeneralMixerIF;
+	typedef struct _GeneralMixerIFClass GeneralMixerIFClass;
 
-  struct _GeneralMixerIF {
-    GtkWindow window;
+	struct _GeneralMixerIF {
+		GtkWindow window;
 
-    GtkWidget *hbox;
-    GtkWidget *vboxes[MAX_INPUTS];
-    general_mixer *data;
-  };
+		GtkWidget *hbox;
+		GtkWidget *vboxes[MAX_INPUTS];
+		general_mixer *data;
+	};
 
-  struct _GeneralMixerIFClass {
-    GtkWindowClass parent_class;
+	struct _GeneralMixerIFClass {
+		GtkWindowClass parent_class;
 
-    void (*general_mixer_if) (GeneralMixerIF * a);
-  };
+		void (*general_mixer_if) (GeneralMixerIF * a);
+	};
 
-  GType general_mixer_if_get_type(void);
-  GtkWidget *general_mixer_if_new(general_mixer * xf);
-  void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
+	GType general_mixer_if_get_type(void);
+	GtkWidget *general_mixer_if_new(general_mixer * xf);
+	void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-
-#endif  /* __GENERAL_MIXER_IF_H__ */
+#endif				/* __GENERAL_MIXER_IF_H__ */

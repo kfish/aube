@@ -8,4 +8,4 @@ void generate_sawtooth(void);
 void generate_sinwave(void);
 void generate_wnwave(void);
 
-#endif /* __WAVES_H__ */
+#endif				/* __WAVES_H__ */
