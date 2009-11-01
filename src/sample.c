@@ -12,7 +12,7 @@
 #include "aube.h"
 #include "sample.h"
 
-int sample_load(char *filename)
+int sample_load(const char *filename)
 {
 #ifdef HAVE_LIBSNDFILE
 	sf_count_t framecount;
@@ -81,7 +81,7 @@ int sample_load(char *filename)
 #endif
 }
 
-int sample_save(channel * channel, char *filename)
+int sample_save(channel * channel, const char *filename)
 {
 #ifdef HAVE_LIBSNDFILE
 	sf_count_t frameCount;
