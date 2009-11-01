@@ -11,7 +11,7 @@ test -z "$srcdir" && srcdir=.
 cd "$srcdir"
 DIE=0
 
-#ACLOCAL_FLAGS="-I $srcdir/m4"
+ACLOCAL_FLAGS="-I $srcdir/m4"
 
 echo "checking for autoconf... "
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {

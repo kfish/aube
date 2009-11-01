@@ -59,8 +59,11 @@ if test "x$ac_cv_prog_gcc" = xyes ; then
 
 fi
 
+SHAVE_INIT([shave])
 
 AC_OUTPUT(
+shave/shave
+shave/shave-libtool
 Makefile
 src/Makefile
 src/modules/Makefile
