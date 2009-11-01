@@ -12,7 +12,6 @@ G_BEGIN_DECLS
 #define PANNER_IF_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, panner_if_get_type (), PannerIFClass)
 #define IS_PANNER_IF(obj)       GTK_CHECK_TYPE (obj, panner_if_get_type ())
 
-
 typedef struct _PannerIF PannerIF;
 typedef struct _PannerIFClass PannerIFClass;
 

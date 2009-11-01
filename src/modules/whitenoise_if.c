@@ -35,7 +35,7 @@ GType whitenoise_if_get_type(void)
 			(GInstanceInitFunc) whitenoise_if_init,
 		};
 
-		b_type = g_type_register_static(GTK_TYPE_WINDOW,
+		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"WhitenoiseIF",
 						&b_info, 0);
 	}

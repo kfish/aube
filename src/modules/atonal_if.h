@@ -40,4 +40,4 @@ void atonal_if_close_cb(GtkWidget * widget, gpointer data);
 
 G_END_DECLS
 
-#endif				/* __ATONAL_IF_H__ */
+#endif /* __ATONAL_IF_H__ */

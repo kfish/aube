@@ -41,7 +41,7 @@ GType general_mixer_if_get_type(void)
 			(GInstanceInitFunc) general_mixer_if_init,
 		};
 
-		b_type = g_type_register_static(GTK_TYPE_WINDOW,
+		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"GeneralMixerIF",
 						&b_info, 0);
 	}

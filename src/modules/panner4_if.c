@@ -36,7 +36,7 @@ GType panner4_if_get_type(void)
 			(GInstanceInitFunc) panner4_if_init,
 		};
 
-		b_type = g_type_register_static(GTK_TYPE_WINDOW,
+		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"Panner4IF", &b_info, 0);
 	}
 	return b_type;

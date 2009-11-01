@@ -3,46 +3,42 @@
 
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#include "modulewindow.h"
 #include "drummachine.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif				/* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define DRUMMACHINE_IF(obj)          GTK_CHECK_CAST (obj, drummachine_if_get_type (), DrumMachineIF)
 #define DRUMMACHINE_IF_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, drummachine_if_get_type (), DrumMachineIFClass)
 #define IS_DRUMMACHINE_IF(obj)       GTK_CHECK_TYPE (obj, drummachine_if_get_type ())
 
+typedef struct _DrumMachineIF DrumMachineIF;
+typedef struct _DrumMachineIFClass DrumMachineIFClass;
 
-	typedef struct _DrumMachineIF DrumMachineIF;
-	typedef struct _DrumMachineIFClass DrumMachineIFClass;
+typedef struct {
+	/*    int index; */
+	GtkWidget *button;
+} DrumButton;
 
-	typedef struct {
-		/*    int index; */
-		GtkWidget *button;
-	} DrumButton;
+struct _DrumMachineIF {
+	ModuleWindow window;
 
-	struct _DrumMachineIF {
-		GtkWindow window;
+	GtkWidget *clear_buttons[MAX_CHANNELS];
+	DrumButton buttons[MAX_CHANNELS][DM_LENGTH];
 
-		GtkWidget *clear_buttons[MAX_CHANNELS];
-		DrumButton buttons[MAX_CHANNELS][DM_LENGTH];
+	drummachine *data;
+};
 
-		drummachine *data;
-	};
+struct _DrumMachineIFClass {
+	ModuleWindowClass parent_class;
 
-	struct _DrumMachineIFClass {
-		GtkWindowClass parent_class;
+	void (*drummachine_if) (DrumMachineIF * a);
+};
 
-		void (*drummachine_if) (DrumMachineIF * a);
-	};
+GType drummachine_if_get_type(void);
+GtkWidget *drummachine_if_new(drummachine * rsq);
+void drummachine_if_close_cb(GtkWidget * widget, gpointer data);
 
-	GType drummachine_if_get_type(void);
-	GtkWidget *drummachine_if_new(drummachine * rsq);
-	void drummachine_if_close_cb(GtkWidget * widget, gpointer data);
+G_END_DECLS
 
-#ifdef __cplusplus
-}
-#endif				/* __cplusplus */
-#endif				/* __DRUMMACHINE_IF_H__ */
+#endif /* __DRUMMACHINE_IF_H__ */

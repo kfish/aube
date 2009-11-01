@@ -47,7 +47,7 @@ GType minimaube_if_get_type(void)
 			(GInstanceInitFunc) minimaube_if_init,
 		};
 
-		b_type = g_type_register_static(GTK_TYPE_WINDOW,
+		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"MiniMaubeIF", &b_info, 0);
 	}
 	return b_type;
