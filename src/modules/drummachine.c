@@ -44,7 +44,6 @@ module_class drummachine_mif = {
 drummachine *drummachine_new()
 {
 	drummachine *s;
-	gchar buf[4];
 	gint i;
 
 	s = (drummachine *) malloc(sizeof(drummachine));
@@ -57,9 +56,8 @@ drummachine *drummachine_new()
 		s->module.outputs[i]->parms.ch_type = CH_TYPE_SEQUENCE;
 		s->module.outputs[i]->data =
 		    (seq_channel *) (&(s->seq_ch[i]));
-		snprintf(buf, 4, "%d", i);
 		snprintf(s->module.outputs[i]->u_label,
-			 sizeof(s->module.outputs[i]->u_label), buf);
+			 sizeof(s->module.outputs[i]->u_label), "%d", i);
 		s->module.outputs[i]->module = (module *) s;
 	}
 	aube_module_clear_outputs((module *) s);
@@ -85,7 +83,6 @@ drummachine *drummachine_clone(drummachine * orsq)
 {
 	drummachine *s;
 	gint i;
-	gchar buf[4];
 
 	s = (drummachine *) malloc(sizeof(drummachine));
 	memcpy(s, orsq, sizeof(drummachine));
@@ -98,9 +95,8 @@ drummachine *drummachine_clone(drummachine * orsq)
 		s->module.outputs[i]->data =
 		    (seq_channel *) (&(s->seq_ch[i]));
 		s->module.outputs[i]->module = (module *) s;
-		snprintf(buf, sizeof(buf), "%d", i);
 		snprintf(s->module.outputs[i]->u_label,
-			 sizeof(s->module.outputs[i]->u_label), buf);
+			 sizeof(s->module.outputs[i]->u_label), "%d", i);
 	}
 	aube_module_clear_outputs((module *) s);
 	snprintf(s->module.u_label, sizeof(s->module.u_label),
