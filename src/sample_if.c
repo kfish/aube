@@ -43,7 +43,7 @@ void sample_load_help_cb(GtkWidget * widget, gpointer data)
 }
 
 
-void sample_load_cb(GtkWidget * wiget, gpointer data)
+void sample_load_cb(GtkWidget * widget, gpointer data)
 {
 	GtkWidget *filesel;
 
@@ -95,7 +95,7 @@ void sample_save_help_cb(GtkWidget * widget, gpointer data)
 {
 }
 
-void sample_save_cb(GtkWidget * wiget, gpointer data)
+void sample_save_cb(GtkWidget * widget, gpointer data)
 {
 	GtkWidget *filesel;
 
