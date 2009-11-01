@@ -476,9 +476,8 @@ void sample_recorder_if_add_sample(GtkWidget * widget, gpointer data)
 {
 	SampleRecorderIF *SR = (SampleRecorderIF *) data;
 	sample_recorder *sr = SR->data;
+        const gchar * samplename;
 
-	sample_recorder_add_sample(sr,
-				   gtk_entry_get_text(GTK_ENTRY
-						      (SR->
-						       samplename_entry)));
+        samplename = gtk_entry_get_text(GTK_ENTRY (SR->samplename_entry));
+	sample_recorder_add_sample(sr, samplename);
 }

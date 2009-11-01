@@ -194,7 +194,7 @@ void sample_recorder_stop_recording(sample_recorder * sr)
 	}
 }
 
-void sample_recorder_add_sample(sample_recorder * sr, char *samplename)
+void sample_recorder_add_sample(sample_recorder * sr, const char *samplename)
 {
 	channel *ch;
 

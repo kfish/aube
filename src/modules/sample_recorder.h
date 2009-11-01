@@ -24,7 +24,7 @@ typedef struct {
 sample_recorder *sample_recorder_new(void);
 sample_recorder *sample_recorder_clone(sample_recorder * osr);
 void sample_recorder_stop_recording(sample_recorder * sr);
-void sample_recorder_add_sample(sample_recorder * sr, char *samplename);
+void sample_recorder_add_sample(sample_recorder * sr, const char *samplename);
 
 extern module_class sample_recorder_mif;
 
