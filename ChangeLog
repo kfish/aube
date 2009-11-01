@@ -6,7 +6,7 @@ Wed May 15 13:38:13 EST 2002 Conrad Parker <conrad@metadecks.org>
 Tue Mar 19 16:10:47 EST 2002 Conrad Parker <conrad@metadecks.org>
 
 	* Tracked down bugs in oss line out exhibited on dodgy AC97 driver
-	
+
 Fri Mar 15 03:14:08 EST 2002 Conrad Parker <conrad@metadecks.org>
 
 	* Made buttons to launch modules, rather than doing so from a menu
@@ -41,8 +41,7 @@ Thu Mar 25 11:23:25 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
 
 Mon Mar 22 00:10:23 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
 
-	* Loading/saving of modules, storing only their
-	interconnections.
+	* Loading/saving of modules, storing only their interconnections.
 	* more cleanups in aube.h, removed dynamic module typing
 
 Thu Mar 18 19:16:35 EST 1999 Conrad Parker <conradp@cse.unsw.edu.au>
@@ -102,7 +101,7 @@ Sat Oct  3 20:40:56 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
 Wed Aug 19 04:10:20 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
 
 	* Fixed niggly autoconf bugs that were particular to my setup. Thanks
-        to raster for this :)
+	  to raster for this :)
 
 Sun Aug  9 11:52:38 EST 1998 Conrad Parker <conradp@cse.unsw.edu.au>
 
