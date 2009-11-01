@@ -46,8 +46,10 @@ void sample_load_help_cb(GtkWidget * widget, gpointer data)
 void sample_load_cb(GtkWidget * widget, gpointer data)
 {
 	GtkWidget *filesel;
+        int status;
 
-	chdir(last_sample_dir);
+	status = chdir(last_sample_dir);
+        /* Ignore chdir errors ... stay where we are in that case */
 
 	filesel = gtk_file_selection_new("Load Sample");
 	g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
@@ -98,8 +100,10 @@ void sample_save_help_cb(GtkWidget * widget, gpointer data)
 void sample_save_cb(GtkWidget * widget, gpointer data)
 {
 	GtkWidget *filesel;
+        int status;
 
-	chdir(last_sample_dir);
+	status = chdir(last_sample_dir);
+        /* Ignore chdir errors ... stay where we are in that case */
 
 	filesel = gtk_file_selection_new("Save Sample");
 	g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
