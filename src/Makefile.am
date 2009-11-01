@@ -13,6 +13,8 @@ aube_SOURCES = \
         aube_error.h		\
 	inputoption.c		\
 	inputoption.h		\
+	interface.c		\
+	interface.h		\
 	levelmeter.c		\
 	levelmeter.h		\
 	master.c		\

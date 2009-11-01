@@ -8,6 +8,7 @@
 #include "master.h"
 #include "slider.h"
 #include "outputlabel.h"
+#include "interface.h"
 
 static void whitenoise_if_class_init(WhitenoiseIFClass * klass);
 static void whitenoise_if_init(WhitenoiseIF * b);
@@ -66,6 +67,8 @@ GtkWidget *whitenoise_if_new(whitenoise * wn)
 
 	gtk_window_set_title(GTK_WINDOW(whitenoise_if),
 			     ((module *) whitenoise_if->data)->u_label);
+
+        attach_window_close_accel(GTK_WINDOW(whitenoise_if));
 
 	accel_group = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(whitenoise_if), accel_group);
