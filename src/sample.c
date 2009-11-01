@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libgen.h>
 
 #include <config.h>
 
@@ -20,8 +21,8 @@ int sample_load(char *filename)
 	int channelcount, samplewidth;
 	void *data;
 	channel *ch;
-	char *fn, *pfn;
-	int fn_len;
+	char *labelname;
+	int labellen;
 	int i;
 
 
@@ -71,14 +72,10 @@ int sample_load(char *filename)
 
 	sf_close(samplefile);
 
-	/*
-	   strip leading path from filename 
-	 */
-	pfn = strtok(filename, "/");
-	while ((fn = strtok(NULL, "/")))
-		pfn = fn;
-	fn_len = strlen(pfn) + 1;
-	strncpy(ch->u_label, pfn, MIN(fn_len, LABEL_LEN));
+	/* strip leading path from filename */
+        labelname = basename ((char *)filename);
+	labellen = strlen(labelname) + 1;
+	strncpy(ch->u_label, labelname, MIN(labellen, LABEL_LEN));
 
 	return aube_add_sample(ch);
 #endif
