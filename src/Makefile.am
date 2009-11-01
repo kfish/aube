@@ -12,7 +12,6 @@ noinst_HEADERS = \
 	aube_error.h		\
 	aube.h			\
 	inputoption.h		\
-	interface.h		\
 	levelmeter.h		\
 	master.h		\
 	modulemenu.h		\
@@ -30,7 +29,6 @@ aube_SOURCES = \
 	aube.c			\
         aube_error.c		\
 	inputoption.c		\
-	interface.c		\
 	levelmeter.c		\
 	master.c		\
 	modulemenu.c		\
