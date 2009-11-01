@@ -293,8 +293,9 @@ int lineout_do_tick(oss_out * oss_p)
 
 int linein_do_tick(oss_in * oss_p)
 {
-	int ret;
 	fd_set fds;
+	int ret;
+        ssize_t nread;
 
 	if ((oss_p->dev->mode & OSS_MODE_INPUT) && oss_p->input_module.on) {
 
@@ -311,8 +312,10 @@ int linein_do_tick(oss_in * oss_p)
 			return PROC_INCOMPLETE;
 		}
 		if (ret > 0 && oss_p->dev->file != -1) {
-			read(oss_p->dev->file, oss_p->tick_buffer,
-			     tick * 2);
+			nread = read(oss_p->dev->file, oss_p->tick_buffer, tick * 2);
+                        if (nread == -1) {
+                                perror (oss_p->dev->devicename);
+                        }
 		}
 	} else {
 		memset(oss_p->tick_buffer, 0, tick * 2);
