@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	levelmeter.h		\
 	master.h		\
 	modulemenu.h		\
+	modulewindow.h		\
 	none_config.h		\
 	none.h			\
 	opsmenu.h		\
@@ -33,6 +34,7 @@ aube_SOURCES = \
 	levelmeter.c		\
 	master.c		\
 	modulemenu.c		\
+	modulewindow.c		\
 	none.c			\
 	opsmenu.c		\
 	outputlabel.c		\
