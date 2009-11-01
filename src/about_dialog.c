@@ -135,6 +135,7 @@ static int about_dialog_load_logo(GtkWidget * window)
 	GtkWidget *preview;
 	GdkGC *gc;
 	char buf[1024];
+        char *c;
 	unsigned char *pixelrow;
 	FILE *fp;
 	int count;
@@ -147,22 +148,25 @@ static int about_dialog_load_logo(GtkWidget * window)
 
 	fp = fopen(buf, "rb");
 	if (!fp)
-		return 0;
+		return FALSE;
 
-	fgets(buf, 1024, fp);
-	if (strcmp(buf, "P6\n") != 0) {
-		fclose(fp);
-		return 0;
-	}
-	fgets(buf, 1024, fp);
-	fgets(buf, 1024, fp);
+	c = fgets(buf, 1024, fp);
+	if (!c || strcmp(buf, "P6\n") != 0)
+                goto out_err;
+
+	if (!fgets(buf, 1024, fp))
+                goto out_err;
+	if (!fgets(buf, 1024, fp))
+                goto out_err;
+
 	sscanf(buf, "%d %d", &logo_width, &logo_height);
 
-	fgets(buf, 1024, fp);
-	if (strcmp(buf, "255\n") != 0) {
-		fclose(fp);
-		return 0;
-	}
+	if (!fgets(buf, 1024, fp))
+                goto out_err;
+
+	if (strcmp(buf, "255\n") != 0)
+                goto out_err;
+
 	preview = gtk_preview_new(GTK_PREVIEW_COLOR);
 	gtk_preview_size(GTK_PREVIEW(preview), logo_width, logo_height);
 	pixelrow = g_new(guchar, logo_width * 3);
@@ -174,8 +178,7 @@ static int about_dialog_load_logo(GtkWidget * window)
 		if (count != (logo_width * 3)) {
 			gtk_widget_destroy(preview);
 			g_free(pixelrow);
-			fclose(fp);
-			return 0;
+                        goto out_err;
 		}
 		gtk_preview_draw_row(GTK_PREVIEW(preview), pixelrow, 0, i,
 				     logo_width);
@@ -195,8 +198,11 @@ static int about_dialog_load_logo(GtkWidget * window)
 	g_free(pixelrow);
 
 	fclose(fp);
-
 	return TRUE;
+
+out_err:
+	fclose(fp);
+	return FALSE;
 }
 
 static void about_dialog_destroy()
