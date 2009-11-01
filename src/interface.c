@@ -23,7 +23,6 @@ void attach_window_close_accel(GtkWindow * window)
 
 	accel_group = gtk_accel_group_new();
 	gclosure = g_cclosure_new((GCallback) close_window_cb, NULL, NULL);
-	gtk_accel_group_connect(accel_group, GDK_w, GDK_CONTROL_MASK, 0,	/* non of the GtkAccelFlags seem suitable? */
-				gclosure);
+	gtk_accel_group_connect(accel_group, GDK_w, GDK_CONTROL_MASK, 0, gclosure);
 	gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 }
