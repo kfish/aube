@@ -42,7 +42,7 @@ extern char *note_names[97];
 
 static void atonal_if_class_init(AtonalIFClass * klass);
 static void atonal_if_init(AtonalIF * b);
-GtkWidget *atonal_if_new(atonal * rsq);
+GtkWidget *atonal_if_new(atonal * mod);
 
 void atonal_if_update_at(GtkWidget * widget, gpointer data);
 void atonal_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -93,7 +93,7 @@ static void atonal_if_init(AtonalIF * atonal_if)
 {
 }
 
-GtkWidget *atonal_if_new(atonal * rsq)
+GtkWidget *atonal_if_new(atonal * mod)
 {
 	AtonalIF *atonal_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2;
@@ -104,9 +104,9 @@ GtkWidget *atonal_if_new(atonal * rsq)
 
 	atonal_if = gtk_type_new(atonal_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(atonal_if), (module *)rsq);
+	modulewindow_set_module (MODULEWINDOW(atonal_if), (module *)mod);
 
-	atonal_if->data = rsq;
+	atonal_if->data = mod;
 
 #if 0
 	/* when the window is given the "delete_event" signal - this is

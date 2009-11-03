@@ -36,7 +36,7 @@
 
 static void general_mixer_if_class_init(GeneralMixerIFClass * klass);
 static void general_mixer_if_init(GeneralMixerIF * b);
-GtkWidget *general_mixer_if_new(general_mixer * xf);
+GtkWidget *general_mixer_if_new(general_mixer * mod);
 void general_mixer_if_hide_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -80,7 +80,7 @@ static void general_mixer_if_init(GeneralMixerIF * general_mixer_if)
 {
 }
 
-GtkWidget *general_mixer_if_new(general_mixer * xf)
+GtkWidget *general_mixer_if_new(general_mixer * mod)
 {
 	GeneralMixerIF *general_mixer_if;
 	GtkWidget *vbox, *vbox2, *hbox;
@@ -89,9 +89,9 @@ GtkWidget *general_mixer_if_new(general_mixer * xf)
 
 	general_mixer_if = gtk_type_new(general_mixer_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(general_mixer_if), (module *)xf);
+	modulewindow_set_module (MODULEWINDOW(general_mixer_if), (module *)mod);
 
-	general_mixer_if->data = xf;
+	general_mixer_if->data = mod;
 
 	gtk_window_set_policy(GTK_WINDOW(general_mixer_if), TRUE, TRUE, TRUE);
 

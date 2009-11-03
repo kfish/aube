@@ -38,7 +38,7 @@ extern int tick;
 
 static void panner_if_class_init(PannerIFClass * klass);
 static void panner_if_init(PannerIF * b);
-GtkWidget *panner_if_new(panner * pn);
+GtkWidget *panner_if_new(panner * mod);
 void panner_if_hide_cb(GtkWidget * widget, gpointer data);
 void panner_if_close_cb(GtkWidget * widget, gpointer data);
 void panner_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -75,7 +75,7 @@ static void panner_if_init(PannerIF * panner_if)
 {
 }
 
-GtkWidget *panner_if_new(panner * pn)
+GtkWidget *panner_if_new(panner * mod)
 {
 	PannerIF *panner_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2;
@@ -85,9 +85,9 @@ GtkWidget *panner_if_new(panner * pn)
 
 	panner_if = gtk_type_new(panner_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(panner_if), (module *)pn);
+	modulewindow_set_module (MODULEWINDOW(panner_if), (module *)mod);
 
-	panner_if->data = pn;
+	panner_if->data = mod;
 
 #if 0
 	/*

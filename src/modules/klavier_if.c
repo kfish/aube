@@ -41,7 +41,7 @@ extern int tick;
 
 static void klavier_if_class_init(KlavierIFClass * klass);
 static void klavier_if_init(KlavierIF * b);
-GtkWidget *klavier_if_new(klavier * k);
+GtkWidget *klavier_if_new(klavier * mod);
 
 void klavier_if_hide_cb(GtkWidget * widget, gpointer data);
 void klavier_if_close_cb(GtkWidget * widget, gpointer data);
@@ -86,7 +86,7 @@ static void klavier_if_init(KlavierIF * klavier_if)
 {
 }
 
-GtkWidget *klavier_if_new(klavier * k)
+GtkWidget *klavier_if_new(klavier * mod)
 {
 	KlavierIF *klavier_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
@@ -102,9 +102,9 @@ GtkWidget *klavier_if_new(klavier * k)
 
 	klavier_if = gtk_type_new(klavier_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(klavier_if), (module *)k);
+	modulewindow_set_module (MODULEWINDOW(klavier_if), (module *)mod);
 
-	klavier_if->data = k;
+	klavier_if->data = mod;
 
 #if 0
 	/*

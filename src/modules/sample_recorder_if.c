@@ -38,7 +38,7 @@ extern int tick;
 
 static void sample_recorder_if_class_init(SampleRecorderIFClass * klass);
 static void sample_recorder_if_init(SampleRecorderIF * b);
-GtkWidget *sample_recorder_if_new(sample_recorder * pn);
+GtkWidget *sample_recorder_if_new(sample_recorder * mod);
 void sample_recorder_if_hide_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -93,7 +93,7 @@ static void sample_recorder_if_init(SampleRecorderIF * sample_recorder_if)
 {
 }
 
-GtkWidget *sample_recorder_if_new(sample_recorder * pn)
+GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 {
 	SampleRecorderIF *sample_recorder_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox3;
@@ -103,9 +103,9 @@ GtkWidget *sample_recorder_if_new(sample_recorder * pn)
 
 	sample_recorder_if = gtk_type_new(sample_recorder_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(sample_recorder_if), (module *)pn);
+	modulewindow_set_module (MODULEWINDOW(sample_recorder_if), (module *)mod);
 
-	sample_recorder_if->data = pn;
+	sample_recorder_if->data = mod;
 
 	sample_recorder_if->recordfunc_tag = 0;
 

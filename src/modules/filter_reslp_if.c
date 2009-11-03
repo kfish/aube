@@ -36,7 +36,7 @@ extern int tick;
 
 static void filter_reslp_if_class_init(FilterResLP_IFClass * klass);
 static void filter_reslp_if_init(FilterResLP_IF * b);
-GtkWidget *filter_reslp_if_new(filter_reslp * fr);
+GtkWidget *filter_reslp_if_new(filter_reslp * mod);
 
 void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data);
 void filter_reslp_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -77,7 +77,7 @@ static void filter_reslp_if_init(FilterResLP_IF * filter_reslp_if)
 {
 }
 
-GtkWidget *filter_reslp_if_new(filter_reslp * fr)
+GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 {
 	FilterResLP_IF *filter_reslp_if;
 	GtkWidget *vbox2, *hbox, *hbox2, *hbox3;
@@ -87,9 +87,9 @@ GtkWidget *filter_reslp_if_new(filter_reslp * fr)
 
 	filter_reslp_if = gtk_type_new(filter_reslp_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(filter_reslp_if), (module *)fr);
+	modulewindow_set_module (MODULEWINDOW(filter_reslp_if), (module *)mod);
 
-	filter_reslp_if->data = fr;
+	filter_reslp_if->data = mod;
 
 #if 0
 	/*

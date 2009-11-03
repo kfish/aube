@@ -37,7 +37,7 @@ extern int tick;
 
 static void panner4_if_class_init(Panner4IFClass * klass);
 static void panner4_if_init(Panner4IF * b);
-GtkWidget *panner4_if_new(panner4 * pn);
+GtkWidget *panner4_if_new(panner4 * mod);
 void panner4_if_hide_cb(GtkWidget * widget, gpointer data);
 void panner4_if_close_cb(GtkWidget * widget, gpointer data);
 void panner4_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -74,7 +74,7 @@ static void panner4_if_init(Panner4IF * panner4_if)
 {
 }
 
-GtkWidget *panner4_if_new(panner4 * pn)
+GtkWidget *panner4_if_new(panner4 * mod)
 {
 	Panner4IF *panner4_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
@@ -84,9 +84,9 @@ GtkWidget *panner4_if_new(panner4 * pn)
 
 	panner4_if = gtk_type_new(panner4_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(panner4_if), (module *)pn);
+	modulewindow_set_module (MODULEWINDOW(panner4_if), (module *)mod);
 
-	panner4_if->data = pn;
+	panner4_if->data = mod;
 
 #if 0
 	/*

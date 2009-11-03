@@ -35,7 +35,7 @@
 
 static void whitenoise_if_class_init(WhitenoiseIFClass * klass);
 static void whitenoise_if_init(WhitenoiseIF * b);
-GtkWidget *whitenoise_if_new(whitenoise * wn);
+GtkWidget *whitenoise_if_new(whitenoise * mod);
 void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -73,7 +73,7 @@ static void whitenoise_if_init(WhitenoiseIF * whitenoise_if)
 {
 }
 
-GtkWidget *whitenoise_if_new(whitenoise * wn)
+GtkWidget *whitenoise_if_new(whitenoise * mod)
 {
 	WhitenoiseIF *whitenoise_if;
 	GtkWidget *vbox, *vbox2, *hbox;
@@ -85,9 +85,9 @@ GtkWidget *whitenoise_if_new(whitenoise * wn)
 
 	whitenoise_if = gtk_type_new(whitenoise_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(whitenoise_if), (module *)wn);
+	modulewindow_set_module (MODULEWINDOW(whitenoise_if), (module *)mod);
 
-	whitenoise_if->data = wn;
+	whitenoise_if->data = mod;
 
 	accel_group = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(whitenoise_if), accel_group);

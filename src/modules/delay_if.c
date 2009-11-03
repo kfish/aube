@@ -41,7 +41,7 @@ extern GtkWidget *master_daddy;
 
 static void delay_if_class_init(DelayIFClass * klass);
 static void delay_if_init(DelayIF * b);
-GtkWidget *delay_if_new(delay * dl);
+GtkWidget *delay_if_new(delay * mod);
 void delay_if_hide_cb(GtkWidget * widget, gpointer data);
 void delay_if_close_cb(GtkWidget * widget, gpointer data);
 void delay_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -79,7 +79,7 @@ static void delay_if_init(DelayIF * delay_if)
 {
 }
 
-GtkWidget *delay_if_new(delay * dl)
+GtkWidget *delay_if_new(delay * mod)
 {
 	DelayIF *delay_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
@@ -89,9 +89,9 @@ GtkWidget *delay_if_new(delay * dl)
 
 	delay_if = gtk_type_new(delay_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(delay_if), (module *)dl);
+	modulewindow_set_module (MODULEWINDOW(delay_if), (module *)mod);
 
-	delay_if->data = dl;
+	delay_if->data = mod;
 
 #if 0
 	/*

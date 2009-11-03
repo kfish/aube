@@ -41,7 +41,7 @@ extern char *note_names[97];
 
 static void drummachine_if_class_init(DrumMachineIFClass * klass);
 static void drummachine_if_init(DrumMachineIF * b);
-GtkWidget *drummachine_if_new(drummachine * rsq);
+GtkWidget *drummachine_if_new(drummachine * mod);
 
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data);
 void drummachine_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -101,7 +101,7 @@ static void drummachine_if_init(DrumMachineIF * drummachine_if)
 {
 }
 
-GtkWidget *drummachine_if_new(drummachine * rsq)
+GtkWidget *drummachine_if_new(drummachine * mod)
 {
 	DrumMachineIF *drummachine_if;
 	GtkWidget *vbox, *hbox, *hbox2;
@@ -112,9 +112,9 @@ GtkWidget *drummachine_if_new(drummachine * rsq)
 
 	drummachine_if = gtk_type_new(drummachine_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(drummachine_if), (module *)rsq);
+	modulewindow_set_module (MODULEWINDOW(drummachine_if), (module *)mod);
 
-	drummachine_if->data = rsq;
+	drummachine_if->data = mod;
 
 #if 0
 	/*

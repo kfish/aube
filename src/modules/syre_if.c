@@ -43,7 +43,7 @@ extern int tick;
 
 static void syre_if_class_init(SyreIFClass * klass);
 static void syre_if_init(SyreIF * b);
-GtkWidget *syre_if_new(syre_if_data * syre_if_data);
+GtkWidget *syre_if_new(syre_if_data * mod);
 
 void refresh_sliders(SyreIF * syre_if);
 void syre_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -93,7 +93,7 @@ static void syre_if_init(SyreIF * syre_if)
 {
 }
 
-GtkWidget *syre_if_new(syre_if_data * sd)
+GtkWidget *syre_if_new(syre_if_data * mod)
 {
 	SyreIF *syre_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
@@ -108,9 +108,9 @@ GtkWidget *syre_if_new(syre_if_data * sd)
 
 	syre_if = gtk_type_new(syre_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(syre_if), (module *)sd);
+	modulewindow_set_module (MODULEWINDOW(syre_if), (module *)mod);
 
-	syre_if->data = sd;
+	syre_if->data = mod;
 
 #if 0
 	/*

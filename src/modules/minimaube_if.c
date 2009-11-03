@@ -42,7 +42,7 @@ extern GtkWidget *master_daddy;
 
 static void minimaube_if_class_init(MiniMaubeIFClass * klass);
 static void minimaube_if_init(MiniMaubeIF * b);
-GtkWidget *minimaube_if_new(minimaube * s);
+GtkWidget *minimaube_if_new(minimaube * mod);
 void minimaube_if_hide_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_close_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -85,7 +85,7 @@ static void minimaube_if_init(MiniMaubeIF * minimaube_if)
 {
 }
 
-GtkWidget *minimaube_if_new(minimaube * s)
+GtkWidget *minimaube_if_new(minimaube * mod)
 {
 	MiniMaubeIF *minimaube_if;
 	GtkWidget *vbox, *hbox;
@@ -94,9 +94,9 @@ GtkWidget *minimaube_if_new(minimaube * s)
 
 	minimaube_if = gtk_type_new(minimaube_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(minimaube_if), (module *)s);
+	modulewindow_set_module (MODULEWINDOW(minimaube_if), (module *)mod);
 
-	minimaube_if->data = s;
+	minimaube_if->data = mod;
 
 	gtk_window_set_policy(GTK_WINDOW(minimaube_if), TRUE, TRUE, TRUE);
 

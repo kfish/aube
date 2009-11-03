@@ -34,7 +34,7 @@
 
 static void linein_if_class_init(LINEINIFClass * klass);
 static void linein_if_init(LINEINIF * b);
-GtkWidget *linein_if_new(oss_in * oss_p);
+GtkWidget *linein_if_new(oss_in * mod);
 void linein_if_hide_cb(GtkWidget * widget, gpointer data);
 void linein_if_close_cb(GtkWidget * widget, gpointer data);
 void linein_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -79,7 +79,7 @@ static void linein_if_init(LINEINIF * linein_if)
 {
 }
 
-GtkWidget *linein_if_new(oss_in * oss_p)
+GtkWidget *linein_if_new(oss_in * mod)
 {
 	LINEINIF *linein_if;
 	GtkWidget *menu, *menuitem, *optionmenu;
@@ -89,9 +89,9 @@ GtkWidget *linein_if_new(oss_in * oss_p)
 
 	linein_if = gtk_type_new(linein_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(linein_if), (module *)oss_p);
+	modulewindow_set_module (MODULEWINDOW(linein_if), (module *)mod);
 
-	linein_if->data = oss_p;
+	linein_if->data = mod;
 
 #if 0
 	g_signal_connect(G_OBJECT(linein_if), "delete_event",

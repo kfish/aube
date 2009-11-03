@@ -35,7 +35,7 @@
 
 static void xfader_if_class_init(XFaderIFClass * klass);
 static void xfader_if_init(XFaderIF * b);
-GtkWidget *xfader_if_new(xfader * xf);
+GtkWidget *xfader_if_new(xfader * mod);
 void xfader_if_hide_cb(GtkWidget * widget, gpointer data);
 void xfader_if_close_cb(GtkWidget * widget, gpointer data);
 void xfader_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -72,7 +72,7 @@ static void xfader_if_init(XFaderIF * xfader_if)
 {
 }
 
-GtkWidget *xfader_if_new(xfader * xf)
+GtkWidget *xfader_if_new(xfader * mod)
 {
 	XFaderIF *xfader_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2;
@@ -82,9 +82,9 @@ GtkWidget *xfader_if_new(xfader * xf)
 
 	xfader_if = gtk_type_new(xfader_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(xfader_if), (module *)xf);
+	modulewindow_set_module (MODULEWINDOW(xfader_if), (module *)mod);
 
-	xfader_if->data = xf;
+	xfader_if->data = mod;
 
 #if 0
 	/*

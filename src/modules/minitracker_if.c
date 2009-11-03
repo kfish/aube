@@ -41,7 +41,7 @@ extern char *note_names[97];
 
 static void minitracker_if_class_init(MinitrackerIFClass * klass);
 static void minitracker_if_init(MinitrackerIF * b);
-GtkWidget *minitracker_if_new(minitracker * rsq);
+GtkWidget *minitracker_if_new(minitracker * mod);
 
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data);
 void minitracker_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -93,7 +93,7 @@ static void minitracker_if_init(MinitrackerIF * minitracker_if)
 {
 }
 
-GtkWidget *minitracker_if_new(minitracker * rsq)
+GtkWidget *minitracker_if_new(minitracker * mod)
 {
 	MinitrackerIF *minitracker_if;
 	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
@@ -106,9 +106,9 @@ GtkWidget *minitracker_if_new(minitracker * rsq)
 
 	minitracker_if = gtk_type_new(minitracker_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(minitracker_if), (module *)rsq);
+	modulewindow_set_module (MODULEWINDOW(minitracker_if), (module *)mod);
 
-	minitracker_if->data = rsq;
+	minitracker_if->data = mod;
 
 #if 0
 	/*

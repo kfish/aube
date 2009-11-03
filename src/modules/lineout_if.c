@@ -34,7 +34,7 @@
 
 static void lineout_if_class_init(LINEOUTIFClass * klass);
 static void lineout_if_init(LINEOUTIF * b);
-GtkWidget *lineout_if_new(oss_out * oss_p);
+GtkWidget *lineout_if_new(oss_out * mod);
 void lineout_if_hide_cb(GtkWidget * widget, gpointer data);
 void lineout_if_close_cb(GtkWidget * widget, gpointer data);
 void lineout_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -73,7 +73,7 @@ static void lineout_if_init(LINEOUTIF * lineout_if)
 {
 }
 
-GtkWidget *lineout_if_new(oss_out * oss_p)
+GtkWidget *lineout_if_new(oss_out * mod)
 {
 	LINEOUTIF *lineout_if;
 	GtkWidget *menu, *menuitem, *optionmenu;
@@ -83,9 +83,9 @@ GtkWidget *lineout_if_new(oss_out * oss_p)
 
 	lineout_if = gtk_type_new(lineout_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(lineout_if), (module *)oss_p);
+	modulewindow_set_module (MODULEWINDOW(lineout_if), (module *)mod);
 
-	lineout_if->data = oss_p;
+	lineout_if->data = mod;
 
 #if 0
 	g_signal_connect(G_OBJECT(lineout_if), "delete_event",
