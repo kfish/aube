@@ -103,15 +103,11 @@ GtkWidget *sample_recorder_if_new(sample_recorder * pn)
 
 	sample_recorder_if = gtk_type_new(sample_recorder_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(sample_recorder_if), (module *)pn);
+
 	sample_recorder_if->data = pn;
 
 	sample_recorder_if->recordfunc_tag = 0;
-
-	gtk_window_set_title(GTK_WINDOW(sample_recorder_if),
-			     ((module *) sample_recorder_if->data)->
-			     u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(sample_recorder_if), 1);
 
 #if 0
 	/*
