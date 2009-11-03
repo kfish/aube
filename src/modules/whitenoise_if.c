@@ -75,22 +75,22 @@ static void whitenoise_if_init(WhitenoiseIF * whitenoise_if)
 
 GtkWidget *whitenoise_if_new(whitenoise * mod)
 {
-	WhitenoiseIF *whitenoise_if;
-	GtkWidget *vbox, *vbox2, *hbox;
+	WhitenoiseIF *ui;
+	GtkWidget *vbox;
 	GtkWidget *frame;
 	GtkWidget *button;
 	GtkWidget *slider;
 
 	GtkAccelGroup *accel_group;
 
-	whitenoise_if = gtk_type_new(whitenoise_if_get_type());
+	ui = gtk_type_new(whitenoise_if_get_type());
 
-	modulewindow_set_module (MODULEWINDOW(whitenoise_if), (module *)mod);
+	modulewindow_set_module (MODULEWINDOW(ui), (module *)mod);
 
-	whitenoise_if->data = mod;
+	ui->data = mod;
 
 	accel_group = gtk_accel_group_new();
-	gtk_window_add_accel_group(GTK_WINDOW(whitenoise_if), accel_group);
+	gtk_window_add_accel_group(GTK_WINDOW(ui), accel_group);
 
 #if 0
 	/*
@@ -110,68 +110,47 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 	   * This event occurs when we call gtk_widget_destroy() on the
 	   * window, or if we return "TRUE" in the "delete_event" callback. 
 	 */
-	g_signal_connect(G_OBJECT(whitenoise_if), "destroy",
-			 G_CALLBACK(whitenoise_if_close_cb),
-			 whitenoise_if);
+	g_signal_connect(G_OBJECT(ui), "destroy", G_CALLBACK(whitenoise_if_close_cb), ui);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(whitenoise_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	hbox = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, TRUE, 0);
-	gtk_widget_show(hbox);
-
 	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    whitenoise_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(whitenoise_if_onoff_cb),
-			 whitenoise_if->data);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 1);
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), ui->data->module.on);
+	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(whitenoise_if_onoff_cb), mod);
 	gtk_widget_show(button);
+
 /* FIXME: funky accel business 
  gtk_accel_group_add (accel_group, GDK_Escape, GDK_NONE, 0,
 		       G_OBJECT(button), "clicked");
  */
 
-	button =
-	    opsmenu_new((module *) whitenoise_if->data,
-			GTK_WIDGET(whitenoise_if), whitenoise_if_hide_cb,
+	button = opsmenu_new((module *)ui->data, GTK_WIDGET(ui), whitenoise_if_hide_cb,
 			whitenoise_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
-	button = outputlabel_new((module *) whitenoise_if->data, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
+	button = outputlabel_new((module *)mod, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
-	hbox = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, TRUE, TRUE, 0);
-	gtk_widget_show(hbox);
-
-
+        /* Mainbox */
 	frame = gtk_frame_new(NULL);
-	gtk_box_pack_start(GTK_BOX(hbox), frame, TRUE, TRUE, 1);
-	/* gtk_container_border_width(GTK_CONTAINER(frame), 4); */
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->mainbox), frame, TRUE, TRUE, 1);
 	gtk_widget_show(frame);
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 	gtk_widget_show(vbox);
 
-	slider =
-	    slider_int_new("Vol", &(whitenoise_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Vol", &(mod->vol), 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Pan", &(whitenoise_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &(mod->pan), 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 
-	return GTK_WIDGET(whitenoise_if);
+	return GTK_WIDGET(ui);
 }
 
 void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data)
