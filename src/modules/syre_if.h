@@ -45,7 +45,6 @@ struct _SyreIF {
 	GtkWidget *pitch_env_curve_accented;
 
 	gint env_tag;
-	syre_if_data *data;
 };
 
 struct _SyreIFClass {
