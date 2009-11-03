@@ -120,18 +120,16 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 void minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
 {
 #if 0
+	MiniMaubeIF *minimaube_if = MINIMAUBE_IF(data);
+        minimaube * mod = (minimaube *)MODULEWINDOW(minimaube_if)->module;
 	GtkWidget *menu;
 
 	menu =
-	    modulemenu_new((module *) MINIMAUBE_IF(data)->data,
+	    modulemenu_new((module *)mod,
 			   (void *) aube_module_cmp_type,
 			   (void *) module_replace_cb);
-	gtk_menu_item_remove_submenu(GTK_MENU_ITEM
-				     (MINIMAUBE_IF(data)->
-				      replace_menuitem));
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM
-				  (MINIMAUBE_IF(data)->replace_menuitem),
-				  menu);
+	gtk_menu_item_remove_submenu(GTK_MENU_ITEM(minimaube_if->replace_menuitem));
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(minimaube_if->replace_menuitem), menu);
 #endif
 }
 
@@ -208,8 +206,7 @@ void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
 	gtk_widget_show(button);
 
 	snprintf(buf, sizeof(buf), "%d", i);
-	slider =
-	    slider_int_new(buf, &(minimaube_if->data->vol[i]), 0, 64, 1);
+	slider = slider_int_new(buf, &mod->vol[i], 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 

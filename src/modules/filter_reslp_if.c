@@ -142,24 +142,19 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, TRUE, 0);
 	gtk_widget_show(hbox3);
 
-	slider =
-	    slider_int_new("Vol", &(filter_reslp_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Vol", &mod->vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
 #if 0
-	slider =
-	    slider_int_new("Tune", &(filter_reslp_if->data->tune), 1, 1024,
-			   1);
+	slider = slider_int_new("Tune", &mod->tune, 1, 1024, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	g_signal_connect(G_OBJECT(SLIDER(slider)->adj), "value_changed",
-			 G_CALLBACK(harmonics_changed_cb),
-			 filter_reslp_if->data);
+			 G_CALLBACK(harmonics_changed_cb), mod);
 	gtk_widget_show(slider);
 #endif
 
-	slider =
-	    slider_int_new("Pan", &(filter_reslp_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, FALSE, 0);
 	gtk_widget_show(slider);
 #endif

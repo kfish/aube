@@ -171,7 +171,7 @@ GtkWidget *atonal_if_new(atonal * mod)
 	}
 
 /*
-    button = outputlabel_new((module *)atonal_if->data, j);
+    button = outputlabel_new((module *)mod, j);
     gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
     gtk_widget_show(button);
 */
