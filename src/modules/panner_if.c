@@ -15,7 +15,6 @@ extern int tick;
 static void panner_if_class_init(PannerIFClass * klass);
 static void panner_if_init(PannerIF * b);
 GtkWidget *panner_if_new(panner * pn);
-void panner_if_dismiss(GtkWidget * widget, gpointer data);
 void panner_if_hide_cb(GtkWidget * widget, gpointer data);
 void panner_if_close_cb(GtkWidget * widget, gpointer data);
 void panner_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -180,11 +179,6 @@ void panner_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((PANNER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void panner_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

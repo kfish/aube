@@ -12,7 +12,6 @@
 static void xfader_if_class_init(XFaderIFClass * klass);
 static void xfader_if_init(XFaderIF * b);
 GtkWidget *xfader_if_new(xfader * xf);
-void xfader_if_dismiss(GtkWidget * widget, gpointer data);
 void xfader_if_hide_cb(GtkWidget * widget, gpointer data);
 void xfader_if_close_cb(GtkWidget * widget, gpointer data);
 void xfader_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -188,11 +187,6 @@ void xfader_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((XFADER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void xfader_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

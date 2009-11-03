@@ -18,7 +18,6 @@ extern char *note_names[97];
 static void drummachine_if_class_init(DrumMachineIFClass * klass);
 static void drummachine_if_init(DrumMachineIF * b);
 GtkWidget *drummachine_if_new(drummachine * rsq);
-void drummachine_if_dismiss(GtkWidget * widget, gpointer data);
 
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data);
 void drummachine_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -352,11 +351,6 @@ void drummachine_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((DRUMMACHINE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void drummachine_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

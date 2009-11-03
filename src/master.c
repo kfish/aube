@@ -108,7 +108,6 @@ int nr_module_classes = (sizeof(module_classes) / sizeof(module_class *));
 static void master_class_init(MasterClass * class);
 static void master_init(Master * b);
 GtkWidget *master_new();
-void master_dismiss(GtkWidget * widget, gpointer data);
 
 void quit_cb(GtkWidget * widget, gpointer data);
 void delay_toggle_cb(GtkWidget * widget, gpointer data);
@@ -506,12 +505,6 @@ GtkWidget *master_new(void)
 	master_daddy = m;
 	return (m);
 }
-
-void master_dismiss(GtkWidget * widget, gpointer data)
-{
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
 
 void quit_cb(GtkWidget * widget, gpointer data)
 {

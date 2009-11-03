@@ -18,7 +18,6 @@ extern char *note_names[97];
 static void minitracker_if_class_init(MinitrackerIFClass * klass);
 static void minitracker_if_init(MinitrackerIF * b);
 GtkWidget *minitracker_if_new(minitracker * rsq);
-void minitracker_if_dismiss(GtkWidget * widget, gpointer data);
 
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data);
 void minitracker_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -375,11 +374,6 @@ void minitracker_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((MINITRACKER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void minitracker_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

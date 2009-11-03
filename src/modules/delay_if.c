@@ -18,7 +18,6 @@ extern GtkWidget *master_daddy;
 static void delay_if_class_init(DelayIFClass * klass);
 static void delay_if_init(DelayIF * b);
 GtkWidget *delay_if_new(delay * dl);
-void delay_if_dismiss(GtkWidget * widget, gpointer data);
 void delay_if_hide_cb(GtkWidget * widget, gpointer data);
 void delay_if_close_cb(GtkWidget * widget, gpointer data);
 void delay_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -202,11 +201,6 @@ void delay_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((DELAY_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void delay_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

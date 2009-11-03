@@ -19,7 +19,6 @@ extern char *note_names[97];
 static void atonal_if_class_init(AtonalIFClass * klass);
 static void atonal_if_init(AtonalIF * b);
 GtkWidget *atonal_if_new(atonal * rsq);
-void atonal_if_dismiss(GtkWidget * widget, gpointer data);
 
 void atonal_if_update_at(GtkWidget * widget, gpointer data);
 void atonal_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -251,11 +250,6 @@ void atonal_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((ATONAL_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void atonal_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

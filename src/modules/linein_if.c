@@ -11,7 +11,6 @@
 static void linein_if_class_init(LINEINIFClass * klass);
 static void linein_if_init(LINEINIF * b);
 GtkWidget *linein_if_new(oss_in * oss_p);
-void linein_if_dismiss(GtkWidget * widget, gpointer data);
 void linein_if_hide_cb(GtkWidget * widget, gpointer data);
 void linein_if_close_cb(GtkWidget * widget, gpointer data);
 void linein_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -382,11 +381,6 @@ void linein_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(&linein_if->data->input_module);
 
 	free(linein_if->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void linein_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

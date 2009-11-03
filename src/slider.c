@@ -7,7 +7,6 @@
 static void slider_class_init(SliderClass * klass);
 static void slider_init(Slider * b);
 GtkWidget *slider_int_new();
-void slider_dismiss(GtkWidget * widget, gpointer data);
 void slider_cb(GtkWidget * widget, gpointer data);
 
 GType slider_get_type()
@@ -143,11 +142,6 @@ GtkWidget *slider_float_new(char *label_str, float *data, float lower,
 	gtk_widget_show(label);
 
 	return GTK_WIDGET(slider);
-}
-
-void slider_dismiss(GtkWidget * widget, gpointer data)
-{
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void slider_cb(GtkWidget * widget, gpointer data)

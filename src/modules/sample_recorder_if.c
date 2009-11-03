@@ -15,7 +15,6 @@ extern int tick;
 static void sample_recorder_if_class_init(SampleRecorderIFClass * klass);
 static void sample_recorder_if_init(SampleRecorderIF * b);
 GtkWidget *sample_recorder_if_new(sample_recorder * pn);
-void sample_recorder_if_dismiss(GtkWidget * widget, gpointer data);
 void sample_recorder_if_hide_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -341,11 +340,6 @@ void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((SAMPLE_RECORDER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void sample_recorder_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

@@ -19,7 +19,6 @@ extern GtkWidget *master_daddy;
 static void minimaube_if_class_init(MiniMaubeIFClass * klass);
 static void minimaube_if_init(MiniMaubeIF * b);
 GtkWidget *minimaube_if_new(minimaube * s);
-void minimaube_if_dismiss(GtkWidget * widget, gpointer data);
 void minimaube_if_hide_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_close_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -170,11 +169,6 @@ void minimaube_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((MINIMAUBE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void minimaube_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

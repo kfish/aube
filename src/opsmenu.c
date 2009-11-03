@@ -11,7 +11,6 @@ extern bit16 zero_buffer[];
 static void opsmenu_class_init(OpsmenuClass * klass);
 static void opsmenu_init(Opsmenu * b);
 GtkWidget *opsmenu_new();
-void opsmenu_dismiss(GtkWidget * widget, gpointer data);
 void reread_inputs_cb(GtkWidget * widget, gpointer data);
 void select_input_cb(GtkWidget * widget, gpointer data);
 
@@ -127,7 +126,3 @@ GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if,
 	return GTK_WIDGET(opsmenu);
 }
 
-void opsmenu_dismiss(GtkWidget * widget, gpointer data)
-{
-	gtk_widget_destroy(GTK_WIDGET(data));
-}

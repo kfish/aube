@@ -13,7 +13,6 @@ extern int tick;
 static void filter_reslp_if_class_init(FilterResLP_IFClass * klass);
 static void filter_reslp_if_init(FilterResLP_IF * b);
 GtkWidget *filter_reslp_if_new(filter_reslp * fr);
-void filter_reslp_if_dismiss(GtkWidget * widget, gpointer data);
 
 void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data);
 void filter_reslp_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -299,11 +298,6 @@ void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((FILTERRESLP_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void filter_reslp_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

@@ -12,7 +12,6 @@
 static void whitenoise_if_class_init(WhitenoiseIFClass * klass);
 static void whitenoise_if_init(WhitenoiseIF * b);
 GtkWidget *whitenoise_if_new(whitenoise * wn);
-void whitenoise_if_dismiss(GtkWidget * widget, gpointer data);
 void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -176,11 +175,6 @@ void whitenoise_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((WHITENOISE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void whitenoise_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

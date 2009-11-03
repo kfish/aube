@@ -18,7 +18,6 @@ extern int tick;
 static void klavier_if_class_init(KlavierIFClass * klass);
 static void klavier_if_init(KlavierIF * b);
 GtkWidget *klavier_if_new(klavier * k);
-void klavier_if_dismiss(GtkWidget * widget, gpointer data);
 
 void klavier_if_hide_cb(GtkWidget * widget, gpointer data);
 void klavier_if_close_cb(GtkWidget * widget, gpointer data);
@@ -265,11 +264,6 @@ void klavier_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((KLAVIER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void klavier_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

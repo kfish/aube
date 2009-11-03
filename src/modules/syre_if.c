@@ -20,7 +20,6 @@ extern int tick;
 static void syre_if_class_init(SyreIFClass * klass);
 static void syre_if_init(SyreIF * b);
 GtkWidget *syre_if_new(syre_if_data * syre_if_data);
-void syre_if_dismiss(GtkWidget * widget, gpointer data);
 
 void refresh_sliders(SyreIF * syre_if);
 void syre_if_hide_cb(GtkWidget * widget, gpointer data);
@@ -483,11 +482,6 @@ void syre_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((SYRE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void syre_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

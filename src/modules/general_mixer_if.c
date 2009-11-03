@@ -13,7 +13,6 @@
 static void general_mixer_if_class_init(GeneralMixerIFClass * klass);
 static void general_mixer_if_init(GeneralMixerIF * b);
 GtkWidget *general_mixer_if_new(general_mixer * xf);
-void general_mixer_if_dismiss(GtkWidget * widget, gpointer data);
 void general_mixer_if_hide_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -194,11 +193,6 @@ void general_mixer_if_close_cb(GtkWidget * widget, gpointer data)
 	aube_remove_module(u);
 
 	free((GENERAL_MIXER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void general_mixer_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 

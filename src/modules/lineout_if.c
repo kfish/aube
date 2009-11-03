@@ -11,7 +11,6 @@
 static void lineout_if_class_init(LINEOUTIFClass * klass);
 static void lineout_if_init(LINEOUTIF * b);
 GtkWidget *lineout_if_new(oss_out * oss_p);
-void lineout_if_dismiss(GtkWidget * widget, gpointer data);
 void lineout_if_hide_cb(GtkWidget * widget, gpointer data);
 void lineout_if_close_cb(GtkWidget * widget, gpointer data);
 void lineout_if_onoff_cb(GtkWidget * widget, gpointer data);
@@ -319,11 +318,6 @@ void lineout_if_close_cb(GtkWidget * widget, gpointer data)
 	 */
 
 	free(lineout_if->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void lineout_if_dismiss(GtkWidget * widget, gpointer data)
-{
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
