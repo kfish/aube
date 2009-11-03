@@ -41,7 +41,6 @@ struct _GeneralMixerIF {
 
 	GtkWidget *hbox;
 	GtkWidget *vboxes[MAX_INPUTS];
-	general_mixer *data;
 };
 
 struct _GeneralMixerIFClass {

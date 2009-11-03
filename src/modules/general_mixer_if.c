@@ -88,8 +88,6 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 
 	modulewindow_set_module (MODULEWINDOW(general_mixer_if), (module *)mod);
 
-	general_mixer_if->data = mod;
-
 	hbox = MODULEWINDOW(general_mixer_if)->headbox;
 
 	button = gtk_button_new_with_label("Add");
@@ -106,9 +104,7 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 			 general_mixer_if);
 	gtk_widget_show(button);
 
-	button =
-	    outputlabel_new((module *) GENERAL_MIXER_IF(general_mixer_if)->
-			    data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
 	gtk_widget_show(button);
 
@@ -122,19 +118,16 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 			   FALSE, 0);
 	gtk_widget_show(vbox);
 
-	slider =
-	    slider_int_new("Master", &(general_mixer_if->data->master_vol),
-			   0, 64, 1);
+	slider = slider_int_new("Master", &mod->master_vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
 	gtk_widget_show(slider);
 
 	button = gtk_toggle_button_new_with_label("Mute");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    general_mixer_if->data->master_mute);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), mod->master_mute);
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(general_mixer_if_mute_cb),
-			 &(general_mixer_if->data->master_mute));
+			 &mod->master_mute);
 	gtk_widget_show(button);
 
 	button = gtk_vseparator_new();
@@ -142,7 +135,7 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 			   FALSE, 2);
 	gtk_widget_show(button);
 
-	for (i = 0; i < general_mixer_if->data->nr_active_channels; i++) {
+	for (i = 0; i < mod->nr_active_channels; i++) {
 		general_mixer_if_add_input(general_mixer_if, i);
 	}
 
@@ -151,22 +144,22 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data)
 {
-	GeneralMixerIF *general_mixer_if;
+	GeneralMixerIF *general_mixer_if = GENERAL_MIXER_IF(data);
+        general_mixer * mod = (general_mixer *)MODULEWINDOW(general_mixer_if)->module;
 	int i;
 
-	general_mixer_if = GENERAL_MIXER_IF(data);
-	if ((i = general_mixer_add_input(general_mixer_if->data)) > 0) {
+	if ((i = general_mixer_add_input(mod)) > 0) {
 		general_mixer_if_add_input(general_mixer_if, i);
 	}
 }
 
 void general_mixer_if_remove_input_cb(GtkWidget * widget, gpointer data)
 {
-	GeneralMixerIF *general_mixer_if;
+	GeneralMixerIF *general_mixer_if = GENERAL_MIXER_IF(data);
+        general_mixer * mod = (general_mixer *)MODULEWINDOW(general_mixer_if)->module;
 	int i;
 
-	general_mixer_if = GENERAL_MIXER_IF(data);
-	if ((i = general_mixer_remove_input(general_mixer_if->data)) > 0) {
+	if ((i = general_mixer_remove_input(mod)) > 0) {
 		general_mixer_if_remove_input(general_mixer_if, i);
 	}
 }
@@ -178,6 +171,7 @@ void general_mixer_if_mute_cb(GtkWidget * widget, gpointer data)
 
 void general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i)
 {
+        general_mixer * mod = (general_mixer *)MODULEWINDOW(general_mixer_if)->module;
 	char buf[8];
 	GtkWidget *vbox, *button, *slider;
 
@@ -187,28 +181,21 @@ void general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i)
 	gtk_widget_show(vbox);
 
 	snprintf(buf, sizeof(buf), "%d:", i);
-	button = inputoption_new(buf,
-				 (module *)
-				 GENERAL_MIXER_IF(general_mixer_if)->data,
-				 i);
+	button = inputoption_new(buf, (module *)mod, i);
 	reread_inputs_cb(GTK_WIDGET(general_mixer_if), button);
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, TRUE, 0);
 	gtk_widget_show(button);
 
 	snprintf(buf, sizeof(buf), "%d", i);
-	slider =
-	    slider_int_new(buf, &(general_mixer_if->data->vol[i]), 0, 64,
-			   1);
+	slider = slider_int_new(buf, &mod->vol[i], 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
 	gtk_widget_show(slider);
 
 	button = gtk_toggle_button_new_with_label("Mute");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    general_mixer_if->data->mute[i]);
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), mod->mute[i]);
 	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(general_mixer_if_mute_cb),
-			 &(general_mixer_if->data->mute[i]));
+			 G_CALLBACK(general_mixer_if_mute_cb), &mod->mute[i]);
 	gtk_widget_show(button);
 
 	general_mixer_if->vboxes[i] = vbox;
