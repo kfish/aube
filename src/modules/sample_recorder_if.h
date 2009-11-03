@@ -42,7 +42,6 @@ struct _SampleRecorderIF {
 	GtkWidget *record_pbar;
 	GtkWidget *samplename_entry;
 	gint recordfunc_tag;
-	sample_recorder *data;
 };
 
 struct _SampleRecorderIFClass {

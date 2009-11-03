@@ -102,31 +102,20 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 
 	modulewindow_set_module (MODULEWINDOW(sample_recorder_if), (module *)mod);
 
-	sample_recorder_if->data = mod;
-
 	sample_recorder_if->recordfunc_tag = 0;
 
 	vbox2 = MODULEWINDOW(sample_recorder_if)->mainbox;
 	hbox = MODULEWINDOW(sample_recorder_if)->headbox;
 
-	button =
-	    outputlabel_new((module *)
-			    SAMPLE_RECORDER_IF(sample_recorder_if)->data,
-			    0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
 	gtk_widget_show(button);
 
-	button = inputoption_new((char *) "In:",
-				 (module *)
-				 SAMPLE_RECORDER_IF(sample_recorder_if)->
-				 data, 0);
+	button = inputoption_new((char *) "In:", (module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(vbox2), button, FALSE, TRUE, 2);
 	gtk_widget_show(button);
 
-	button = inputoption_new((char *) "Trigger:",
-				 (module *)
-				 SAMPLE_RECORDER_IF(sample_recorder_if)->
-				 data, 1);
+	button = inputoption_new((char *) "Trigger:", (module *)mod, 1);
 	gtk_box_pack_start(GTK_BOX(vbox2), button, FALSE, TRUE, 2);
 	gtk_widget_show(button);
 
@@ -148,8 +137,7 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 
 	button = gtk_check_button_new_with_label("Record on next trigger");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    sample_recorder_if->data->record_next);
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), mod->record_next);
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(sample_recorder_if_record_next),
 			 sample_recorder_if);
@@ -162,8 +150,7 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 
 	button = gtk_toggle_button_new_with_label("Record");
 	gtk_box_pack_start(GTK_BOX(hbox3), button, FALSE, FALSE, 0);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    sample_recorder_if->data->recording);
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), mod->recording);
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(sample_recorder_if_record),
 			 sample_recorder_if);
@@ -196,12 +183,11 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 					    "Always pass input through");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    (sample_recorder_if->data->
-				     passthrough_mode ==
+				    (mod->passthrough_mode ==
 				     AUBE_SAMPLE_RECORDER_PASSTHROUGH_ALWAYS));
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(sample_recorder_if_passthrough_always),
-			 sample_recorder_if->data);
+			 mod);
 	gtk_widget_show(button);
 
 	rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
@@ -211,12 +197,11 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 					    "Pass through when recording,\nelse playback");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    (sample_recorder_if->data->
-				     passthrough_mode ==
+				    (mod->passthrough_mode ==
 				     AUBE_SAMPLE_RECORDER_PASSTHROUGH_REC));
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(sample_recorder_if_passthrough_rec),
-			 sample_recorder_if->data);
+			 mod);
 	gtk_widget_show(button);
 	rbgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(button));
 
@@ -224,19 +209,18 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 	    gtk_radio_button_new_with_label(rbgroup, "Always playback");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    (sample_recorder_if->data->
-				     passthrough_mode ==
+				    (mod->passthrough_mode ==
 				     AUBE_SAMPLE_RECORDER_PASSTHROUGH_NEVER));
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(sample_recorder_if_passthrough_never),
-			 sample_recorder_if->data);
+			 mod);
 	gtk_widget_show(button);
 
 	button = gtk_button_new_with_label("Restart");
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(sample_recorder_if_restart),
-			 sample_recorder_if->data);
+			 mod);
 	gtk_widget_show(button);
 
 	vbox = gtk_vbox_new(FALSE, 0);
@@ -290,7 +274,7 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 void sample_recorder_if_record(GtkWidget * widget, gpointer data)
 {
 	SampleRecorderIF *SR = (SampleRecorderIF *) data;
-	sample_recorder *sr = SR->data;
+	sample_recorder *sr = (sample_recorder *)MODULEWINDOW(SR)->module;
 
 	sr->recording = 1 - sr->recording;
 	sample_recorder_if_check_record(SR);
@@ -299,7 +283,7 @@ void sample_recorder_if_record(GtkWidget * widget, gpointer data)
 void sample_recorder_if_stop(GtkWidget * widget, gpointer data)
 {
 	SampleRecorderIF *SR = (SampleRecorderIF *) data;
-	sample_recorder *sr = SR->data;
+	sample_recorder *sr = (sample_recorder *)MODULEWINDOW(SR)->module;
 
 	sample_recorder_stop_recording(sr);
 	sample_recorder_if_update_record(SR);
@@ -308,7 +292,7 @@ void sample_recorder_if_stop(GtkWidget * widget, gpointer data)
 void sample_recorder_if_record_next(GtkWidget * widget, gpointer data)
 {
 	SampleRecorderIF *SR = (SampleRecorderIF *) data;
-	sample_recorder *sr = SR->data;
+	sample_recorder *sr = (sample_recorder *)MODULEWINDOW(SR)->module;
 
 	sr->record_next = 1 - sr->record_next;
 	sample_recorder_if_check_record(SR);
@@ -341,7 +325,7 @@ void sample_recorder_if_restart(GtkWidget * widget, gpointer data)
 
 void sample_recorder_if_check_record(SampleRecorderIF * SR)
 {
-	sample_recorder *sr = SR->data;
+	sample_recorder *sr = (sample_recorder *)MODULEWINDOW(SR)->module;
 
 	if (!sr->recording && !sr->record_next) {
 		gtk_idle_remove(SR->recordfunc_tag);
@@ -356,16 +340,15 @@ void sample_recorder_if_check_record(SampleRecorderIF * SR)
 gint sample_recorder_if_update_record(gpointer data)
 {
 	SampleRecorderIF *SR = (SampleRecorderIF *) data;
+	sample_recorder *sr = (sample_recorder *)MODULEWINDOW(SR)->module;
 	gfloat percent;
 
 
 	g_signal_handlers_block_matched(SR->record_next_check,
 					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					NULL, SR);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				    (GTK_CHECK_BUTTON
-				     (SR->record_next_check)),
-				    SR->data->record_next);
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(SR->record_next_check),
+				    sr->record_next);
 	g_signal_handlers_unblock_matched(SR->record_next_check,
 					  G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					  NULL, SR);
@@ -375,19 +358,19 @@ gint sample_recorder_if_update_record(gpointer data)
 					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					NULL, SR);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(SR->record_toggle),
-				    SR->data->recording);
+				    sr->recording);
 	g_signal_handlers_unblock_matched(SR->record_toggle,
 					  G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					  NULL, SR);
 
-	if (!SR->data->recording && !SR->data->record_next) {
+	if (!sr->recording && !sr->record_next) {
 		gtk_idle_remove(SR->recordfunc_tag);
 		SR->recordfunc_tag = 0;
 		return 0;
 	}
-	if (SR->data->recording) {
+	if (sr->recording) {
 		percent =
-		    (gfloat) (SR->data->rec_offset) /
+		    (gfloat) (sr->rec_offset) /
 		    (gfloat) (AUBE_SR_BUFFER_TICKS * DEFAULT_TICK);
 		gtk_progress_bar_update(GTK_PROGRESS_BAR(SR->record_pbar),
 					percent);
@@ -408,7 +391,7 @@ gint sample_recorder_if_update_record(gpointer data)
 void sample_recorder_if_add_sample(GtkWidget * widget, gpointer data)
 {
 	SampleRecorderIF *SR = (SampleRecorderIF *) data;
-	sample_recorder *sr = SR->data;
+	sample_recorder *sr = (sample_recorder *)MODULEWINDOW(SR)->module;
         const gchar * samplename;
 
         samplename = gtk_entry_get_text(GTK_ENTRY (SR->samplename_entry));
