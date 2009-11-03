@@ -72,9 +72,7 @@ static void lineout_if_init(LINEOUTIF * lineout_if)
 
 static void lineout_if_destroy_cb(GtkWidget * widget, gpointer data)
 {
-	LINEOUTIF *lineout_if = LINEOUT_IF(data);
-
-	oss_dev_remove_writer(lineout_if->data->dev);
+	oss_dev_remove_writer(((oss_out *)data)->dev);
 }
 
 GtkWidget *lineout_if_new(oss_out * mod)
@@ -89,10 +87,8 @@ GtkWidget *lineout_if_new(oss_out * mod)
 
 	modulewindow_set_module (MODULEWINDOW(lineout_if), (module *)mod);
 
-	lineout_if->data = mod;
-
 	g_signal_connect(G_OBJECT(lineout_if), "destroy",
-			 G_CALLBACK(lineout_if_destroy_cb), lineout_if);
+			 G_CALLBACK(lineout_if_destroy_cb), mod);
 
         hbox2 = MODULEWINDOW(lineout_if)->headbox;
 
@@ -100,9 +96,7 @@ GtkWidget *lineout_if_new(oss_out * mod)
 	   I N P U T 
 	 */
 
-	widget =
-	    inputoption_new((char *) "Input:",
-			    &lineout_if->data->output_module, 0);
+	widget = inputoption_new((char *) "Input:", &mod->output_module, 0);
 	gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 4);
 	gtk_widget_show(widget);
 
@@ -126,11 +120,11 @@ GtkWidget *lineout_if_new(oss_out * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, FALSE, 0);
 	gtk_widget_show(hbox3);
 
-	slider = slider_int_new("Vol", &(lineout_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Vol", &mod->vol), 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider = slider_int_new("Pan", &(lineout_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan), 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 #endif
@@ -162,14 +156,14 @@ GtkWidget *lineout_if_new(oss_out * mod)
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(lineout_if_set_device_dsp_cb),
-			 lineout_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	menuitem = gtk_menu_item_new_with_label((char *) "/dev/dsp1");
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(lineout_if_set_device_dsp1_cb),
-			 lineout_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
@@ -288,11 +282,6 @@ GtkWidget *lineout_if_new(oss_out * mod)
 #endif
 
 	return GTK_WIDGET(lineout_if);
-}
-
-void lineout_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle(&((oss_out *) data)->output_module);
 }
 
 void lineout_if_set_device_dsp_cb(GtkWidget * widget, gpointer data)

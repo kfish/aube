@@ -41,7 +41,6 @@ struct _LINEOUTIF {
 
 	GtkWidget *inputs_om;
 	GtkWidget *inputsmenu;
-	oss_out *data;
 };
 
 struct _LINEOUTIFClass {
