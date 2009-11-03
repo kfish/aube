@@ -37,8 +37,6 @@ typedef struct _XFaderIFClass XFaderIFClass;
 
 struct _XFaderIF {
 	ModuleWindow window;
-
-	xfader *data;
 };
 
 struct _XFaderIFClass {

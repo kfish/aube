@@ -81,12 +81,10 @@ GtkWidget *xfader_if_new(xfader * mod)
 
 	modulewindow_set_module (MODULEWINDOW(xfader_if), (module *)mod);
 
-	xfader_if->data = mod;
-
 	vbox2 = MODULEWINDOW(xfader_if)->mainbox;
 	hbox = MODULEWINDOW(xfader_if)->headbox;
 
-	button = outputlabel_new((module *) XFADER_IF(xfader_if)->data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
@@ -95,14 +93,12 @@ GtkWidget *xfader_if_new(xfader * mod)
 	gtk_widget_show(hbox);
 
 	button =
-	    inputoption_new((char *) "0:",
-			    (module *) XFADER_IF(xfader_if)->data, 0);
+	    inputoption_new((char *) "0:", (module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
 	gtk_widget_show(button);
 
 	button =
-	    inputoption_new((char *) "1:",
-			    (module *) XFADER_IF(xfader_if)->data, 1);
+	    inputoption_new((char *) "1:", (module *)mod, 1);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
 	gtk_widget_show(button);
 
@@ -120,18 +116,15 @@ GtkWidget *xfader_if_new(xfader * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox2, TRUE, TRUE, 0);
 	gtk_widget_show(hbox2);
 
-	slider =
-	    slider_int_new("Vol0", &(xfader_if->data->vol0), 0, 64, 1);
+	slider = slider_int_new("Vol0", &mod->vol0, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox2), slider, TRUE, TRUE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Vol1", &(xfader_if->data->vol1), 0, 64, 1);
+	slider = slider_int_new("Vol1", &mod->vol1, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox2), slider, TRUE, TRUE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Fader", &(xfader_if->data->fader), 0, 64, 0);
+	slider = slider_int_new("Fader", &mod->fader, 0, 64, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 
