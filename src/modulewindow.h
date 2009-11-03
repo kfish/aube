@@ -47,6 +47,9 @@ struct _ModuleWindow {
 
         /* The main content box */
 	GtkWidget * mainbox;
+
+        /* The On/Off button */
+        GtkWidget * onbutton;
 };
 
 struct _ModuleWindowClass {

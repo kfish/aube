@@ -72,11 +72,16 @@ modulewindow_close_cb(GtkAccelGroup * accel_group,
 		g_signal_emit_by_name(G_OBJECT(acceleratable), "destroy");
 }
 
+static void modulewindow_onoff_cb(GtkWidget * widget, gpointer data)
+{
+	aube_module_toggle((module *) data);
+}
 
 static void modulewindow_init(ModuleWindow * mw)
 {
 	GClosure *gclosure;
 	GtkAccelGroup *accel_group;
+        GtkWidget * button;
 
 	gtk_container_border_width(GTK_CONTAINER(mw), 1);
 
@@ -99,6 +104,9 @@ static void modulewindow_init(ModuleWindow * mw)
 	gtk_box_pack_start(GTK_BOX(mw->mainbox), mw->headbox, FALSE, TRUE, 0);
 	gtk_widget_show(mw->headbox);
 
+	mw->onbutton = gtk_toggle_button_new_with_label("On");
+	gtk_box_pack_start(GTK_BOX(mw->headbox), mw->onbutton, FALSE, FALSE, 1);
+	gtk_widget_show(mw->onbutton);
 }
 
 #if 0
@@ -113,6 +121,9 @@ void modulewindow_set_module (ModuleWindow * mw, module * module)
 	mw->module = module;
 
 	gtk_window_set_title(GTK_WINDOW(mw), module->u_label);
+
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(mw->onbutton), module->on);
+	g_signal_connect(G_OBJECT(mw->onbutton), "clicked", G_CALLBACK(modulewindow_onoff_cb), module);
 }
 
 GtkWidget *modulewindow_new(module * module)

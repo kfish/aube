@@ -113,12 +113,6 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 	g_signal_connect(G_OBJECT(ui), "destroy", G_CALLBACK(whitenoise_if_close_cb), ui);
 #endif
 
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button), ui->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(whitenoise_if_onoff_cb), mod);
-	gtk_widget_show(button);
-
 /* FIXME: funky accel business 
  gtk_accel_group_add (accel_group, GDK_Escape, GDK_NONE, 0,
 		       G_OBJECT(button), "clicked");
@@ -176,9 +170,4 @@ void whitenoise_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((WHITENOISE_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void whitenoise_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
