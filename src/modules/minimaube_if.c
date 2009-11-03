@@ -98,8 +98,6 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 
 	minimaube_if->data = mod;
 
-	gtk_window_set_policy(GTK_WINDOW(minimaube_if), TRUE, TRUE, TRUE);
-
 #if 0
 	/*
 	   when the window is given the "delete_event" signal - this is

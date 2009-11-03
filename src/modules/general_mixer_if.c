@@ -93,8 +93,6 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 
 	general_mixer_if->data = mod;
 
-	gtk_window_set_policy(GTK_WINDOW(general_mixer_if), TRUE, TRUE, TRUE);
-
 #if 0
 	g_signal_connect(G_OBJECT(general_mixer_if), "delete_event",
 			 G_CALLBACK(delete_event), NULL);
