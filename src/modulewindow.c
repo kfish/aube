@@ -54,7 +54,8 @@ GType modulewindow_get_type(void)
 		};
 
 		mw_type = g_type_register_static(GTK_TYPE_WINDOW,
-                        "ModuleWindow", &mw_info, 0);
+						 "ModuleWindow", &mw_info,
+						 0);
 	}
 	return mw_type;
 }
@@ -65,8 +66,8 @@ static void modulewindow_class_init(ModuleWindowClass * klass)
 
 static void
 modulewindow_close_cb(GtkAccelGroup * accel_group,
-		GObject * acceleratable,
-		guint keyval, GdkModifierType modifier)
+		      GObject * acceleratable,
+		      guint keyval, GdkModifierType modifier)
 {
 	if (GTK_IS_WINDOW(acceleratable))
 		g_signal_emit_by_name(G_OBJECT(acceleratable), "destroy");
@@ -77,63 +78,85 @@ static void modulewindow_onoff_cb(GtkWidget * widget, gpointer data)
 	aube_module_toggle((module *) data);
 }
 
+static void modulewindow_toggle(GtkWidget * widget, gpointer data)
+{
+	ModuleWindow *mw = (ModuleWindow *) data;
+
+	if (mw->module)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
+					     (mw->onbutton),
+					     !(mw->module->on));
+}
+
 static void modulewindow_init(ModuleWindow * mw)
 {
 	GClosure *gclosure;
 	GtkAccelGroup *accel_group;
-        GtkWidget * button;
 
 	gtk_container_border_width(GTK_CONTAINER(mw), 1);
 
-        /*
-         * close the window when Ctrl and w are pressed.
-         *      accel key combo is static. perhaps there is a better
-         *      way to do this?
-         */
 	accel_group = gtk_accel_group_new();
-	gclosure = g_cclosure_new((GCallback)modulewindow_close_cb, NULL, NULL);
-	gtk_accel_group_connect(accel_group, GDK_w, GDK_CONTROL_MASK, 0, gclosure);
 	gtk_window_add_accel_group(GTK_WINDOW(mw), accel_group);
 
-        /* Set up the boxes */
+	/*
+	 * close the window when Ctrl and w are pressed.
+	 *      accel key combo is static. perhaps there is a better
+	 *      way to do this?
+	 */
+	gclosure =
+	    g_cclosure_new((GCallback) modulewindow_close_cb, NULL, NULL);
+	gtk_accel_group_connect(accel_group, GDK_w, GDK_CONTROL_MASK, 0,
+				gclosure);
+
+	/* Set up the boxes */
 	mw->mainbox = gtk_vbox_new(FALSE, 5);
 	gtk_container_add(GTK_CONTAINER(mw), mw->mainbox);
 	gtk_widget_show(mw->mainbox);
 
 	mw->headbox = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(mw->mainbox), mw->headbox, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(mw->mainbox), mw->headbox, FALSE, TRUE,
+			   0);
 	gtk_widget_show(mw->headbox);
 
 	mw->onbutton = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(mw->headbox), mw->onbutton, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(mw->headbox), mw->onbutton, FALSE,
+			   FALSE, 1);
 	gtk_widget_show(mw->onbutton);
+
+	gclosure =
+	    g_cclosure_new((GCallback) modulewindow_toggle, mw, NULL);
+	gtk_accel_group_connect(accel_group, GDK_Escape, 0, 0, gclosure);
+
 }
 
 #if 0
-static void modulewindow_dismiss (GtkWidget * widget, gpointer data)
+static void modulewindow_dismiss(GtkWidget * widget, gpointer data)
 {
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 #endif
 
-void modulewindow_set_module (ModuleWindow * mw, module * module)
+void modulewindow_set_module(ModuleWindow * mw, module * module)
 {
 	mw->module = module;
 
 	gtk_window_set_title(GTK_WINDOW(mw), module->u_label);
 
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(mw->onbutton), module->on);
-	g_signal_connect(G_OBJECT(mw->onbutton), "clicked", G_CALLBACK(modulewindow_onoff_cb), module);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(mw->onbutton),
+				     module->on);
+	g_signal_connect(G_OBJECT(mw->onbutton), "clicked",
+			 G_CALLBACK(modulewindow_onoff_cb), module);
 }
 
 GtkWidget *modulewindow_new(module * module)
 {
-	ModuleWindow * mw;
+	ModuleWindow *mw;
 
-        mw = g_object_new (MODULEWINDOW_TYPE, NULL);
-        if (mw == NULL) return NULL;
+	mw = g_object_new(MODULEWINDOW_TYPE, NULL);
+	if (mw == NULL)
+		return NULL;
 
-	modulewindow_set_module (mw, module);
+	modulewindow_set_module(mw, module);
 
-        return GTK_WIDGET (mw);
+	return GTK_WIDGET(mw);
 }

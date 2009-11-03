@@ -80,16 +80,11 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 	GtkWidget *button;
 	GtkWidget *slider;
 
-	GtkAccelGroup *accel_group;
-
 	ui = gtk_type_new(whitenoise_if_get_type());
 
 	modulewindow_set_module (MODULEWINDOW(ui), (module *)mod);
 
 	ui->data = mod;
-
-	accel_group = gtk_accel_group_new();
-	gtk_window_add_accel_group(GTK_WINDOW(ui), accel_group);
 
 #if 0
 	/*
@@ -111,11 +106,6 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 	 */
 	g_signal_connect(G_OBJECT(ui), "destroy", G_CALLBACK(whitenoise_if_close_cb), ui);
 #endif
-
-/* FIXME: funky accel business 
- gtk_accel_group_add (accel_group, GDK_Escape, GDK_NONE, 0,
-		       G_OBJECT(button), "clicked");
- */
 
 	button = opsmenu_new((module *)ui->data, GTK_WIDGET(ui), whitenoise_if_hide_cb,
 			whitenoise_if_close_cb);
