@@ -45,8 +45,6 @@ static void atonal_if_init(AtonalIF * b);
 GtkWidget *atonal_if_new(atonal * mod);
 
 void atonal_if_update_at(GtkWidget * widget, gpointer data);
-void atonal_if_hide_cb(GtkWidget * widget, gpointer data);
-void atonal_if_close_cb(GtkWidget * widget, gpointer data);
 void atonal_if_set_note_cb(GtkWidget * widget, gpointer note);
 void at_restart_cb(GtkWidget * widget, gpointer data);
 void at_clear_cb(GtkWidget * widget, gpointer data);
@@ -106,30 +104,6 @@ GtkWidget *atonal_if_new(atonal * mod)
 	modulewindow_set_module (MODULEWINDOW(atonal_if), (module *)mod);
 
 	atonal_if->data = mod;
-
-#if 0
-	/* when the window is given the "delete_event" signal - this is
-	 * given by the window manager - usually the close option or on the
-	 * titlebar - we ask it to call the delete_event() function
-	 * as defined above. The data passed to the callback function is
-	 * NULL and is ignored in the callback. */
-	g_signal_connect(G_OBJECT(atonal_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/* here we connect the "destroy" event to a signal handler.
-	 * This event occurs when we call gtk_widget_destroy() on the
-	 * window, or if we return "TRUE" in the "delete_event" callback. */
-	g_signal_connect(G_OBJECT(atonal_if), "destroy",
-			 G_CALLBACK(atonal_if_close_cb), atonal_if);
-#endif
-
-	button =
-	    opsmenu_new((module *) atonal_if->data, GTK_WIDGET(atonal_if),
-			atonal_if_hide_cb, atonal_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(atonal_if)->headbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 #if 0
 	button = gtk_button_new_with_label("Clear");
@@ -229,32 +203,6 @@ void atonal_if_update_at(GtkWidget * widget, gpointer data)
 						  0, NULL, NULL,
 						  atonal_if);
 	}
-}
-
-void atonal_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	AtonalIF *atonal_if;
-
-	atonal_if = ATONAL_IF(data);
-	u = (module *) atonal_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void atonal_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	AtonalIF *atonal_if;
-
-	atonal_if = ATONAL_IF(data);
-
-	u = (module *) atonal_if->data;
-	aube_remove_module(u);
-
-	free((ATONAL_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void atonal_if_set_note_cb(GtkWidget * widget, gpointer data)

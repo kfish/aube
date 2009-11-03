@@ -58,8 +58,7 @@ module_class filter_reslp_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) filter_reslp_if_new,
-	(void *) filter_reslp_if_close_cb
+	(void *) filter_reslp_if_new
 };
 
 void filter_reslp_init()

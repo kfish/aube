@@ -37,8 +37,6 @@
 static void general_mixer_if_class_init(GeneralMixerIFClass * klass);
 static void general_mixer_if_init(GeneralMixerIF * b);
 GtkWidget *general_mixer_if_new(general_mixer * mod);
-void general_mixer_if_hide_cb(GtkWidget * widget, gpointer data);
-void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_remove_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i);
@@ -92,26 +90,7 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 
 	general_mixer_if->data = mod;
 
-#if 0
-	g_signal_connect(G_OBJECT(general_mixer_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	g_signal_connect(G_OBJECT(general_mixer_if), "destroy",
-			 G_CALLBACK(general_mixer_if_close_cb),
-			 general_mixer_if);
-#endif
-
 	hbox = MODULEWINDOW(general_mixer_if)->headbox;
-
-	button =
-	    opsmenu_new((module *) general_mixer_if->data,
-			GTK_WIDGET(general_mixer_if),
-			general_mixer_if_hide_cb,
-			general_mixer_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
-	gtk_widget_show(button);
 
 	button = gtk_button_new_with_label("Add");
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
@@ -168,31 +147,6 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 	}
 
 	return GTK_WIDGET(general_mixer_if);
-}
-
-void general_mixer_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	GeneralMixerIF *general_mixer_if;
-
-	general_mixer_if = GENERAL_MIXER_IF(data);
-	u = (module *) general_mixer_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void general_mixer_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	GeneralMixerIF *general_mixer_if;
-
-	general_mixer_if = GENERAL_MIXER_IF(data);
-	u = (module *) general_mixer_if->data;
-	aube_remove_module(u);
-
-	free((GENERAL_MIXER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data)

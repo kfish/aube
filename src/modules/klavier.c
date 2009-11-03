@@ -56,8 +56,7 @@ module_class klavier_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) klavier_if_new,
-	(void *) klavier_if_close_cb
+	(void *) klavier_if_new
 };
 
 klavier *klavier_new()

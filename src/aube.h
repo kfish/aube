@@ -184,7 +184,6 @@ struct _module_class {
 	int (*module_on) ();
 	int (*config_module) ();
 	GtkWidget *(*new_if) ();
-	GtkWidget *(*close_if) ();
 	GtkWidget *replace_menuitem;
 };
 

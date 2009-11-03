@@ -38,8 +38,6 @@ extern int tick;
 static void panner4_if_class_init(Panner4IFClass * klass);
 static void panner4_if_init(Panner4IF * b);
 GtkWidget *panner4_if_new(panner4 * mod);
-void panner4_if_hide_cb(GtkWidget * widget, gpointer data);
-void panner4_if_close_cb(GtkWidget * widget, gpointer data);
 
 GType panner4_if_get_type(void)
 {
@@ -87,36 +85,7 @@ GtkWidget *panner4_if_new(panner4 * mod)
 
 	panner4_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(panner4_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(panner4_if), "destroy",
-			 G_CALLBACK(panner4_if_close_cb), panner4_if);
-#endif
-
         vbox2 = MODULEWINDOW(panner4_if)->mainbox;
-
-	button =
-	    opsmenu_new((module *) panner4_if->data,
-			GTK_WIDGET(panner4_if), panner4_if_hide_cb,
-			panner4_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(panner4_if)->headbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 1);
@@ -177,29 +146,3 @@ GtkWidget *panner4_if_new(panner4 * mod)
 
 	return GTK_WIDGET(panner4_if);
 }
-
-void panner4_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	Panner4IF *panner4_if;
-
-	panner4_if = PANNER4_IF(data);
-	u = (module *) panner4_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void panner4_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	Panner4IF *panner4_if;
-
-	panner4_if = PANNER4_IF(data);
-	u = (module *) panner4_if->data;
-	aube_remove_module(u);
-
-	free((PANNER4_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-

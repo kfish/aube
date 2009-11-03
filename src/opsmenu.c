@@ -70,8 +70,7 @@ static void opsmenu_init(Opsmenu * a)
 {
 }
 
-GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if,
-		       void *if_hide_cb, void *if_close_cb)
+GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if, void *if_hide_cb)
 {
 	Opsmenu *opsmenu;
 	GtkWidget *menu, *menuitem;

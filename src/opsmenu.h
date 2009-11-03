@@ -48,8 +48,7 @@ struct _OpsmenuClass {
 };
 
 GType opsmenu_get_type(void);
-GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if,
-		       void *if_hide_cb, void *if_close_cb);
+GtkWidget *opsmenu_new(module * module, GtkWidget * parent_if, void *if_hide_cb);
 
 G_END_DECLS
 

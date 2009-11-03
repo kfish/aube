@@ -742,10 +742,6 @@ void clear_workspace_cb(GtkWidget * widget, gpointer data)
 		mc = aube_daddy->modules[j]->class;
 		if (mc && strcmp(mc->type_label, "none")) {
 			if (aube_daddy->modules[j]->has_if) {
-				/* XXX: can remove close_if, just send destroy signal instead...
-				   aube_daddy->modules[j]->class->close_if
-				   (NULL, aube_daddy->modules[j]->has_if);
-				 */
 				gtk_widget_destroy(aube_daddy->modules[j]->
 						   has_if);
 			} else {

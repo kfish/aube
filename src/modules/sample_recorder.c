@@ -55,8 +55,7 @@ module_class sample_recorder_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) sample_recorder_if_new,
-	(void *) sample_recorder_if_close_cb
+	(void *) sample_recorder_if_new
 };
 
 sample_recorder *sample_recorder_new()

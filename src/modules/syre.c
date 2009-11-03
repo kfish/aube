@@ -68,8 +68,7 @@ module_class syre_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) syre_if_new,
-	(void *) syre_if_close_cb
+	(void *) syre_if_new
 };
 
 void syre_if_data_init()

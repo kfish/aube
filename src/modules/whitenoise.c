@@ -54,8 +54,7 @@ module_class whitenoise_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) whitenoise_if_new,
-	(void *) whitenoise_if_close_cb
+	(void *) whitenoise_if_new
 };
 
 whitenoise *whitenoise_new()

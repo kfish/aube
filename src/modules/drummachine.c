@@ -61,8 +61,7 @@ module_class drummachine_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) drummachine_if_new,
-	(void *) drummachine_if_close_cb
+	(void *) drummachine_if_new
 };
 
 drummachine *drummachine_new()

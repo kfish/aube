@@ -28,6 +28,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include "modulewindow.h"
+#include "opsmenu.h"
 
 extern GtkWidget *master_daddy;
 extern aube_data *aube_daddy;
@@ -64,13 +65,32 @@ static void modulewindow_class_init(ModuleWindowClass * klass)
 {
 }
 
+static void modulewindow_destroy_cb (GtkWidget * widget, gpointer data)
+{
+        ModuleWindow * mw = (ModuleWindow *)data;
+
+	aube_remove_module (mw->module);
+
+        /* XXX: simply free the module data */
+        free (mw->module);
+}
+
+static void modulewindow_hide_cb (GtkWidget * widget, gpointer data)
+{
+        ModuleWindow * mw = (ModuleWindow *)data;
+
+	aube_module_remove_if(mw->module);
+        gtk_widget_destroy (GTK_WIDGET(mw));
+}
+
 static void
 modulewindow_close_cb(GtkAccelGroup * accel_group,
 		      GObject * acceleratable,
 		      guint keyval, GdkModifierType modifier)
 {
 	if (GTK_IS_WINDOW(acceleratable))
-		g_signal_emit_by_name(G_OBJECT(acceleratable), "destroy");
+                gtk_widget_destroy (GTK_WIDGET(acceleratable));
+		//g_signal_emit_by_name(G_OBJECT(acceleratable), "destroy");
 }
 
 static void modulewindow_onoff_cb(GtkWidget * widget, gpointer data)
@@ -92,6 +112,10 @@ static void modulewindow_init(ModuleWindow * mw)
 {
 	GClosure *gclosure;
 	GtkAccelGroup *accel_group;
+
+	g_signal_connect(G_OBJECT(mw), "destroy",
+			 G_CALLBACK(modulewindow_destroy_cb),
+			 mw);
 
 	gtk_container_border_width(GTK_CONTAINER(mw), 1);
 
@@ -118,13 +142,13 @@ static void modulewindow_init(ModuleWindow * mw)
 			   0);
 	gtk_widget_show(mw->headbox);
 
+        /* On button */
 	mw->onbutton = gtk_toggle_button_new_with_label("On");
 	gtk_box_pack_start(GTK_BOX(mw->headbox), mw->onbutton, FALSE,
 			   FALSE, 1);
 	gtk_widget_show(mw->onbutton);
 
-	gclosure =
-	    g_cclosure_new((GCallback) modulewindow_toggle, mw, NULL);
+	gclosure = g_cclosure_new((GCallback) modulewindow_toggle, mw, NULL);
 	gtk_accel_group_connect(accel_group, GDK_Escape, 0, 0, gclosure);
 
 }
@@ -138,6 +162,8 @@ static void modulewindow_dismiss(GtkWidget * widget, gpointer data)
 
 void modulewindow_set_module(ModuleWindow * mw, module * module)
 {
+        GtkWidget * opsmenu;
+
 	mw->module = module;
 
 	gtk_window_set_title(GTK_WINDOW(mw), module->u_label);
@@ -146,6 +172,12 @@ void modulewindow_set_module(ModuleWindow * mw, module * module)
 				     module->on);
 	g_signal_connect(G_OBJECT(mw->onbutton), "clicked",
 			 G_CALLBACK(modulewindow_onoff_cb), module);
+
+        /* Opsmenu */
+	opsmenu = opsmenu_new(module, GTK_WIDGET(mw), modulewindow_hide_cb);
+	gtk_box_pack_start(GTK_BOX(mw->headbox), opsmenu, FALSE, FALSE, 4);
+	gtk_widget_show(opsmenu);
+
 }
 
 GtkWidget *modulewindow_new(module * module)

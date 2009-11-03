@@ -36,8 +36,6 @@
 static void xfader_if_class_init(XFaderIFClass * klass);
 static void xfader_if_init(XFaderIF * b);
 GtkWidget *xfader_if_new(xfader * mod);
-void xfader_if_hide_cb(GtkWidget * widget, gpointer data);
-void xfader_if_close_cb(GtkWidget * widget, gpointer data);
 
 GType xfader_if_get_type(void)
 {
@@ -85,36 +83,8 @@ GtkWidget *xfader_if_new(xfader * mod)
 
 	xfader_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(xfader_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(xfader_if), "destroy",
-			 G_CALLBACK(xfader_if_close_cb), xfader_if);
-#endif
-
 	vbox2 = MODULEWINDOW(xfader_if)->mainbox;
 	hbox = MODULEWINDOW(xfader_if)->headbox;
-
-	button =
-	    opsmenu_new((module *) xfader_if->data, GTK_WIDGET(xfader_if),
-			xfader_if_hide_cb, xfader_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	button = outputlabel_new((module *) XFADER_IF(xfader_if)->data, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -166,29 +136,4 @@ GtkWidget *xfader_if_new(xfader * mod)
 	gtk_widget_show(slider);
 
 	return GTK_WIDGET(xfader_if);
-}
-
-void xfader_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	XFaderIF *xfader_if;
-
-	xfader_if = XFADER_IF(data);
-	u = (module *) xfader_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void xfader_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	XFaderIF *xfader_if;
-
-	xfader_if = XFADER_IF(data);
-	u = (module *) xfader_if->data;
-	aube_remove_module(u);
-
-	free((XFADER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }

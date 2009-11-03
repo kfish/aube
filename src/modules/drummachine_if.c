@@ -44,8 +44,6 @@ static void drummachine_if_init(DrumMachineIF * b);
 GtkWidget *drummachine_if_new(drummachine * mod);
 
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data);
-void drummachine_if_hide_cb(GtkWidget * widget, gpointer data);
-void drummachine_if_close_cb(GtkWidget * widget, gpointer data);
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer note);
 void dm_restart_cb(GtkWidget * widget, gpointer data);
 void dm_clear_cb(GtkWidget * widget, gpointer data);
@@ -114,36 +112,6 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 	modulewindow_set_module (MODULEWINDOW(drummachine_if), (module *)mod);
 
 	drummachine_if->data = mod;
-
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(drummachine_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(drummachine_if), "destroy",
-			 G_CALLBACK(drummachine_if_close_cb),
-			 drummachine_if);
-#endif
-
-	button = opsmenu_new((module *) drummachine_if->data,
-			     GTK_WIDGET(drummachine_if),
-			     drummachine_if_hide_cb,
-			     drummachine_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(drummachine_if)->headbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(drummachine_if)->headbox), frame, TRUE, TRUE, 1);
@@ -329,32 +297,6 @@ void drummachine_if_update_dm(GtkWidget * widget, gpointer data)
 							  drummachine_if);
 		}
 	}
-}
-
-void drummachine_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	DrumMachineIF *drummachine_if;
-
-	drummachine_if = DRUMMACHINE_IF(data);
-	u = (module *) drummachine_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void drummachine_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	DrumMachineIF *drummachine_if;
-
-	drummachine_if = DRUMMACHINE_IF(data);
-
-	u = (module *) drummachine_if->data;
-	aube_remove_module(u);
-
-	free((DRUMMACHINE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer data)

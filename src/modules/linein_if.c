@@ -35,8 +35,6 @@
 static void linein_if_class_init(LINEINIFClass * klass);
 static void linein_if_init(LINEINIF * b);
 GtkWidget *linein_if_new(oss_in * mod);
-void linein_if_hide_cb(GtkWidget * widget, gpointer data);
-void linein_if_close_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
@@ -78,6 +76,12 @@ static void linein_if_init(LINEINIF * linein_if)
 {
 }
 
+static void linein_if_destroy_cb(GtkWidget * widget, gpointer data)
+{
+	LINEINIF *linein_if = LINEIN_IF(data);
+	oss_dev_remove_writer(linein_if->data->dev);
+}
+
 void linein_if_onoff_cb(GtkWidget * widget, gpointer data)
 {
 	if (((oss *) data)->output_module.on) {
@@ -101,16 +105,8 @@ GtkWidget *linein_if_new(oss_in * mod)
 
 	linein_if->data = mod;
 
-#if 0
-	g_signal_connect(G_OBJECT(linein_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
 	g_signal_connect(G_OBJECT(linein_if), "destroy",
-			 G_CALLBACK(linein_if_close_cb), linein_if);
-#endif
-
+			 G_CALLBACK(linein_if_destroy_cb), linein_if);
 
 #if 0
 	/*
@@ -145,14 +141,6 @@ GtkWidget *linein_if_new(oss_in * mod)
 			 G_CALLBACK(linein_if_onoff_cb), linein_if->data);
 
 	hbox2 = MODULEWINDOW(linein_if)->headbox;
-
-	widget =
-	    opsmenu_new(&linein_if->data->input_module,
-			GTK_WIDGET(linein_if), linein_if_hide_cb,
-			linein_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 2);
-	gtk_widget_show(widget);
-
 
 	/*
 	   O U T P U T 
@@ -379,29 +367,6 @@ GtkWidget *linein_if_new(oss_in * mod)
 #endif
 
 	return GTK_WIDGET(linein_if);
-}
-
-void linein_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	LINEINIF *linein_if;
-
-	linein_if = LINEIN_IF(data);
-	aube_module_remove_if(&linein_if->data->input_module);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void linein_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	LINEINIF *linein_if;
-
-	linein_if = LINEIN_IF(data);
-	oss_dev_remove_writer(linein_if->data->dev);
-
-	aube_remove_module(&linein_if->data->input_module);
-
-	free(linein_if->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void linein_if_set_device_dsp_cb(GtkWidget * widget, gpointer data)

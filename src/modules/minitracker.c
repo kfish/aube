@@ -61,8 +61,7 @@ module_class minitracker_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) minitracker_if_new,
-	(void *) minitracker_if_close_cb
+	(void *) minitracker_if_new
 };
 
 minitracker *minitracker_new()

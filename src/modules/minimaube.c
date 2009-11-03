@@ -54,8 +54,7 @@ module_class minimaube_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) minimaube_if_new,
-	(void *) minimaube_if_close_cb
+	(void *) minimaube_if_new
 };
 
 minimaube *minimaube_new()

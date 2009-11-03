@@ -61,8 +61,7 @@ module_class atonal_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) atonal_if_new,
-	(void *) atonal_if_close_cb
+	(void *) atonal_if_new
 };
 
 atonal *atonal_new()

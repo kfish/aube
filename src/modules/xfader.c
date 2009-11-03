@@ -53,8 +53,7 @@ module_class xfader_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) xfader_if_new,
-	(void *) xfader_if_close_cb
+	(void *) xfader_if_new
 };
 
 xfader *xfader_new()

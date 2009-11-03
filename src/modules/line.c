@@ -67,8 +67,7 @@ module_class lineout_mif = {
 	lineout_off,		/* off */
 	lineout_on,		/* on */
 	(void *) none_config_cb,
-	(void *) lineout_if_new,
-	(void *) lineout_if_close_cb
+	(void *) lineout_if_new
 };
 
 module_class linein_mif = {
@@ -82,8 +81,7 @@ module_class linein_mif = {
 	NULL,			/* off */
 	NULL,			/* on */
 	(void *) none_config_cb,
-	(void *) linein_if_new,
-	(void *) linein_if_close_cb
+	(void *) linein_if_new
 };
 
 struct timeval tv_instant = { 0, 0 };

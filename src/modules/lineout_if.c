@@ -35,8 +35,6 @@
 static void lineout_if_class_init(LINEOUTIFClass * klass);
 static void lineout_if_init(LINEOUTIF * b);
 GtkWidget *lineout_if_new(oss_out * mod);
-void lineout_if_hide_cb(GtkWidget * widget, gpointer data);
-void lineout_if_close_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
@@ -72,6 +70,13 @@ static void lineout_if_init(LINEOUTIF * lineout_if)
 {
 }
 
+static void lineout_if_destroy_cb(GtkWidget * widget, gpointer data)
+{
+	LINEOUTIF *lineout_if = LINEOUT_IF(data);
+
+	oss_dev_remove_writer(lineout_if->data->dev);
+}
+
 GtkWidget *lineout_if_new(oss_out * mod)
 {
 	LINEOUTIF *lineout_if;
@@ -86,25 +91,10 @@ GtkWidget *lineout_if_new(oss_out * mod)
 
 	lineout_if->data = mod;
 
-#if 0
-	g_signal_connect(G_OBJECT(lineout_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
 	g_signal_connect(G_OBJECT(lineout_if), "destroy",
-			 G_CALLBACK(lineout_if_close_cb), lineout_if);
-#endif
+			 G_CALLBACK(lineout_if_destroy_cb), lineout_if);
 
         hbox2 = MODULEWINDOW(lineout_if)->headbox;
-
-	widget =
-	    opsmenu_new(&lineout_if->data->output_module,
-			GTK_WIDGET(lineout_if), lineout_if_hide_cb,
-			lineout_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 2);
-	gtk_widget_show(widget);
-
 
 	/*
 	   I N P U T 
@@ -298,32 +288,6 @@ GtkWidget *lineout_if_new(oss_out * mod)
 #endif
 
 	return GTK_WIDGET(lineout_if);
-}
-
-void lineout_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	LINEOUTIF *lineout_if;
-
-	lineout_if = LINEOUT_IF(data);
-	aube_module_remove_if(&lineout_if->data->output_module);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void lineout_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	LINEOUTIF *lineout_if;
-
-	lineout_if = LINEOUT_IF(data);
-	oss_dev_remove_writer(lineout_if->data->dev);
-
-	aube_remove_module(&lineout_if->data->output_module);
-	/*
-	   aube_remove_module(&lineout_if->data->input_module);
-	 */
-
-	free(lineout_if->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void lineout_if_onoff_cb(GtkWidget * widget, gpointer data)

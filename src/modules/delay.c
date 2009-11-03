@@ -54,8 +54,7 @@ module_class delay_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) delay_if_new,
-	(void *) delay_if_close_cb
+	(void *) delay_if_new
 };
 
 delay *delay_new()

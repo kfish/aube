@@ -39,8 +39,6 @@ extern int tick;
 static void sample_recorder_if_class_init(SampleRecorderIFClass * klass);
 static void sample_recorder_if_init(SampleRecorderIF * b);
 GtkWidget *sample_recorder_if_new(sample_recorder * mod);
-void sample_recorder_if_hide_cb(GtkWidget * widget, gpointer data);
-void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_record(GtkWidget * widget, gpointer data);
 void sample_recorder_if_stop(GtkWidget * widget, gpointer data);
 void sample_recorder_if_record_next(GtkWidget * widget, gpointer data);
@@ -108,38 +106,8 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 
 	sample_recorder_if->recordfunc_tag = 0;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(sample_recorder_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(sample_recorder_if), "destroy",
-			 G_CALLBACK(sample_recorder_if_close_cb),
-			 sample_recorder_if);
-#endif
-
 	vbox2 = MODULEWINDOW(sample_recorder_if)->mainbox;
 	hbox = MODULEWINDOW(sample_recorder_if)->headbox;
-
-	button = opsmenu_new((module *) sample_recorder_if->data,
-			     GTK_WIDGET(sample_recorder_if),
-			     sample_recorder_if_hide_cb,
-			     sample_recorder_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	button =
 	    outputlabel_new((module *)
@@ -317,31 +285,6 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 	gtk_widget_show(button);
 
 	return GTK_WIDGET(sample_recorder_if);
-}
-
-void sample_recorder_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	SampleRecorderIF *sample_recorder_if;
-
-	sample_recorder_if = SAMPLE_RECORDER_IF(data);
-	u = (module *) sample_recorder_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	SampleRecorderIF *sample_recorder_if;
-
-	sample_recorder_if = SAMPLE_RECORDER_IF(data);
-	u = (module *) sample_recorder_if->data;
-	aube_remove_module(u);
-
-	free((SAMPLE_RECORDER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void sample_recorder_if_record(GtkWidget * widget, gpointer data)

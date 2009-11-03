@@ -44,8 +44,6 @@ static void minitracker_if_init(MinitrackerIF * b);
 GtkWidget *minitracker_if_new(minitracker * mod);
 
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data);
-void minitracker_if_hide_cb(GtkWidget * widget, gpointer data);
-void minitracker_if_close_cb(GtkWidget * widget, gpointer data);
 void seq_toggle_cb(GtkWidget * widget, gpointer data);
 void restart_cb(GtkWidget * widget, gpointer data);
 void chaos_cb(GtkWidget * widget, gpointer data);
@@ -109,37 +107,7 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 
 	minitracker_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(minitracker_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(minitracker_if), "destroy",
-			 G_CALLBACK(minitracker_if_close_cb),
-			 minitracker_if);
-#endif
-
 	hbox2 = MODULEWINDOW(minitracker_if)->headbox;
-
-	button =
-	    opsmenu_new((module *) minitracker_if->data,
-			GTK_WIDGET(minitracker_if), minitracker_if_hide_cb,
-			minitracker_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	button = outputlabel_new((module *) minitracker_if->data, 0);
 	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
@@ -148,8 +116,6 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 	hbox = gtk_hbox_new(FALSE, 5);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(minitracker_if)->mainbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
-
-
 
 	frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, FALSE, 0);
@@ -354,32 +320,6 @@ void minitracker_if_update_tracker(GtkWidget * widget, gpointer data)
 				 (gchar **) & title);
 	}
 	gtk_clist_thaw(GTK_CLIST(tracker->tl));
-}
-
-void minitracker_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	MinitrackerIF *minitracker_if;
-
-	minitracker_if = MINITRACKER_IF(data);
-	u = (module *) minitracker_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void minitracker_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	MinitrackerIF *minitracker_if;
-
-	minitracker_if = MINITRACKER_IF(data);
-
-	u = (module *) minitracker_if->data;
-	aube_remove_module(u);
-
-	free((MINITRACKER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void seq_toggle_cb(GtkWidget * widget, gpointer data)

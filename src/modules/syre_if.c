@@ -46,8 +46,6 @@ static void syre_if_init(SyreIF * b);
 GtkWidget *syre_if_new(syre_if_data * mod);
 
 void refresh_sliders(SyreIF * syre_if);
-void syre_if_hide_cb(GtkWidget * widget, gpointer data);
-void syre_if_close_cb(GtkWidget * widget, gpointer data);
 void copy_accented_cb(GtkWidget * widget, gpointer data);
 void copy_unaccented_cb(GtkWidget * widget, gpointer data);
 void chaos_harmonics_cb(GtkWidget * widget, gpointer data);
@@ -92,6 +90,14 @@ static void syre_if_init(SyreIF * syre_if)
 {
 }
 
+static void syre_if_destroy_cb(GtkWidget * widget, gpointer data)
+{
+	SyreIF * ui = SYRE_IF(data);
+
+        printf ("%s\n", __func__);
+	gtk_idle_remove(ui->env_tag);
+}
+
 GtkWidget *syre_if_new(syre_if_data * mod)
 {
 	SyreIF *syre_if;
@@ -111,39 +117,14 @@ GtkWidget *syre_if_new(syre_if_data * mod)
 
 	syre_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(syre_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
 	g_signal_connect(G_OBJECT(syre_if), "destroy",
-			 G_CALLBACK(syre_if_close_cb), syre_if);
-#endif
+			 G_CALLBACK(syre_if_destroy_cb), syre_if);
 
 	/*
 	   S Y N T H 
 	 */
 
 	hbox = MODULEWINDOW(syre_if)->headbox;
-
-	button =
-	    opsmenu_new((module *) syre_if->data, GTK_WIDGET(syre_if),
-			syre_if_hide_cb, syre_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	button =
 	    inputoption_new((char *) "Sequencer:",
@@ -459,35 +440,6 @@ GtkWidget *syre_if_new(syre_if_data * mod)
 	    gtk_idle_add((GtkFunction) (get_envelopes), syre_if);
 
 	return GTK_WIDGET(syre_if);
-}
-
-void syre_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	SyreIF *syre_if;
-
-	syre_if = SYRE_IF(data);
-	u = (module *) syre_if->data;
-	aube_module_remove_if(u);
-
-	gtk_idle_remove(syre_if->env_tag);
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void syre_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	SyreIF *syre_if;
-
-	syre_if = SYRE_IF(data);
-
-	gtk_idle_remove(syre_if->env_tag);
-
-	u = (module *) syre_if->data;
-	aube_remove_module(u);
-
-	free((SYRE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void copy_accented_cb(GtkWidget * widget, gpointer data)

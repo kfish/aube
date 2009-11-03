@@ -36,8 +36,6 @@
 static void whitenoise_if_class_init(WhitenoiseIFClass * klass);
 static void whitenoise_if_init(WhitenoiseIF * b);
 GtkWidget *whitenoise_if_new(whitenoise * mod);
-void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data);
-void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
 
 GType whitenoise_if_get_type(void)
 {
@@ -86,32 +84,6 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 
 	ui->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(whitenoise_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(ui), "destroy", G_CALLBACK(whitenoise_if_close_cb), ui);
-#endif
-
-	button = opsmenu_new((module *)ui->data, GTK_WIDGET(ui), whitenoise_if_hide_cb,
-			whitenoise_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
-
 	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
@@ -134,29 +106,4 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 	gtk_widget_show(slider);
 
 	return GTK_WIDGET(ui);
-}
-
-void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	WhitenoiseIF *whitenoise_if;
-
-	whitenoise_if = WHITENOISE_IF(data);
-	u = (module *) whitenoise_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void whitenoise_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	WhitenoiseIF *whitenoise_if;
-
-	whitenoise_if = WHITENOISE_IF(data);
-	u = (module *) whitenoise_if->data;
-	aube_remove_module(u);
-
-	free((WHITENOISE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }

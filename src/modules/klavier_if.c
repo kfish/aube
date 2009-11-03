@@ -43,8 +43,6 @@ static void klavier_if_class_init(KlavierIFClass * klass);
 static void klavier_if_init(KlavierIF * b);
 GtkWidget *klavier_if_new(klavier * mod);
 
-void klavier_if_hide_cb(GtkWidget * widget, gpointer data);
-void klavier_if_close_cb(GtkWidget * widget, gpointer data);
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data);
 void klavkey_release_event(GtkWidget * widget, gint key, gpointer data);
 void klavkey_key_press_event(GtkWidget * widget, GdkEventKey * event,
@@ -105,37 +103,7 @@ GtkWidget *klavier_if_new(klavier * mod)
 
 	klavier_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(klavier_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(klavier_if), "destroy",
-			 G_CALLBACK(klavier_if_close_cb), klavier_if);
-#endif
-
         hbox2 = MODULEWINDOW(klavier_if)->headbox;
-
-	button =
-	    opsmenu_new((module *) klavier_if->data,
-			GTK_WIDGET(klavier_if), klavier_if_hide_cb,
-			klavier_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	button =
 	    outputlabel_new((module *) KLAVIER_IF(klavier_if)->data, 0);
@@ -243,33 +211,6 @@ GtkWidget *klavier_if_new(klavier * mod)
 	gtk_widget_show(klav);
 
 	return GTK_WIDGET(klavier_if);
-}
-
-void klavier_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	KlavierIF *klavier_if;
-
-	klavier_if = KLAVIER_IF(data);
-
-	u = (module *) klavier_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void klavier_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	KlavierIF *klavier_if;
-
-	klavier_if = KLAVIER_IF(data);
-
-	u = (module *) klavier_if->data;
-	aube_remove_module(u);
-
-	free((KLAVIER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data)

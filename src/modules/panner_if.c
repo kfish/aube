@@ -39,8 +39,6 @@ extern int tick;
 static void panner_if_class_init(PannerIFClass * klass);
 static void panner_if_init(PannerIF * b);
 GtkWidget *panner_if_new(panner * mod);
-void panner_if_hide_cb(GtkWidget * widget, gpointer data);
-void panner_if_close_cb(GtkWidget * widget, gpointer data);
 void panner_if_onoff_cb(GtkWidget * widget, gpointer data);
 
 GType panner_if_get_type(void)
@@ -89,36 +87,8 @@ GtkWidget *panner_if_new(panner * mod)
 
 	panner_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(panner_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(panner_if), "destroy",
-			 G_CALLBACK(panner_if_close_cb), panner_if);
-#endif
-
 	vbox2 = MODULEWINDOW(panner_if)->mainbox;
         hbox = MODULEWINDOW(panner_if)->headbox;
-
-	button =
-	    opsmenu_new((module *) panner_if->data, GTK_WIDGET(panner_if),
-			panner_if_hide_cb, panner_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
-	gtk_widget_show(button);
 
 	button = outputlabel_new((module *) PANNER_IF(panner_if)->data, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
@@ -159,29 +129,4 @@ GtkWidget *panner_if_new(panner * mod)
 	gtk_widget_show(slider);
 
 	return GTK_WIDGET(panner_if);
-}
-
-void panner_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	PannerIF *panner_if;
-
-	panner_if = PANNER_IF(data);
-	u = (module *) panner_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void panner_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	PannerIF *panner_if;
-
-	panner_if = PANNER_IF(data);
-	u = (module *) panner_if->data;
-	aube_remove_module(u);
-
-	free((PANNER_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }

@@ -54,8 +54,7 @@ module_class general_mixer_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) general_mixer_if_new,
-	(void *) general_mixer_if_close_cb
+	(void *) general_mixer_if_new
 };
 
 general_mixer *general_mixer_new()

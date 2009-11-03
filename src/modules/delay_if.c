@@ -42,8 +42,6 @@ extern GtkWidget *master_daddy;
 static void delay_if_class_init(DelayIFClass * klass);
 static void delay_if_init(DelayIF * b);
 GtkWidget *delay_if_new(delay * mod);
-void delay_if_hide_cb(GtkWidget * widget, gpointer data);
-void delay_if_close_cb(GtkWidget * widget, gpointer data);
 void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data);
 
 GType delay_if_get_type(void)
@@ -91,34 +89,6 @@ GtkWidget *delay_if_new(delay * mod)
 	modulewindow_set_module (MODULEWINDOW(delay_if), (module *)mod);
 
 	delay_if->data = mod;
-
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(delay_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal handler.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(delay_if), "destroy",
-			 G_CALLBACK(delay_if_close_cb), delay_if);
-#endif
-
-	widget =
-	    opsmenu_new((module *) delay_if->data, GTK_WIDGET(delay_if),
-			delay_if_hide_cb, delay_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->headbox), widget, FALSE, FALSE, 2);
-	gtk_widget_show(widget);
 
 	widget = outputlabel_new((module *) DELAY_IF(delay_if)->data, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->headbox), widget, TRUE, TRUE, 2);
@@ -177,31 +147,6 @@ GtkWidget *delay_if_new(delay * mod)
 	gtk_widget_show(slider);
 
 	return GTK_WIDGET(delay_if);
-}
-
-void delay_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	DelayIF *delay_if;
-
-	delay_if = DELAY_IF(data);
-	u = (module *) delay_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void delay_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	DelayIF *delay_if;
-
-	delay_if = DELAY_IF(data);
-	u = (module *) delay_if->data;
-	aube_remove_module(u);
-
-	free((DELAY_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)

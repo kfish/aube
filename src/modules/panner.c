@@ -53,8 +53,7 @@ module_class panner_mif = {
 	NULL,
 	NULL,
 	(void *) none_config_cb,
-	(void *) panner_if_new,
-	(void *) panner_if_close_cb
+	(void *) panner_if_new
 };
 
 panner *panner_new()

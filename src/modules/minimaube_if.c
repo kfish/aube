@@ -43,8 +43,6 @@ extern GtkWidget *master_daddy;
 static void minimaube_if_class_init(MiniMaubeIFClass * klass);
 static void minimaube_if_init(MiniMaubeIF * b);
 GtkWidget *minimaube_if_new(minimaube * mod);
-void minimaube_if_hide_cb(GtkWidget * widget, gpointer data);
-void minimaube_if_close_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_change_replace_menu_cb(GtkWidget * widget,
 					 gpointer data);
@@ -98,36 +96,7 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 
 	minimaube_if->data = mod;
 
-#if 0
-	/*
-	   when the window is given the "delete_event" signal - this is
-	   * given by the window manager - usually the close option or on the
-	   * titlebar - we ask it to call the delete_event() function
-	   * as defined above. The data passed to the callback function is
-	   * NULL and is ignored in the callback. 
-	 */
-	g_signal_connect(G_OBJECT(minimaube_if), "delete_event",
-			 G_CALLBACK(delete_event), NULL);
-#endif
-
-#if 1
-	/*
-	   here we connect the "destroy" event to a signal hanser.
-	   * This event occurs when we call gtk_widget_destroy() on the
-	   * window, or if we return "TRUE" in the "delete_event" callback. 
-	 */
-	g_signal_connect(G_OBJECT(minimaube_if), "destroy",
-			 G_CALLBACK(minimaube_if_close_cb), minimaube_if);
-#endif
-
 	hbox = MODULEWINDOW(minimaube_if)->headbox;
-
-	widget =
-	    opsmenu_new((module *) minimaube_if->data,
-			GTK_WIDGET(minimaube_if), minimaube_if_hide_cb,
-			minimaube_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 1);
-	gtk_widget_show(widget);
 
 	widget = gtk_button_new_with_label("Add");
 	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 2);
@@ -148,31 +117,6 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 	}
 
 	return GTK_WIDGET(minimaube_if);
-}
-
-void minimaube_if_hide_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	MiniMaubeIF *minimaube_if;
-
-	minimaube_if = MINIMAUBE_IF(data);
-	u = (module *) minimaube_if->data;
-	aube_module_remove_if(u);
-
-	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void minimaube_if_close_cb(GtkWidget * widget, gpointer data)
-{
-	module *u;
-	MiniMaubeIF *minimaube_if;
-
-	minimaube_if = MINIMAUBE_IF(data);
-	u = (module *) minimaube_if->data;
-	aube_remove_module(u);
-
-	free((MINIMAUBE_IF(data))->data);
-	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
 void minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
