@@ -37,8 +37,6 @@ typedef struct _KlavierIFClass KlavierIFClass;
 
 struct _KlavierIF {
 	ModuleWindow window;
-
-	klavier *data;
 };
 
 struct _KlavierIFClass {

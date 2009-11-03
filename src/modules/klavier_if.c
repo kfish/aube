@@ -101,12 +101,9 @@ GtkWidget *klavier_if_new(klavier * mod)
 
 	modulewindow_set_module (MODULEWINDOW(klavier_if), (module *)mod);
 
-	klavier_if->data = mod;
-
         hbox2 = MODULEWINDOW(klavier_if)->headbox;
 
-	button =
-	    outputlabel_new((module *) KLAVIER_IF(klavier_if)->data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
@@ -137,16 +134,15 @@ GtkWidget *klavier_if_new(klavier * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, TRUE, 0);
 	gtk_widget_show(hbox3);
 
-	slider = slider_int_new("Vol", &(klavier_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Vol", &mod->vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Tune", &(klavier_if->data->tune), 1, 1024, 1);
+	slider = slider_int_new("Tune", &mod->tune, 1, 1024, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider = slider_int_new("Pan", &(klavier_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, FALSE, 0);
 	gtk_widget_show(slider);
 
@@ -215,7 +211,10 @@ GtkWidget *klavier_if_new(klavier * mod)
 
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data)
 {
-	KLAVIER_IF(data)->data->last_klav_key = key;
+        KlavierIF * klavier_if = KLAVIER_IF(data);
+        klavier * mod = (klavier *)MODULEWINDOW(klavier_if)->module;
+
+	mod->last_klav_key = key;
 	klav_press(KLAV(widget), key);
 }
 
@@ -228,13 +227,15 @@ void
 klavkey_key_press_event(GtkWidget * widget, GdkEventKey * event,
 			gpointer data)
 {
+        KlavierIF * klavier_if = KLAVIER_IF(data);
+        klavier * mod = (klavier *)MODULEWINDOW(klavier_if)->module;
 	gint key = get_note_from_key(event->keyval);
 
 	g_print(".");
 
 	if (key >= 0) {
-		KLAVIER_IF(data)->data->last_klav_key = key;
-		klav_press(KLAV(KLAVIER_IF(data)->data), key);
+		mod->last_klav_key = key;
+		klav_press(KLAV(widget), key);
 	}
 }
 
@@ -246,7 +247,6 @@ klavkey_key_release_event(GtkWidget * widget, GdkEventKey * event,
 
 	if (key >= 0) {
 		klav_release(KLAV(widget), key);
-		klav_release(KLAV(KLAVIER_IF(data)->data), key);
 	}
 }
 
