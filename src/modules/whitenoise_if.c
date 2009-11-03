@@ -38,7 +38,6 @@ static void whitenoise_if_init(WhitenoiseIF * b);
 GtkWidget *whitenoise_if_new(whitenoise * mod);
 void whitenoise_if_hide_cb(GtkWidget * widget, gpointer data);
 void whitenoise_if_close_cb(GtkWidget * widget, gpointer data);
-void whitenoise_if_onoff_cb(GtkWidget * widget, gpointer data);
 
 GType whitenoise_if_get_type(void)
 {

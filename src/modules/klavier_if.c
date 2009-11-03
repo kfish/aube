@@ -45,7 +45,6 @@ GtkWidget *klavier_if_new(klavier * mod);
 
 void klavier_if_hide_cb(GtkWidget * widget, gpointer data);
 void klavier_if_close_cb(GtkWidget * widget, gpointer data);
-void klavier_if_onoff_cb(GtkWidget * widget, gpointer data);
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data);
 void klavkey_release_event(GtkWidget * widget, gint key, gpointer data);
 void klavkey_key_press_event(GtkWidget * widget, GdkEventKey * event,
@@ -89,7 +88,7 @@ static void klavier_if_init(KlavierIF * klavier_if)
 GtkWidget *klavier_if_new(klavier * mod)
 {
 	KlavierIF *klavier_if;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
+	GtkWidget *vbox, *hbox, *hbox2, *hbox3;
 	GtkWidget *ebox;
 	GtkWidget *frame;
 	GtkWidget *button;
@@ -129,22 +128,7 @@ GtkWidget *klavier_if_new(klavier * mod)
 			 G_CALLBACK(klavier_if_close_cb), klavier_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(klavier_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, TRUE, TRUE, 0);
-	gtk_widget_show(hbox2);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    klavier_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(klavier_if_onoff_cb),
-			 klavier_if->data);
-	gtk_widget_show(button);
+        hbox2 = MODULEWINDOW(klavier_if)->headbox;
 
 	button =
 	    opsmenu_new((module *) klavier_if->data,
@@ -159,7 +143,7 @@ GtkWidget *klavier_if_new(klavier * mod)
 	gtk_widget_show(button);
 
 	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(klavier_if)->mainbox), hbox2, TRUE, TRUE, 0);
 	gtk_widget_show(hbox2);
 
 	/*
@@ -286,11 +270,6 @@ void klavier_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((KLAVIER_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void klavier_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data)

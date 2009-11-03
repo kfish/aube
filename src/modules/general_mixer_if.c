@@ -39,7 +39,6 @@ static void general_mixer_if_init(GeneralMixerIF * b);
 GtkWidget *general_mixer_if_new(general_mixer * mod);
 void general_mixer_if_hide_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_close_cb(GtkWidget * widget, gpointer data);
-void general_mixer_if_onoff_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_remove_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i);
@@ -83,7 +82,7 @@ static void general_mixer_if_init(GeneralMixerIF * general_mixer_if)
 GtkWidget *general_mixer_if_new(general_mixer * mod)
 {
 	GeneralMixerIF *general_mixer_if;
-	GtkWidget *vbox, *vbox2, *hbox;
+	GtkWidget *vbox, *hbox;
 	GtkWidget *button, *slider;
 	gint i;
 
@@ -104,26 +103,7 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 			 general_mixer_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(general_mixer_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	/*
-	   I N P U T 
-	 */
-
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    general_mixer_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(general_mixer_if_onoff_cb),
-			 general_mixer_if->data);
-	gtk_widget_show(button);
+	hbox = MODULEWINDOW(general_mixer_if)->headbox;
 
 	button =
 	    opsmenu_new((module *) general_mixer_if->data,
@@ -154,8 +134,8 @@ GtkWidget *general_mixer_if_new(general_mixer * mod)
 	gtk_widget_show(button);
 
 	general_mixer_if->hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), general_mixer_if->hbox, TRUE,
-			   TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(general_mixer_if)->mainbox),
+                           general_mixer_if->hbox, TRUE, TRUE, 0);
 	gtk_widget_show(general_mixer_if->hbox);
 
 	vbox = gtk_vbox_new(FALSE, 0);
@@ -213,11 +193,6 @@ void general_mixer_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((GENERAL_MIXER_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void general_mixer_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data)

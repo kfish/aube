@@ -46,7 +46,6 @@ GtkWidget *drummachine_if_new(drummachine * mod);
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data);
 void drummachine_if_hide_cb(GtkWidget * widget, gpointer data);
 void drummachine_if_close_cb(GtkWidget * widget, gpointer data);
-void drummachine_if_onoff_cb(GtkWidget * widget, gpointer data);
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer note);
 void dm_restart_cb(GtkWidget * widget, gpointer data);
 void dm_clear_cb(GtkWidget * widget, gpointer data);
@@ -104,7 +103,7 @@ static void drummachine_if_init(DrumMachineIF * drummachine_if)
 GtkWidget *drummachine_if_new(drummachine * mod)
 {
 	DrumMachineIF *drummachine_if;
-	GtkWidget *vbox, *hbox, *hbox2;
+	GtkWidget *hbox;
 	GtkWidget *frame;
 	GtkWidget *button, *arrow;
 	gint i, j;
@@ -139,32 +138,15 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 			 drummachine_if);
 #endif
 
-	vbox = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(drummachine_if), vbox);
-	gtk_widget_show(vbox);
-
-	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 0);
-	gtk_widget_show(hbox2);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    drummachine_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(drummachine_if_onoff_cb),
-			 drummachine_if->data);
-	gtk_widget_show(button);
-
 	button = opsmenu_new((module *) drummachine_if->data,
 			     GTK_WIDGET(drummachine_if),
 			     drummachine_if_hide_cb,
 			     drummachine_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(drummachine_if)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
 	frame = gtk_frame_new(NULL);
-	gtk_box_pack_start(GTK_BOX(hbox2), frame, TRUE, TRUE, 1);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(drummachine_if)->headbox), frame, TRUE, TRUE, 1);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 	gtk_container_border_width(GTK_CONTAINER(frame), 1);
 	gtk_widget_show(frame);
@@ -223,7 +205,7 @@ GtkWidget *drummachine_if_new(drummachine * mod)
  */
 
 		hbox = gtk_hbox_new(FALSE, 2);
-		gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 1);
+		gtk_box_pack_start(GTK_BOX(MODULEWINDOW(drummachine_if)->mainbox), hbox, TRUE, TRUE, 1);
 		gtk_widget_show(hbox);
 
 		snprintf(buf, 4, "%d:", j);
@@ -373,11 +355,6 @@ void drummachine_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((DRUMMACHINE_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void drummachine_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer data)

@@ -38,7 +38,6 @@ static void xfader_if_init(XFaderIF * b);
 GtkWidget *xfader_if_new(xfader * mod);
 void xfader_if_hide_cb(GtkWidget * widget, gpointer data);
 void xfader_if_close_cb(GtkWidget * widget, gpointer data);
-void xfader_if_onoff_cb(GtkWidget * widget, gpointer data);
 
 GType xfader_if_get_type(void)
 {
@@ -108,25 +107,8 @@ GtkWidget *xfader_if_new(xfader * mod)
 			 G_CALLBACK(xfader_if_close_cb), xfader_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(xfader_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	/*
-	   I N P U T 
-	 */
-
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    xfader_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(xfader_if_onoff_cb), xfader_if->data);
-	gtk_widget_show(button);
+	vbox2 = MODULEWINDOW(xfader_if)->mainbox;
+	hbox = MODULEWINDOW(xfader_if)->headbox;
 
 	button =
 	    opsmenu_new((module *) xfader_if->data, GTK_WIDGET(xfader_if),
@@ -209,9 +191,4 @@ void xfader_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((XFADER_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void xfader_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }

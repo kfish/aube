@@ -37,7 +37,6 @@ static void lineout_if_init(LINEOUTIF * b);
 GtkWidget *lineout_if_new(oss_out * mod);
 void lineout_if_hide_cb(GtkWidget * widget, gpointer data);
 void lineout_if_close_cb(GtkWidget * widget, gpointer data);
-void lineout_if_onoff_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
@@ -77,7 +76,7 @@ GtkWidget *lineout_if_new(oss_out * mod)
 {
 	LINEOUTIF *lineout_if;
 	GtkWidget *menu, *menuitem, *optionmenu;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2;
+	GtkWidget *vbox, *hbox, *hbox2;
 	GtkWidget *frame;
 	GtkWidget *widget;
 
@@ -97,22 +96,7 @@ GtkWidget *lineout_if_new(oss_out * mod)
 			 G_CALLBACK(lineout_if_close_cb), lineout_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(lineout_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	hbox2 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, FALSE, FALSE, 0);
-	gtk_widget_show(hbox2);
-
-	widget = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget),
-				    lineout_if->data->output_module.on);
-	g_signal_connect(G_OBJECT(widget), "clicked",
-			 G_CALLBACK(lineout_if_onoff_cb),
-			 lineout_if->data);
-	gtk_widget_show(widget);
+        hbox2 = MODULEWINDOW(lineout_if)->headbox;
 
 	widget =
 	    opsmenu_new(&lineout_if->data->output_module,
@@ -133,7 +117,7 @@ GtkWidget *lineout_if_new(oss_out * mod)
 	gtk_widget_show(widget);
 
 	frame = gtk_frame_new("Config");
-	gtk_box_pack_start(GTK_BOX(vbox2), frame, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(lineout_if)->mainbox), frame, FALSE, TRUE, 0);
 /*
    gtk_container_border_width(GTK_CONTAINER(frame), 4);
  */

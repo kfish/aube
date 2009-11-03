@@ -40,7 +40,6 @@ struct _MiniMaubeIF {
 	ModuleWindow window;
 
 	GtkWidget *replace_menuitem;
-	GtkWidget *vbox;
 	GtkWidget *hboxes[MAX_CHANNELS];
 	minimaube *data;
 };

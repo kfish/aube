@@ -46,7 +46,6 @@ GtkWidget *minitracker_if_new(minitracker * mod);
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data);
 void minitracker_if_hide_cb(GtkWidget * widget, gpointer data);
 void minitracker_if_close_cb(GtkWidget * widget, gpointer data);
-void minitracker_if_onoff_cb(GtkWidget * widget, gpointer data);
 void seq_toggle_cb(GtkWidget * widget, gpointer data);
 void restart_cb(GtkWidget * widget, gpointer data);
 void chaos_cb(GtkWidget * widget, gpointer data);
@@ -96,7 +95,7 @@ static void minitracker_if_init(MinitrackerIF * minitracker_if)
 GtkWidget *minitracker_if_new(minitracker * mod)
 {
 	MinitrackerIF *minitracker_if;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
+	GtkWidget *vbox, *hbox, *hbox2, *hbox3;
 	GtkWidget *frame;
 	GtkWidget *button;
 	GtkWidget *slider;
@@ -133,22 +132,7 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 			 minitracker_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(minitracker_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, FALSE, FALSE, 0);
-	gtk_widget_show(hbox2);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    minitracker_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(minitracker_if_onoff_cb),
-			 minitracker_if->data);
-	gtk_widget_show(button);
+	hbox2 = MODULEWINDOW(minitracker_if)->headbox;
 
 	button =
 	    opsmenu_new((module *) minitracker_if->data,
@@ -162,7 +146,7 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 	gtk_widget_show(button);
 
 	hbox = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(minitracker_if)->mainbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
 
@@ -311,7 +295,7 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_ALWAYS);
-	gtk_box_pack_start(GTK_BOX(vbox2), scrolled, TRUE, TRUE, 1);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(minitracker_if)->mainbox), scrolled, TRUE, TRUE, 1);
 	gtk_widget_show(scrolled);
 
 	minitracker_if->tl = gtk_clist_new_with_titles(4, titles);
@@ -396,11 +380,6 @@ void minitracker_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((MINITRACKER_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void minitracker_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void seq_toggle_cb(GtkWidget * widget, gpointer data)

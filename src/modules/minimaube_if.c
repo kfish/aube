@@ -88,7 +88,7 @@ static void minimaube_if_init(MiniMaubeIF * minimaube_if)
 GtkWidget *minimaube_if_new(minimaube * mod)
 {
 	MiniMaubeIF *minimaube_if;
-	GtkWidget *vbox, *hbox;
+	GtkWidget *hbox;
 	GtkWidget *widget;
 	int i;
 
@@ -120,24 +120,7 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 			 G_CALLBACK(minimaube_if_close_cb), minimaube_if);
 #endif
 
-	vbox = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(minimaube_if), vbox);
-	gtk_widget_show(vbox);
-
-	minimaube_if->vbox = vbox;
-
-	hbox = gtk_hbox_new(FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 1);
-	gtk_widget_show(hbox);
-
-	widget = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget),
-				    minimaube_if->data->module.on);
-	g_signal_connect(G_OBJECT(widget), "clicked",
-			 G_CALLBACK(minimaube_if_onoff_cb),
-			 minimaube_if->data);
-	gtk_widget_show(widget);
+	hbox = MODULEWINDOW(minimaube_if)->headbox;
 
 	widget =
 	    opsmenu_new((module *) minimaube_if->data,
@@ -192,11 +175,6 @@ void minimaube_if_close_cb(GtkWidget * widget, gpointer data)
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
-void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
-}
-
 void minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
 {
 #if 0
@@ -244,7 +222,7 @@ void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
 	GtkWidget *widget;
 
 	hbox = gtk_hbox_new(FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(minimaube_if->vbox), hbox, FALSE, TRUE,
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(minimaube_if)->mainbox), hbox, FALSE, TRUE,
 			   1);
 	gtk_widget_show(hbox);
 

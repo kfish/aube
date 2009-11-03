@@ -44,7 +44,6 @@ static void delay_if_init(DelayIF * b);
 GtkWidget *delay_if_new(delay * mod);
 void delay_if_hide_cb(GtkWidget * widget, gpointer data);
 void delay_if_close_cb(GtkWidget * widget, gpointer data);
-void delay_if_onoff_cb(GtkWidget * widget, gpointer data);
 void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data);
 
 GType delay_if_get_type(void)
@@ -82,7 +81,7 @@ static void delay_if_init(DelayIF * delay_if)
 GtkWidget *delay_if_new(delay * mod)
 {
 	DelayIF *delay_if;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
+	GtkWidget *vbox, *hbox2, *hbox3;
 	GtkWidget *frame;
 	GtkWidget *widget;
 	GtkWidget *slider;
@@ -115,31 +114,14 @@ GtkWidget *delay_if_new(delay * mod)
 			 G_CALLBACK(delay_if_close_cb), delay_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(delay_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	hbox = gtk_hbox_new(FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 1);
-	gtk_widget_show(hbox);
-
-	widget = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget),
-				    delay_if->data->module.on);
-	g_signal_connect(G_OBJECT(widget), "clicked",
-			 G_CALLBACK(delay_if_onoff_cb), delay_if->data);
-	gtk_widget_show(widget);
-
-
 	widget =
 	    opsmenu_new((module *) delay_if->data, GTK_WIDGET(delay_if),
 			delay_if_hide_cb, delay_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->headbox), widget, FALSE, FALSE, 2);
 	gtk_widget_show(widget);
 
 	widget = outputlabel_new((module *) DELAY_IF(delay_if)->data, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), widget, TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->headbox), widget, TRUE, TRUE, 2);
 	gtk_widget_show(widget);
 
 
@@ -150,18 +132,15 @@ GtkWidget *delay_if_new(delay * mod)
 	widget =
 	    inputoption_new((char *) "In:",
 			    (module *) DELAY_IF(delay_if)->data, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), widget, FALSE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->mainbox), widget, FALSE, TRUE, 2);
 	gtk_widget_show(widget);
 
 	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->mainbox), hbox2, TRUE, TRUE, 0);
 	gtk_widget_show(hbox2);
 
 	frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(hbox2), frame, TRUE, TRUE, 1);
-/*
-   gtk_container_border_width(GTK_CONTAINER(frame), 4);
- */
 	gtk_widget_show(frame);
 
 	vbox = gtk_vbox_new(FALSE, 5);
@@ -223,11 +202,6 @@ void delay_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((DELAY_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void delay_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)

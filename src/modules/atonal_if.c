@@ -47,7 +47,6 @@ GtkWidget *atonal_if_new(atonal * mod);
 void atonal_if_update_at(GtkWidget * widget, gpointer data);
 void atonal_if_hide_cb(GtkWidget * widget, gpointer data);
 void atonal_if_close_cb(GtkWidget * widget, gpointer data);
-void atonal_if_onoff_cb(GtkWidget * widget, gpointer data);
 void atonal_if_set_note_cb(GtkWidget * widget, gpointer note);
 void at_restart_cb(GtkWidget * widget, gpointer data);
 void at_clear_cb(GtkWidget * widget, gpointer data);
@@ -96,7 +95,7 @@ static void atonal_if_init(AtonalIF * atonal_if)
 GtkWidget *atonal_if_new(atonal * mod)
 {
 	AtonalIF *atonal_if;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2;
+	GtkWidget *vbox2, *hbox;
 	GtkWidget *button;
 	GtkWidget *slider;
 	gint i;
@@ -126,26 +125,10 @@ GtkWidget *atonal_if_new(atonal * mod)
 			 G_CALLBACK(atonal_if_close_cb), atonal_if);
 #endif
 
-	vbox = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(atonal_if), vbox);
-	gtk_widget_show(vbox);
-
-	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 0);
-	gtk_widget_show(hbox2);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    atonal_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(atonal_if_onoff_cb), atonal_if->data);
-	gtk_widget_show(button);
-
 	button =
 	    opsmenu_new((module *) atonal_if->data, GTK_WIDGET(atonal_if),
 			atonal_if_hide_cb, atonal_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(atonal_if)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
 #if 0
@@ -165,7 +148,7 @@ GtkWidget *atonal_if_new(atonal * mod)
 	/* S E Q U E N C E */
 
 	hbox = gtk_hbox_new(FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 1);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(atonal_if)->mainbox), hbox, TRUE, TRUE, 1);
 	gtk_widget_show(hbox);
 
 #if 0
@@ -272,11 +255,6 @@ void atonal_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((ATONAL_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void atonal_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void atonal_if_set_note_cb(GtkWidget * widget, gpointer data)

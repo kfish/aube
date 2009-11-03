@@ -41,7 +41,6 @@ static void sample_recorder_if_init(SampleRecorderIF * b);
 GtkWidget *sample_recorder_if_new(sample_recorder * mod);
 void sample_recorder_if_hide_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data);
-void sample_recorder_if_onoff_cb(GtkWidget * widget, gpointer data);
 void sample_recorder_if_record(GtkWidget * widget, gpointer data);
 void sample_recorder_if_stop(GtkWidget * widget, gpointer data);
 void sample_recorder_if_record_next(GtkWidget * widget, gpointer data);
@@ -132,26 +131,8 @@ GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 			 sample_recorder_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(sample_recorder_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	/*
-	   I N P U T 
-	 */
-
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    sample_recorder_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(sample_recorder_if_onoff_cb),
-			 sample_recorder_if->data);
-	gtk_widget_show(button);
+	vbox2 = MODULEWINDOW(sample_recorder_if)->mainbox;
+	hbox = MODULEWINDOW(sample_recorder_if)->headbox;
 
 	button = opsmenu_new((module *) sample_recorder_if->data,
 			     GTK_WIDGET(sample_recorder_if),
@@ -361,11 +342,6 @@ void sample_recorder_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((SAMPLE_RECORDER_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void sample_recorder_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void sample_recorder_if_record(GtkWidget * widget, gpointer data)

@@ -40,7 +40,6 @@ static void panner4_if_init(Panner4IF * b);
 GtkWidget *panner4_if_new(panner4 * mod);
 void panner4_if_hide_cb(GtkWidget * widget, gpointer data);
 void panner4_if_close_cb(GtkWidget * widget, gpointer data);
-void panner4_if_onoff_cb(GtkWidget * widget, gpointer data);
 
 GType panner4_if_get_type(void)
 {
@@ -110,32 +109,13 @@ GtkWidget *panner4_if_new(panner4 * mod)
 			 G_CALLBACK(panner4_if_close_cb), panner4_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(panner4_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	/*
-	   I N P U T 
-	 */
-
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 1);
-	gtk_widget_show(hbox);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    panner4_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(panner4_if_onoff_cb),
-			 panner4_if->data);
-	gtk_widget_show(button);
+        vbox2 = MODULEWINDOW(panner4_if)->mainbox;
 
 	button =
 	    opsmenu_new((module *) panner4_if->data,
 			GTK_WIDGET(panner4_if), panner4_if_hide_cb,
 			panner4_if_close_cb);
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 4);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(panner4_if)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -223,7 +203,3 @@ void panner4_if_close_cb(GtkWidget * widget, gpointer data)
 	gtk_widget_destroy(GTK_WIDGET(data));
 }
 
-void panner4_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
-}

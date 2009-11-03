@@ -48,7 +48,6 @@ GtkWidget *syre_if_new(syre_if_data * mod);
 void refresh_sliders(SyreIF * syre_if);
 void syre_if_hide_cb(GtkWidget * widget, gpointer data);
 void syre_if_close_cb(GtkWidget * widget, gpointer data);
-void startstop_cb(GtkWidget * widget, gpointer data);
 void copy_accented_cb(GtkWidget * widget, gpointer data);
 void copy_unaccented_cb(GtkWidget * widget, gpointer data);
 void chaos_harmonics_cb(GtkWidget * widget, gpointer data);
@@ -96,7 +95,7 @@ static void syre_if_init(SyreIF * syre_if)
 GtkWidget *syre_if_new(syre_if_data * mod)
 {
 	SyreIF *syre_if;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2, *hbox3;
+	GtkWidget *vbox, *hbox, *hbox2, *hbox3;
 	GtkWidget *notebook;
 	GtkWidget *label;
 	GtkWidget *frame;
@@ -134,26 +133,11 @@ GtkWidget *syre_if_new(syre_if_data * mod)
 			 G_CALLBACK(syre_if_close_cb), syre_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(syre_if), vbox2);
-	gtk_widget_show(vbox2);
-
-
 	/*
 	   S Y N T H 
 	 */
 
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    syre_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(startstop_cb), syre_if->data);
-	gtk_widget_show(button);
+	hbox = MODULEWINDOW(syre_if)->headbox;
 
 	button =
 	    opsmenu_new((module *) syre_if->data, GTK_WIDGET(syre_if),
@@ -172,7 +156,7 @@ GtkWidget *syre_if_new(syre_if_data * mod)
 	gtk_widget_show(button);
 
 	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(syre_if)->mainbox), hbox2, TRUE, TRUE, 0);
 	gtk_widget_show(hbox2);
 
 	/*
@@ -504,11 +488,6 @@ void syre_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((SYRE_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void startstop_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void copy_accented_cb(GtkWidget * widget, gpointer data)

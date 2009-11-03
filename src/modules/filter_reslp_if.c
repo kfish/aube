@@ -40,7 +40,6 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod);
 
 void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data);
 void filter_reslp_if_hide_cb(GtkWidget * widget, gpointer data);
-void filter_reslp_startstop_cb(GtkWidget * widget, gpointer data);
 void filter_reslp_usetoggle_cb(GtkWidget * widget, gpointer data);
 gint filter_reslp_get_envelopes(gpointer data);
 
@@ -80,7 +79,7 @@ static void filter_reslp_if_init(FilterResLP_IF * filter_reslp_if)
 GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 {
 	FilterResLP_IF *filter_reslp_if;
-	GtkWidget *vbox2, *hbox, *hbox2, *hbox3;
+	GtkWidget *hbox, *hbox2, *hbox3;
 	GtkWidget *frame;
 	GtkWidget *button;
 	GtkWidget *slider;
@@ -114,26 +113,7 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 			 filter_reslp_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(filter_reslp_if), vbox2);
-	gtk_widget_show(vbox2);
-
-	/*
-	   I N P U T 
-	 */
-
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, TRUE, 0);
-	gtk_widget_show(hbox);
-
-	button = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    filter_reslp_if->data->module.on);
-	g_signal_connect(G_OBJECT(button), "clicked",
-			 G_CALLBACK(filter_reslp_startstop_cb),
-			 filter_reslp_if->data);
-	gtk_widget_show(button);
+        hbox = MODULEWINDOW(filter_reslp_if)->headbox;
 
 	button = opsmenu_new((module *) filter_reslp_if->data,
 			     GTK_WIDGET(filter_reslp_if),
@@ -170,9 +150,8 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
 	gtk_widget_show(button);
 
-	button = gtk_check_button_new_with_label("Use trigger");
 	hbox2 = gtk_hbox_new(FALSE, 5);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(filter_reslp_if)->mainbox), hbox2, TRUE, TRUE, 0);
 	gtk_widget_show(hbox2);
 
 
@@ -320,11 +299,6 @@ void filter_reslp_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free((FILTERRESLP_IF(data))->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void filter_reslp_startstop_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle((module *) data);
 }
 
 void filter_reslp_usetoggle_cb(GtkWidget * widget, gpointer data)

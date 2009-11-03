@@ -37,7 +37,6 @@ static void linein_if_init(LINEINIF * b);
 GtkWidget *linein_if_new(oss_in * mod);
 void linein_if_hide_cb(GtkWidget * widget, gpointer data);
 void linein_if_close_cb(GtkWidget * widget, gpointer data);
-void linein_if_onoff_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
@@ -79,11 +78,20 @@ static void linein_if_init(LINEINIF * linein_if)
 {
 }
 
+void linein_if_onoff_cb(GtkWidget * widget, gpointer data)
+{
+	if (((oss *) data)->output_module.on) {
+		oss_open(((oss_in *) data)->dev);
+	} else {
+		oss_close(((oss_in *) data)->dev);
+	}
+}
+
 GtkWidget *linein_if_new(oss_in * mod)
 {
 	LINEINIF *linein_if;
 	GtkWidget *menu, *menuitem, *optionmenu;
-	GtkWidget *vbox, *vbox2, *hbox, *hbox2;
+	GtkWidget *vbox, *hbox, *hbox2;
 	GtkWidget *frame;
 	GtkWidget *widget;
 
@@ -103,9 +111,6 @@ GtkWidget *linein_if_new(oss_in * mod)
 			 G_CALLBACK(linein_if_close_cb), linein_if);
 #endif
 
-	vbox2 = gtk_vbox_new(FALSE, 5);
-	gtk_container_add(GTK_CONTAINER(linein_if), vbox2);
-	gtk_widget_show(vbox2);
 
 #if 0
 	/*
@@ -135,17 +140,11 @@ GtkWidget *linein_if_new(oss_in * mod)
 	gtk_widget_show(menubar);
 #endif
 
-	hbox2 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox2, FALSE, FALSE, 0);
-	gtk_widget_show(hbox2);
 
-	widget = gtk_toggle_button_new_with_label("On");
-	gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 1);
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(widget),
-				    linein_if->data->input_module.on);
-	g_signal_connect(G_OBJECT(widget), "clicked",
+	g_signal_connect(G_OBJECT(MODULEWINDOW(linein_if)->onbutton), "clicked",
 			 G_CALLBACK(linein_if_onoff_cb), linein_if->data);
-	gtk_widget_show(widget);
+
+	hbox2 = MODULEWINDOW(linein_if)->headbox;
 
 	widget =
 	    opsmenu_new(&linein_if->data->input_module,
@@ -164,7 +163,7 @@ GtkWidget *linein_if_new(oss_in * mod)
 	gtk_widget_show(widget);
 
 	frame = gtk_frame_new("Config");
-	gtk_box_pack_start(GTK_BOX(vbox2), frame, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(linein_if)->mainbox), frame, FALSE, TRUE, 0);
 /*
    gtk_container_border_width(GTK_CONTAINER(frame), 4);
  */
@@ -403,16 +402,6 @@ void linein_if_close_cb(GtkWidget * widget, gpointer data)
 
 	free(linein_if->data);
 	gtk_widget_destroy(GTK_WIDGET(data));
-}
-
-void linein_if_onoff_cb(GtkWidget * widget, gpointer data)
-{
-	aube_module_toggle(&((oss_in *) data)->input_module);
-	if (((oss *) data)->output_module.on) {
-		oss_open(((oss_in *) data)->dev);
-	} else {
-		oss_close(((oss_in *) data)->dev);
-	}
 }
 
 void linein_if_set_device_dsp_cb(GtkWidget * widget, gpointer data)
