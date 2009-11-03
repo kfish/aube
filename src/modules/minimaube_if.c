@@ -94,8 +94,6 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 
 	modulewindow_set_module (MODULEWINDOW(minimaube_if), (module *)mod);
 
-	minimaube_if->data = mod;
-
 	hbox = MODULEWINDOW(minimaube_if)->headbox;
 
 	widget = gtk_button_new_with_label("Add");
@@ -112,7 +110,7 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 			 minimaube_if);
 	gtk_widget_show(widget);
 
-	for (i = 0; i < minimaube_if->data->nr_active_channels; i++) {
+	for (i = 0; i < mod->nr_active_channels; i++) {
 		minimaube_if_add_input(minimaube_if, i);
 	}
 
@@ -139,28 +137,29 @@ void minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
 
 void minimaube_if_add_input_cb(GtkWidget * widget, gpointer data)
 {
-	MiniMaubeIF *minimaube_if;
+	MiniMaubeIF *minimaube_if = MINIMAUBE_IF(data);
+        minimaube * mod = (minimaube *)MODULEWINDOW(minimaube_if)->module;
 	int i;
 
-	minimaube_if = MINIMAUBE_IF(data);
-	if ((i = minimaube_add_input(minimaube_if->data)) > 0) {
+	if ((i = minimaube_add_input(mod)) > 0) {
 		minimaube_if_add_input(minimaube_if, i);
 	}
 }
 
 void minimaube_if_remove_input_cb(GtkWidget * widget, gpointer data)
 {
-	MiniMaubeIF *minimaube_if;
+	MiniMaubeIF *minimaube_if = MINIMAUBE_IF(data);
+        minimaube * mod = (minimaube *)MODULEWINDOW(minimaube_if)->module;
 	int i;
 
-	minimaube_if = MINIMAUBE_IF(data);
-	if ((i = minimaube_remove_input(minimaube_if->data)) > 0) {
+	if ((i = minimaube_remove_input(mod)) > 0) {
 		minimaube_if_remove_input(minimaube_if, i);
 	}
 }
 
 void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
 {
+        minimaube * mod = (minimaube *)MODULEWINDOW(minimaube_if)->module;
 	char buf[8];
 	GtkWidget *hbox;
 	GtkWidget *widget;
@@ -175,25 +174,17 @@ void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i)
 	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 1);
 	gtk_widget_show(widget);
 
-	widget =
-	    inputoption_new((char *) "Smpl:",
-			    (module *) MINIMAUBE_IF(minimaube_if)->data,
-			    i * 2);
+	widget = inputoption_new((char *) "Smpl:", (module *)mod, i * 2);
 	reread_inputs_cb(GTK_WIDGET(minimaube_if), widget);
 	gtk_box_pack_start(GTK_BOX(hbox), widget, TRUE, TRUE, 1);
 	gtk_widget_show(widget);
 
-	widget =
-	    inputoption_new((char *) "Seq:",
-			    (module *) MINIMAUBE_IF(minimaube_if)->data,
-			    i * 2 + 1);
+	widget = inputoption_new((char *) "Seq:", (module *)mod, i * 2 + 1);
 	reread_inputs_cb(GTK_WIDGET(minimaube_if), widget);
 	gtk_box_pack_start(GTK_BOX(hbox), widget, TRUE, TRUE, 1);
 	gtk_widget_show(widget);
 
-	widget =
-	    outputlabel_new((module *) MINIMAUBE_IF(minimaube_if)->data,
-			    i);
+	widget = outputlabel_new((module *)mod, i);
 	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 1);
 	gtk_widget_show(widget);
 

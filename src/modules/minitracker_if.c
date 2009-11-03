@@ -105,11 +105,9 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 
 	modulewindow_set_module (MODULEWINDOW(minitracker_if), (module *)mod);
 
-	minitracker_if->data = mod;
-
 	hbox2 = MODULEWINDOW(minitracker_if)->headbox;
 
-	button = outputlabel_new((module *) minitracker_if->data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox2), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);
 
@@ -136,19 +134,15 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox3, FALSE, FALSE, 0);
 	gtk_widget_show(hbox3);
 
-	slider =
-	    slider_int_new("Vol", &(minitracker_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Vol", &mod->vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Tune", &(minitracker_if->data->tune), 1, 1024,
-			   1);
+	slider = slider_int_new("Tune", &mod->tune, 1, 1024, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Pan", &(minitracker_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, FALSE, 0);
 	gtk_widget_show(slider);
 
@@ -247,9 +241,7 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 	   P O R T A M E N T O 
 	 */
 
-	slider =
-	    slider_int_new("Portamento",
-			   &(minitracker_if->data->portamento), 0, 64, 1);
+	slider = slider_int_new("Portamento", &mod->portamento, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
@@ -293,7 +285,8 @@ GtkWidget *minitracker_if_new(minitracker * mod)
 
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *tracker;
+	MinitrackerIF *tracker = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(tracker)->module;
 	gchar *title[4];
 	gchar buf0[4];
 	gchar buf1[8];
@@ -301,7 +294,6 @@ void minitracker_if_update_tracker(GtkWidget * widget, gpointer data)
 	gchar buf3[4];
 	int i;
 
-	tracker = MINITRACKER_IF(data);
 	gtk_clist_freeze(GTK_CLIST(tracker->tl));
 	gtk_clist_clear(GTK_CLIST(tracker->tl));
 	title[0] = buf0;
@@ -310,9 +302,8 @@ void minitracker_if_update_tracker(GtkWidget * widget, gpointer data)
 	title[3] = buf3;
 	for (i = 0; i < SEQ_LENGTH; i++) {
 		snprintf(title[0], sizeof(title[0]), "%02d", i);
-		/*    snprintf(title[1], sizeof (title[1]), "%d", tracker->data->sequence[i].note); */
-		snprintf(title[1], sizeof(title[1]), "%s",
-			 note_names[tracker->data->sequence[i].note]);
+		/*    snprintf(title[1], sizeof (title[1]), "%d", mod->sequence[i].note); */
+		snprintf(title[1], sizeof(title[1]), "%s", note_names[mod->sequence[i].note]);
 		snprintf(title[2], sizeof(title[2]), "%02d", 0);
 		snprintf(title[3], sizeof(title[3]), "%02d", 0);
 
@@ -334,73 +325,73 @@ void restart_cb(GtkWidget * widget, gpointer data)
 
 void chaos_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	chaos(minitracker_if->data);
+	chaos(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_chaos8_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_chaos8(minitracker_if->data);
+	seq_chaos8(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_play_once_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_play_once(minitracker_if->data);
+	seq_play_once(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_play_44_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_play_44(minitracker_if->data);
+	seq_play_44(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_transpose_u12_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_transpose_u12(minitracker_if->data);
+	seq_transpose_u12(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_transpose_d12_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_transpose_d12(minitracker_if->data);
+	seq_transpose_d12(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_transpose_u1_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_transpose_u1(minitracker_if->data);
+	seq_transpose_u1(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 
 void seq_transpose_d1_cb(GtkWidget * widget, gpointer data)
 {
-	MinitrackerIF *minitracker_if;
+	MinitrackerIF *minitracker_if = MINITRACKER_IF(data);
+        minitracker * mod = (minitracker *)MODULEWINDOW(minitracker_if)->module;
 
-	minitracker_if = MINITRACKER_IF(data);
-	seq_transpose_d1(minitracker_if->data);
+	seq_transpose_d1(mod);
 	minitracker_if_update_tracker(NULL, minitracker_if);
 }
 

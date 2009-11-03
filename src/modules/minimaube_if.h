@@ -41,7 +41,6 @@ struct _MiniMaubeIF {
 
 	GtkWidget *replace_menuitem;
 	GtkWidget *hboxes[MAX_CHANNELS];
-	minimaube *data;
 };
 
 struct _MiniMaubeIFClass {

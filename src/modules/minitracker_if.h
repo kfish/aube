@@ -39,7 +39,6 @@ struct _MinitrackerIF {
 	ModuleWindow window;
 
 	GtkWidget *tl;
-	minitracker *data;
 };
 
 struct _MinitrackerIFClass {
