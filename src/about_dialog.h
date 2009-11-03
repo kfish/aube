@@ -23,6 +23,4 @@
 
 void about_dialog_create(void);
 
-#endif				/*
-				   __ABOUT_DIALOG_H__ 
-				 */
+#endif /* __ABOUT_DIALOG_H__ */

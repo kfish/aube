@@ -209,4 +209,4 @@ int aube_module_set_on(module * m, int on);
 int aube_module_remove_if(module * u);
 int aube_module_cmp_type(module * u1, module * u2);
 
-#endif				/* __AUBE_H__  */
+#endif /* __AUBE_H__  */

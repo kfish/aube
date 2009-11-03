@@ -23,6 +23,4 @@
 
 void aube_error(int errlvl, char *msg);
 
-#endif				/*
-				   __AUBE_ERROR_H__ 
-				 */
+#endif /* __AUBE_ERROR_H__ */

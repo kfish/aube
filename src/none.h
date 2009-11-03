@@ -31,6 +31,4 @@ typedef struct {
 
 none *none_new(void);
 
-#endif				/*
-				   __NONE_H__  
-				 */
+#endif /* __NONE_H__  */

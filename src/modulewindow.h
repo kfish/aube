@@ -25,10 +25,7 @@
 #include <gtk/gtkwindow.h>
 #include "aube.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif	/* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define MODULEWINDOW_TYPE          (modulewindow_get_type ())
 #define MODULEWINDOW(obj)          GTK_CHECK_CAST (obj, modulewindow_get_type (), ModuleWindow)
@@ -36,25 +33,22 @@ extern "C" {
 #define IS_MODULEWINDOW(obj)       GTK_CHECK_TYPE (obj, modulewindow_get_type ())
 
 
-	typedef struct _ModuleWindow ModuleWindow;
-	typedef struct _ModuleWindowClass ModuleWindowClass;
+typedef struct _ModuleWindow ModuleWindow;
+typedef struct _ModuleWindowClass ModuleWindowClass;
 
-	struct _ModuleWindow {
-		GtkWindow window;
-	};
+struct _ModuleWindow {
+	GtkWindow window;
+};
 
-	struct _ModuleWindowClass {
-		GtkWindowClass parent_class;
+struct _ModuleWindowClass {
+	GtkWindowClass parent_class;
 
-		void (*modulewindow) (ModuleWindow * a);
-	};
+	void (*modulewindow) (ModuleWindow * a);
+};
 
-	GType modulewindow_get_type(void);
-	GtkWidget *modulewindow_new(module * module);
+GType modulewindow_get_type(void);
+GtkWidget *modulewindow_new(module * module);
 
-
-#ifdef __cplusplus
-}
-#endif	/* __cplusplus */
+G_END_DECLS
 
 #endif	/* __MODULEWINDOW_H__ */
