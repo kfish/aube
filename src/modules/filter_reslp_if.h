@@ -43,7 +43,6 @@ struct _FilterResLP_IF {
 	GtkWidget *cutoff_env_curve;
 
 	gint env_tag;
-	filter_reslp *data;
 };
 
 struct _FilterResLP_IFClass {

@@ -78,7 +78,6 @@ static void filter_reslp_if_destroy_cb(GtkWidget * widget, gpointer data)
 {
 	FilterResLP_IF * ui = FILTERRESLP_IF(data);
 
-        printf ("%s\n", __func__);
 	gtk_idle_remove(ui->env_tag);
 }
 
@@ -94,35 +93,27 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 
 	modulewindow_set_module (MODULEWINDOW(filter_reslp_if), (module *)mod);
 
-	filter_reslp_if->data = mod;
-
         hbox = MODULEWINDOW(filter_reslp_if)->headbox;
 
-	button = inputoption_new((char *) "Input:",
-				 (module *)
-				 FILTERRESLP_IF(filter_reslp_if)->data, 0);
+	button = inputoption_new((char *) "Input:", (module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 2);
 	gtk_widget_show(button);
 
 	button =
-	    inputoption_new((char *) "Trigger:",
-			    (module *) FILTERRESLP_IF(filter_reslp_if)->
-			    data, 1);
+	    inputoption_new((char *) "Trigger:", (module *)mod, 1);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 2);
 	gtk_widget_show(button);
 
 	button = gtk_check_button_new_with_label("Use trigger");
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-				    filter_reslp_if->data->use_trigger);
+				    mod->use_trigger);
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(filter_reslp_usetoggle_cb),
-			 filter_reslp_if->data);
+			 mod);
 	gtk_widget_show(button);
 
-	button =
-	    outputlabel_new((module *) FILTERRESLP_IF(filter_reslp_if)->
-			    data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
 	gtk_widget_show(button);
 
@@ -188,9 +179,7 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 	gtk_widget_show(hbox3);
 
 	slider =
-	    slider_int_new("Res.",
-			   &(filter_reslp_if->data->resonance_base), 0,
-			   200, 1);
+	    slider_int_new("Res.", &mod->resonance_base, 0, 200, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 
@@ -206,7 +195,7 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 			     (GTK_GAMMA_CURVE
 			      (filter_reslp_if->resonance_env_curve)->
 			      curve), ENVELOPE_LEN,
-			     filter_reslp_if->data->resonance_envelope);
+			     mod->resonance_envelope);
 	gtk_widget_show(filter_reslp_if->resonance_env_curve);
 
 	frame = gtk_frame_new("Cutoff");
@@ -218,9 +207,7 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 	gtk_container_add(GTK_CONTAINER(frame), hbox3);
 	gtk_widget_show(hbox3);
 
-	slider =
-	    slider_int_new("Cutoff", &(filter_reslp_if->data->cutoff_base),
-			   20, 20000, 1);
+	slider = slider_int_new("Cutoff", &mod->cutoff_base, 20, 20000, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 
@@ -236,7 +223,7 @@ GtkWidget *filter_reslp_if_new(filter_reslp * mod)
 			     (GTK_GAMMA_CURVE
 			      (filter_reslp_if->cutoff_env_curve)->curve),
 			     ENVELOPE_LEN,
-			     filter_reslp_if->data->cutoff_envelope);
+			     mod->cutoff_envelope);
 	gtk_widget_show(filter_reslp_if->cutoff_env_curve);
 
 
@@ -260,24 +247,20 @@ void filter_reslp_usetoggle_cb(GtkWidget * widget, gpointer data)
 
 gint filter_reslp_get_envelopes(gpointer data)
 {
-	if ((((module *) data)->on)
-	    && (((filter_reslp *) (FILTERRESLP_IF(data)->data))->env_i <
-		ENVELOPE_POINTS_PER_TICK)) {
+	FilterResLP_IF * ui = FILTERRESLP_IF(data);
+        filter_reslp * mod = (filter_reslp *)MODULEWINDOW(ui)->module;
 
+	if (((module *)data)->on && (mod->env_i < ENVELOPE_POINTS_PER_TICK)) {
 		gtk_curve_get_vector(GTK_CURVE
 				     (GTK_GAMMA_CURVE
-				      (FILTERRESLP_IF(data)->
-				       resonance_env_curve)->curve),
+				      (FILTERRESLP_IF(data)->resonance_env_curve)->curve),
 				     ENVELOPE_LEN,
-				     FILTERRESLP_IF(data)->data->
-				     resonance_envelope);
+				     mod->resonance_envelope);
 		gtk_curve_get_vector(GTK_CURVE
 				     (GTK_GAMMA_CURVE
-				      (FILTERRESLP_IF(data)->
-				       cutoff_env_curve)->curve),
+				      (FILTERRESLP_IF(data)->cutoff_env_curve)->curve),
 				     ENVELOPE_LEN,
-				     FILTERRESLP_IF(data)->data->
-				     cutoff_envelope);
+				     mod->cutoff_envelope);
 	}
 	return 1;
 }
