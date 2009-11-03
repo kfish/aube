@@ -112,12 +112,9 @@ GtkWidget *drummachine_if_new(drummachine * rsq)
 
 	drummachine_if = gtk_type_new(drummachine_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(drummachine_if), (module *)rsq);
+
 	drummachine_if->data = rsq;
-
-	gtk_window_set_title(GTK_WINDOW(drummachine_if),
-			     ((module *) drummachine_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(drummachine_if), 1);
 
 #if 0
 	/*

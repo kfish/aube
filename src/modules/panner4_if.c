@@ -84,12 +84,9 @@ GtkWidget *panner4_if_new(panner4 * pn)
 
 	panner4_if = gtk_type_new(panner4_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(panner4_if), (module *)pn);
+
 	panner4_if->data = pn;
-
-	gtk_window_set_title(GTK_WINDOW(panner4_if),
-			     ((module *) panner4_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(panner4_if), 1);
 
 #if 0
 	/*

@@ -89,14 +89,11 @@ GtkWidget *general_mixer_if_new(general_mixer * xf)
 
 	general_mixer_if = gtk_type_new(general_mixer_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(general_mixer_if), (module *)xf);
+
 	general_mixer_if->data = xf;
 
-	gtk_window_set_title(GTK_WINDOW(general_mixer_if),
-			     ((module *) general_mixer_if->data)->u_label);
-	gtk_window_set_policy(GTK_WINDOW(general_mixer_if), TRUE, TRUE,
-			      TRUE);
-
-	gtk_container_border_width(GTK_CONTAINER(general_mixer_if), 1);
+	gtk_window_set_policy(GTK_WINDOW(general_mixer_if), TRUE, TRUE, TRUE);
 
 #if 0
 	g_signal_connect(G_OBJECT(general_mixer_if), "delete_event",

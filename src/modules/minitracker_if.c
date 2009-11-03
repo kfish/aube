@@ -106,12 +106,9 @@ GtkWidget *minitracker_if_new(minitracker * rsq)
 
 	minitracker_if = gtk_type_new(minitracker_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(minitracker_if), (module *)rsq);
+
 	minitracker_if->data = rsq;
-
-	gtk_window_set_title(GTK_WINDOW(minitracker_if),
-			     ((module *) minitracker_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(minitracker_if), 1);
 
 #if 0
 	/*

@@ -82,12 +82,9 @@ GtkWidget *xfader_if_new(xfader * xf)
 
 	xfader_if = gtk_type_new(xfader_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(xfader_if), (module *)xf);
+
 	xfader_if->data = xf;
-
-	gtk_window_set_title(GTK_WINDOW(xfader_if),
-			     ((module *) xfader_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(xfader_if), 1);
 
 #if 0
 	/*

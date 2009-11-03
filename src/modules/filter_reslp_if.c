@@ -87,12 +87,9 @@ GtkWidget *filter_reslp_if_new(filter_reslp * fr)
 
 	filter_reslp_if = gtk_type_new(filter_reslp_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(filter_reslp_if), (module *)fr);
+
 	filter_reslp_if->data = fr;
-
-	gtk_window_set_title(GTK_WINDOW(filter_reslp_if),
-			     ((module *) filter_reslp_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(filter_reslp_if), 1);
 
 #if 0
 	/*

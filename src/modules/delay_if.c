@@ -89,12 +89,9 @@ GtkWidget *delay_if_new(delay * dl)
 
 	delay_if = gtk_type_new(delay_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(delay_if), (module *)dl);
+
 	delay_if->data = dl;
-
-	gtk_window_set_title(GTK_WINDOW(delay_if),
-			     ((module *) delay_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(delay_if), 1);
 
 #if 0
 	/*

@@ -85,15 +85,12 @@ GtkWidget *whitenoise_if_new(whitenoise * wn)
 
 	whitenoise_if = gtk_type_new(whitenoise_if_get_type());
 
-	whitenoise_if->data = wn;
+	modulewindow_set_module (MODULEWINDOW(whitenoise_if), (module *)wn);
 
-	gtk_window_set_title(GTK_WINDOW(whitenoise_if),
-			     ((module *) whitenoise_if->data)->u_label);
+	whitenoise_if->data = wn;
 
 	accel_group = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(whitenoise_if), accel_group);
-
-	gtk_container_border_width(GTK_CONTAINER(whitenoise_if), 1);
 
 #if 0
 	/*

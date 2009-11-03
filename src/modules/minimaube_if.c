@@ -94,13 +94,11 @@ GtkWidget *minimaube_if_new(minimaube * s)
 
 	minimaube_if = gtk_type_new(minimaube_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(minimaube_if), (module *)s);
+
 	minimaube_if->data = s;
 
-	gtk_window_set_title(GTK_WINDOW(minimaube_if),
-			     ((module *) minimaube_if->data)->u_label);
 	gtk_window_set_policy(GTK_WINDOW(minimaube_if), TRUE, TRUE, TRUE);
-
-	gtk_container_border_width(GTK_CONTAINER(minimaube_if), 1);
 
 #if 0
 	/*

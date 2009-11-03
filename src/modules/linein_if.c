@@ -89,12 +89,9 @@ GtkWidget *linein_if_new(oss_in * oss_p)
 
 	linein_if = gtk_type_new(linein_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(linein_if), (module *)oss_p);
+
 	linein_if->data = oss_p;
-
-	gtk_window_set_title(GTK_WINDOW(linein_if),
-			     linein_if->data->input_module.u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(linein_if), 1);
 
 #if 0
 	g_signal_connect(G_OBJECT(linein_if), "delete_event",

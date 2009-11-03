@@ -83,12 +83,9 @@ GtkWidget *lineout_if_new(oss_out * oss_p)
 
 	lineout_if = gtk_type_new(lineout_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(lineout_if), (module *)oss_p);
+
 	lineout_if->data = oss_p;
-
-	gtk_window_set_title(GTK_WINDOW(lineout_if),
-			     lineout_if->data->output_module.u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(lineout_if), 1);
 
 #if 0
 	g_signal_connect(G_OBJECT(lineout_if), "delete_event",

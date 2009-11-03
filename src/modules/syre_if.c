@@ -108,12 +108,9 @@ GtkWidget *syre_if_new(syre_if_data * sd)
 
 	syre_if = gtk_type_new(syre_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(syre_if), (module *)sd);
+
 	syre_if->data = sd;
-
-	gtk_window_set_title(GTK_WINDOW(syre_if),
-			     ((module *) syre_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(syre_if), 1);
 
 #if 0
 	/*

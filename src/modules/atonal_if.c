@@ -104,12 +104,9 @@ GtkWidget *atonal_if_new(atonal * rsq)
 
 	atonal_if = gtk_type_new(atonal_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(atonal_if), (module *)rsq);
+
 	atonal_if->data = rsq;
-
-	gtk_window_set_title(GTK_WINDOW(atonal_if),
-			     ((module *) atonal_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(atonal_if), 1);
 
 #if 0
 	/* when the window is given the "delete_event" signal - this is

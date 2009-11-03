@@ -102,12 +102,9 @@ GtkWidget *klavier_if_new(klavier * k)
 
 	klavier_if = gtk_type_new(klavier_if_get_type());
 
+	modulewindow_set_module (MODULEWINDOW(klavier_if), (module *)k);
+
 	klavier_if->data = k;
-
-	gtk_window_set_title(GTK_WINDOW(klavier_if),
-			     ((module *) klavier_if->data)->u_label);
-
-	gtk_container_border_width(GTK_CONTAINER(klavier_if), 1);
 
 #if 0
 	/*
