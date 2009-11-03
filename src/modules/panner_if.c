@@ -85,12 +85,10 @@ GtkWidget *panner_if_new(panner * mod)
 
 	modulewindow_set_module (MODULEWINDOW(panner_if), (module *)mod);
 
-	panner_if->data = mod;
-
 	vbox2 = MODULEWINDOW(panner_if)->mainbox;
         hbox = MODULEWINDOW(panner_if)->headbox;
 
-	button = outputlabel_new((module *) PANNER_IF(panner_if)->data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
 	gtk_widget_show(button);
 
@@ -98,9 +96,7 @@ GtkWidget *panner_if_new(panner * mod)
 	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
-	button =
-	    inputoption_new((char *) "In:",
-			    (module *) PANNER_IF(panner_if)->data, 0);
+	button = inputoption_new((char *) "In:", (module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 2);
 	gtk_widget_show(button);
 
@@ -119,12 +115,11 @@ GtkWidget *panner_if_new(panner * mod)
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 	gtk_widget_show(vbox);
 
-	slider =
-	    slider_int_new("Input", &(panner_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Input", &mod->vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, TRUE, 0);
 	gtk_widget_show(slider);
 
-	slider = slider_int_new("Pan", &(panner_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 

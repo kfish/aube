@@ -83,17 +83,13 @@ GtkWidget *panner4_if_new(panner4 * mod)
 
 	modulewindow_set_module (MODULEWINDOW(panner4_if), (module *)mod);
 
-	panner4_if->data = mod;
-
         vbox2 = MODULEWINDOW(panner4_if)->mainbox;
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, FALSE, 1);
 	gtk_widget_show(hbox);
 
-	button =
-	    inputoption_new((char *) "In:",
-			    (module *) PANNER4_IF(panner4_if)->data, 0);
+	button = inputoption_new((char *) "In:", (module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 2);
 	gtk_widget_show(button);
 
@@ -101,13 +97,11 @@ GtkWidget *panner4_if_new(panner4 * mod)
 	gtk_box_pack_start(GTK_BOX(vbox2), hbox, FALSE, TRUE, 0);
 	gtk_widget_show(hbox);
 
-	button =
-	    outputlabel_new((module *) PANNER4_IF(panner4_if)->data, 0);
+	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 2);
 	gtk_widget_show(button);
 
-	button =
-	    outputlabel_new((module *) PANNER4_IF(panner4_if)->data, 1);
+	button = outputlabel_new((module *)mod, 1);
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 2);
 	gtk_widget_show(button);
 
@@ -134,12 +128,11 @@ GtkWidget *panner4_if_new(panner4 * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, TRUE, 0);
 	gtk_widget_show(hbox3);
 
-	slider =
-	    slider_int_new("Fade", &(panner4_if->data->fade), 0, 32, 1);
+	slider = slider_int_new("Fade", &mod->fade, 0, 32, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider = slider_int_new("Pan", &(panner4_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 

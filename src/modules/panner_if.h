@@ -37,8 +37,6 @@ typedef struct _PannerIFClass PannerIFClass;
 
 struct _PannerIF {
 	ModuleWindow window;
-
-	panner *data;
 };
 
 struct _PannerIFClass {

@@ -38,8 +38,6 @@ typedef struct _Panner4IFClass Panner4IFClass;
 
 struct _Panner4IF {
 	ModuleWindow window;
-
-	panner4 *data;
 };
 
 struct _Panner4IFClass {
