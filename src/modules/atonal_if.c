@@ -103,8 +103,6 @@ GtkWidget *atonal_if_new(atonal * mod)
 
 	modulewindow_set_module (MODULEWINDOW(atonal_if), (module *)mod);
 
-	atonal_if->data = mod;
-
 #if 0
 	button = gtk_button_new_with_label("Clear");
 	gtk_box_pack_start(GTK_BOX(hbox2), button, TRUE, TRUE, 1);
@@ -132,7 +130,7 @@ GtkWidget *atonal_if_new(atonal * mod)
 #endif
 
 #if 0
-	slider = slider_int_new("", &(atonal_if->data->vol), 0, 64, 0);
+	slider = slider_int_new("", &(mod->vol), 0, 64, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), slider, FALSE, FALSE, 0);
 	gtk_widget_show(slider);
 #endif
@@ -153,7 +151,7 @@ GtkWidget *atonal_if_new(atonal * mod)
 		snprintf(buf, 4, "%d", i);
 		slider =
 		    slider_int_new(buf,
-				   &(atonal_if->data->sequence[i].note),
+				   &(mod->sequence[i].note),
 				   110, 660, 1);
 		gtk_box_pack_start(GTK_BOX(vbox2), slider, TRUE, TRUE, 0);
 		gtk_widget_show(slider);
@@ -163,7 +161,7 @@ GtkWidget *atonal_if_new(atonal * mod)
 				   1);
 		gtk_widget_set_usize(button, 10, 10);
 		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
-					    (atonal_if->data->sequence[i].
+					    (mod->sequence[i].
 					     trigger == 1));
 		g_signal_connect(G_OBJECT(button), "clicked",
 				 G_CALLBACK(atonal_if_set_note_cb),
@@ -184,21 +182,18 @@ GtkWidget *atonal_if_new(atonal * mod)
 
 void atonal_if_update_at(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 	int i;
 
-	atonal_if = ATONAL_IF(data);
 	for (i = 0; i < AT_LENGTH; i++) {
 		g_signal_handlers_block_matched(atonal_if->buttons[i].
 						button,
 						G_SIGNAL_MATCH_DATA, 0, 0,
 						NULL, NULL, atonal_if);
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-					    (atonal_if->buttons[i].button),
-					    (atonal_if->data->sequence[i].
-					     trigger == 1));
-		g_signal_handlers_unblock_matched(atonal_if->buttons[i].
-						  button,
+		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(atonal_if->buttons[i].button),
+					    (mod->sequence[i].trigger == 1));
+		g_signal_handlers_unblock_matched(atonal_if->buttons[i].button,
 						  G_SIGNAL_MATCH_DATA, 0,
 						  0, NULL, NULL,
 						  atonal_if);
@@ -207,14 +202,13 @@ void atonal_if_update_at(GtkWidget * widget, gpointer data)
 
 void atonal_if_set_note_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 	int i;
 
-	atonal_if = ATONAL_IF(data);
 	for (i = 0; i < AT_LENGTH; i++) {
 		if (atonal_if->buttons[i].button == widget) {
-			atonal_if->data->sequence[i].trigger = 1 -
-			    atonal_if->data->sequence[i].trigger;
+			mod->sequence[i].trigger = 1 - mod->sequence[i].trigger;
 			break;
 		}
 	}
@@ -229,73 +223,73 @@ void at_restart_cb(GtkWidget * widget, gpointer data)
 
 void at_clear_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_clear(atonal_if->data);
+	at_clear(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_chaos_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_chaos(atonal_if->data);
+	at_chaos(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_play_once_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_play_once(atonal_if->data);
+	at_play_once(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_play_44_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_play_44(atonal_if->data);
+	at_play_44(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_transpose_u12_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_transpose_u12(atonal_if->data);
+	at_transpose_u12(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_transpose_d12_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_transpose_d12(atonal_if->data);
+	at_transpose_d12(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_transpose_u1_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_transpose_u1(atonal_if->data);
+	at_transpose_u1(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 
 void at_transpose_d1_cb(GtkWidget * widget, gpointer data)
 {
-	AtonalIF *atonal_if;
+	AtonalIF *atonal_if = ATONAL_IF(data);
+        atonal * mod = (atonal *)MODULEWINDOW(atonal_if)->module;
 
-	atonal_if = ATONAL_IF(data);
-	at_transpose_d1(atonal_if->data);
+	at_transpose_d1(mod);
 	atonal_if_update_at(NULL, atonal_if);
 }
 

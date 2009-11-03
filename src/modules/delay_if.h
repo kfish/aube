@@ -39,7 +39,6 @@ struct _DelayIF {
 	ModuleWindow window;
 
 	GtkWidget *replace_menuitem;
-	delay *data;
 };
 
 struct _DelayIFClass {

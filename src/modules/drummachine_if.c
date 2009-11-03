@@ -111,8 +111,6 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 
 	modulewindow_set_module (MODULEWINDOW(drummachine_if), (module *)mod);
 
-	drummachine_if->data = mod;
-
 	frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(drummachine_if)->headbox), frame, TRUE, TRUE, 1);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
@@ -191,9 +189,7 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 		gtk_widget_show(button);
 
 #if 0
-		slider =
-		    slider_int_new("Vol", &(drummachine_if->data->vol), 0,
-				   64, 0);
+		slider = slider_int_new("Vol", &mod->vol, 0, 64, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), slider, FALSE, FALSE, 0);
 		gtk_widget_show(slider);
 #endif
@@ -214,11 +210,8 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 			gtk_box_pack_start(GTK_BOX(hbox), button, TRUE,
 					   TRUE, 1);
 			gtk_widget_set_usize(button, 10, 10);
-			gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-						    (button),
-						    (drummachine_if->data->
-						     sequence[j][i].note ==
-						     128));
+			gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
+						    (mod->sequence[j][i].note == 128));
 			g_signal_connect(G_OBJECT(button), "clicked",
 					 G_CALLBACK
 					 (drummachine_if_set_note_cb),
@@ -258,7 +251,7 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 		gtk_widget_show(button);
 
 /*
-   button = outputlabel_new((module *)drummachine_if->data, j);
+   button = outputlabel_new((module *)mod, j);
    gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 1);
    gtk_widget_show(button);
  */
@@ -271,27 +264,19 @@ GtkWidget *drummachine_if_new(drummachine * mod)
 
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int i, j;
 
-	drummachine_if = DRUMMACHINE_IF(data);
 	for (j = 0; j < MAX_CHANNELS; j++) {
 		for (i = 0; i < DM_LENGTH; i++) {
-			g_signal_handlers_block_matched(drummachine_if->
-							buttons[j][i].
-							button,
+			g_signal_handlers_block_matched(drummachine_if->buttons[j][i].button,
 							G_SIGNAL_MATCH_DATA,
 							0, 0, NULL, NULL,
 							drummachine_if);
-			gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-						    (drummachine_if->
-						     buttons[j][i].button),
-						    (drummachine_if->data->
-						     sequence[j][i].note ==
-						     128));
-			g_signal_handlers_unblock_matched(drummachine_if->
-							  buttons[j][i].
-							  button,
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(drummachine_if->buttons[j][i].button),
+						    (dm->sequence[j][i].note == 128));
+			g_signal_handlers_unblock_matched(drummachine_if->buttons[j][i].button,
 							  G_SIGNAL_MATCH_DATA,
 							  0, 0, NULL, NULL,
 							  drummachine_if);
@@ -301,17 +286,14 @@ void drummachine_if_update_dm(GtkWidget * widget, gpointer data)
 
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int i, j;
 
-	drummachine_if = DRUMMACHINE_IF(data);
 	for (j = 0; j < MAX_CHANNELS; j++) {
 		for (i = 0; i < DM_LENGTH; i++) {
 			if (drummachine_if->buttons[j][i].button == widget) {
-				drummachine_if->data->sequence[j][i].note =
-				    128 -
-				    drummachine_if->data->sequence[j][i].
-				    note;
+				dm->sequence[j][i].note = 128 - dm->sequence[j][i].note;
 				break;
 			}
 		}
@@ -327,29 +309,30 @@ void dm_restart_cb(GtkWidget * widget, gpointer data)
 
 void dm_clear_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_clear(drummachine_if->data);
+	dm_clear(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_chaos_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_chaos(drummachine_if->data);
+	dm_chaos(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_shift_left_cb(GtkWidget * widget, gpointer data)
 {
 	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int j;
 
 	for (j = 0; j < MAX_CHANNELS; j++) {
-		dm_shift_track(drummachine_if->data, j, -1);
+		dm_shift_track(dm, j, -1);
 	}
 
 	drummachine_if_update_dm(NULL, drummachine_if);
@@ -358,10 +341,11 @@ void dm_shift_left_cb(GtkWidget * widget, gpointer data)
 void dm_shift_right_cb(GtkWidget * widget, gpointer data)
 {
 	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int j;
 
 	for (j = 0; j < MAX_CHANNELS; j++) {
-		dm_shift_track(drummachine_if->data, j, 1);
+		dm_shift_track(dm, j, 1);
 	}
 
 	drummachine_if_update_dm(NULL, drummachine_if);
@@ -370,9 +354,10 @@ void dm_shift_right_cb(GtkWidget * widget, gpointer data)
 void dm_clear_track_cb(GtkWidget * widget, gpointer data)
 {
 	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int j = (int) g_object_get_data(G_OBJECT(widget), "default");
 
-	dm_clear_track(drummachine_if->data, j);
+	dm_clear_track(dm, j);
 
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
@@ -380,9 +365,10 @@ void dm_clear_track_cb(GtkWidget * widget, gpointer data)
 void dm_shift_track_left_cb(GtkWidget * widget, gpointer data)
 {
 	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int j = (int) g_object_get_data(G_OBJECT(widget), "default");
 
-	dm_shift_track(drummachine_if->data, j, -1);
+	dm_shift_track(dm, j, -1);
 
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
@@ -390,64 +376,65 @@ void dm_shift_track_left_cb(GtkWidget * widget, gpointer data)
 void dm_shift_track_right_cb(GtkWidget * widget, gpointer data)
 {
 	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 	int j = (int) g_object_get_data(G_OBJECT(widget), "default");
 
-	dm_shift_track(drummachine_if->data, j, 1);
+	dm_shift_track(dm, j, 1);
 
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_play_once_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_play_once(drummachine_if->data);
+	dm_play_once(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_play_44_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_play_44(drummachine_if->data);
+	dm_play_44(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_transpose_u12_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_transpose_u12(drummachine_if->data);
+	dm_transpose_u12(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_transpose_d12_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_transpose_d12(drummachine_if->data);
+	dm_transpose_d12(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_transpose_u1_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_transpose_u1(drummachine_if->data);
+	dm_transpose_u1(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 
 void dm_transpose_d1_cb(GtkWidget * widget, gpointer data)
 {
-	DrumMachineIF *drummachine_if;
+	DrumMachineIF *drummachine_if = DRUMMACHINE_IF(data);
+        drummachine * dm = (drummachine *)MODULEWINDOW(drummachine_if)->module;
 
-	drummachine_if = DRUMMACHINE_IF(data);
-	dm_transpose_d1(drummachine_if->data);
+	dm_transpose_d1(dm);
 	drummachine_if_update_dm(NULL, drummachine_if);
 }
 

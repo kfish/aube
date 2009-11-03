@@ -88,20 +88,14 @@ GtkWidget *delay_if_new(delay * mod)
 
 	modulewindow_set_module (MODULEWINDOW(delay_if), (module *)mod);
 
-	delay_if->data = mod;
-
-	widget = outputlabel_new((module *) DELAY_IF(delay_if)->data, 0);
+	widget = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->headbox), widget, TRUE, TRUE, 2);
 	gtk_widget_show(widget);
 
-
-	/*
-	   I N P U T 
-	 */
+	/* I N P U T */
 
 	widget =
-	    inputoption_new((char *) "In:",
-			    (module *) DELAY_IF(delay_if)->data, 0);
+	    inputoption_new((char *) "In:", (module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->mainbox), widget, FALSE, TRUE, 2);
 	gtk_widget_show(widget);
 
@@ -122,27 +116,21 @@ GtkWidget *delay_if_new(delay * mod)
 	gtk_widget_show(hbox3);
 
 #if 0
-	slider =
-	    slider_int_new("Input Vol", &(delay_if->data->input_vol), 0,
-			   64, 1);
+	slider = slider_int_new("Input Vol", &mod->input_vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 #endif
 
-	slider =
-	    slider_int_new("Delay", &(delay_if->data->offset), 0,
-			   DELAY_BUFFER_LENGTH / 2, 1);
+	slider = slider_int_new("Delay", &mod->offset, 0,
+                                DELAY_BUFFER_LENGTH / 2, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Delay Vol", &(delay_if->data->delay_vol), 0,
-			   64, 1);
+	slider = slider_int_new("Delay Vol", &mod->delay_vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider =
-	    slider_int_new("Delay Pan", &(delay_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Delay Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, FALSE, TRUE, 0);
 	gtk_widget_show(slider);
 
@@ -151,15 +139,14 @@ GtkWidget *delay_if_new(delay * mod)
 
 void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
 {
+        DelayIF * delay_if = DELAY_IF(data);
+        module * module = MODULEWINDOW(delay_if)->module;
 	GtkWidget *menu;
 
 	menu =
-	    modulemenu_new((module *) DELAY_IF(data)->data,
+	    modulemenu_new(module,
 			   (void *) aube_module_cmp_type,
 			   (void *) module_replace_cb);
-	gtk_menu_item_remove_submenu(GTK_MENU_ITEM
-				     (DELAY_IF(data)->replace_menuitem));
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM
-				  (DELAY_IF(data)->replace_menuitem),
-				  menu);
+	gtk_menu_item_remove_submenu(GTK_MENU_ITEM(delay_if->replace_menuitem));
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(delay_if->replace_menuitem), menu);
 }

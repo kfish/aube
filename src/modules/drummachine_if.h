@@ -45,8 +45,6 @@ struct _DrumMachineIF {
 
 	GtkWidget *clear_buttons[MAX_CHANNELS];
 	DrumButton buttons[MAX_CHANNELS][DM_LENGTH];
-
-	drummachine *data;
 };
 
 struct _DrumMachineIFClass {

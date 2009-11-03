@@ -37,8 +37,6 @@ typedef struct _WhitenoiseIFClass WhitenoiseIFClass;
 
 struct _WhitenoiseIF {
 	ModuleWindow window;
-
-	whitenoise *data;
 };
 
 struct _WhitenoiseIFClass {

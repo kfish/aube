@@ -82,8 +82,6 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 
 	modulewindow_set_module (MODULEWINDOW(ui), (module *)mod);
 
-	ui->data = mod;
-
 	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);

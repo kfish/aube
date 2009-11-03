@@ -44,8 +44,6 @@ struct _AtonalIF {
 	ModuleWindow window;
 
 	AtButton buttons[AT_LENGTH];
-
-	atonal *data;
 };
 
 struct _AtonalIFClass {
