@@ -78,6 +78,8 @@ static void modulewindow_init(ModuleWindow * mw)
 	GClosure *gclosure;
 	GtkAccelGroup *accel_group;
 
+	gtk_container_border_width(GTK_CONTAINER(mw), 1);
+
         /*
          * close the window when Ctrl and w are pressed.
          *      accel key combo is static. perhaps there is a better
@@ -96,7 +98,21 @@ static void modulewindow_dismiss (GtkWidget * widget, gpointer data)
 }
 #endif
 
+void modulewindow_set_module (ModuleWindow * mw, module * module)
+{
+	mw->module = module;
+
+	gtk_window_set_title(GTK_WINDOW(mw), module->u_label);
+}
+
 GtkWidget *modulewindow_new(module * module)
 {
-        return GTK_WIDGET ( g_object_new (MODULEWINDOW_TYPE, NULL));
+	ModuleWindow * mw;
+
+        mw = g_object_new (MODULEWINDOW_TYPE, NULL);
+        if (mw == NULL) return NULL;
+
+	modulewindow_set_module (mw, module);
+
+        return GTK_WIDGET (mw);
 }

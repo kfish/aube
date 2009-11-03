@@ -38,6 +38,8 @@ typedef struct _ModuleWindowClass ModuleWindowClass;
 
 struct _ModuleWindow {
 	GtkWindow window;
+
+	module * module;
 };
 
 struct _ModuleWindowClass {
@@ -48,6 +50,7 @@ struct _ModuleWindowClass {
 
 GType modulewindow_get_type(void);
 GtkWidget *modulewindow_new(module * module);
+void modulewindow_set_module (ModuleWindow * mw, module * module);
 
 G_END_DECLS
 
