@@ -40,7 +40,6 @@ struct _LINEINIF {
 
 	GtkWidget *inputs_om;
 	GtkWidget *inputsmenu;
-	oss_in *data;
 };
 
 struct _LINEINIFClass {

@@ -78,8 +78,7 @@ static void linein_if_init(LINEINIF * linein_if)
 
 static void linein_if_destroy_cb(GtkWidget * widget, gpointer data)
 {
-	LINEINIF *linein_if = LINEIN_IF(data);
-	oss_dev_remove_writer(linein_if->data->dev);
+	oss_dev_remove_writer(((oss_in *)data)->dev);
 }
 
 void linein_if_onoff_cb(GtkWidget * widget, gpointer data)
@@ -103,10 +102,8 @@ GtkWidget *linein_if_new(oss_in * mod)
 
 	modulewindow_set_module (MODULEWINDOW(linein_if), (module *)mod);
 
-	linein_if->data = mod;
-
 	g_signal_connect(G_OBJECT(linein_if), "destroy",
-			 G_CALLBACK(linein_if_destroy_cb), linein_if);
+			 G_CALLBACK(linein_if_destroy_cb), mod);
 
 #if 0
 	/*
@@ -138,7 +135,7 @@ GtkWidget *linein_if_new(oss_in * mod)
 
 
 	g_signal_connect(G_OBJECT(MODULEWINDOW(linein_if)->onbutton), "clicked",
-			 G_CALLBACK(linein_if_onoff_cb), linein_if->data);
+			 G_CALLBACK(linein_if_onoff_cb), mod);
 
 	hbox2 = MODULEWINDOW(linein_if)->headbox;
 
@@ -146,7 +143,7 @@ GtkWidget *linein_if_new(oss_in * mod)
 	   O U T P U T 
 	 */
 
-	widget = outputlabel_new(&linein_if->data->input_module, 0);
+	widget = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(hbox2), widget, FALSE, FALSE, 4);
 	gtk_widget_show(widget);
 
@@ -170,11 +167,11 @@ GtkWidget *linein_if_new(oss_in * mod)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox3, TRUE, FALSE, 0);
 	gtk_widget_show(hbox3);
 
-	slider = slider_int_new("Vol", &(linein_if->data->vol), 0, 64, 1);
+	slider = slider_int_new("Vol", &mod->vol, 0, 64, 1);
 	gtk_box_pack_start(GTK_BOX(hbox3), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 
-	slider = slider_int_new("Pan", &(linein_if->data->pan), 0, 32, 0);
+	slider = slider_int_new("Pan", &mod->pan, 0, 32, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), slider, TRUE, FALSE, 0);
 	gtk_widget_show(slider);
 #endif
@@ -207,21 +204,21 @@ GtkWidget *linein_if_new(oss_in * mod)
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(linein_if_set_mode_output_cb),
-			 linein_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	menuitem = gtk_menu_item_new_with_label((char *) "Input");
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(linein_if_set_mode_input_cb),
-			 linein_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	menuitem = gtk_menu_item_new_with_label((char *) "Duplex");
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(linein_if_set_mode_duplex_cb),
-			 linein_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
@@ -241,14 +238,14 @@ GtkWidget *linein_if_new(oss_in * mod)
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(linein_if_set_device_dsp_cb),
-			 linein_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	menuitem = gtk_menu_item_new_with_label((char *) "/dev/dsp1");
 	gtk_menu_append(GTK_MENU(menu), menuitem);
 	g_signal_connect(G_OBJECT(menuitem), "activate",
 			 G_CALLBACK(linein_if_set_device_dsp1_cb),
-			 linein_if->data);
+			 mod);
 	gtk_widget_show(menuitem);
 
 	gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
