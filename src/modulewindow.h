@@ -39,7 +39,14 @@ typedef struct _ModuleWindowClass ModuleWindowClass;
 struct _ModuleWindow {
 	GtkWindow window;
 
+        /* The module being controlled */
 	module * module;
+
+        /* The GtkVBox at the top, containing On */
+        GtkWidget * headbox;
+
+        /* The main content box */
+	GtkWidget * mainbox;
 };
 
 struct _ModuleWindowClass {

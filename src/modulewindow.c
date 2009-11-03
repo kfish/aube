@@ -89,6 +89,16 @@ static void modulewindow_init(ModuleWindow * mw)
 	gclosure = g_cclosure_new((GCallback)modulewindow_close_cb, NULL, NULL);
 	gtk_accel_group_connect(accel_group, GDK_w, GDK_CONTROL_MASK, 0, gclosure);
 	gtk_window_add_accel_group(GTK_WINDOW(mw), accel_group);
+
+        /* Set up the boxes */
+	mw->mainbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_add(GTK_CONTAINER(mw), mw->mainbox);
+	gtk_widget_show(mw->mainbox);
+
+	mw->headbox = gtk_hbox_new(FALSE, 5);
+	gtk_box_pack_start(GTK_BOX(mw->mainbox), mw->headbox, FALSE, TRUE, 0);
+	gtk_widget_show(mw->headbox);
+
 }
 
 #if 0
