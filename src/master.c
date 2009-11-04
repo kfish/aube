@@ -249,22 +249,20 @@ static void master_init(Master * master)
 	GtkWidget *hbox, *vbox, *vbox2;
 	GtkWidget *slider;
 	GtkWidget *button;
-	int i;
-
 	GtkAccelGroup *accel_group;
-
 	GtkWidget *im;
-
-
 	GtkWidget *scrolled;
 	GtkWidget *clist;
 	gchar *titles[] = { "", "Name", "Length" };
+	int i;
 
 	master->data = aube_data_new();
 	aube_daddy = master->data;
 
 	g_signal_connect(G_OBJECT(master), "destroy",
 			 G_CALLBACK(quit_cb), master);
+
+        gtk_window_set_default_size (GTK_WINDOW(master), 480, 0);
 
 	gtk_window_set_title(GTK_WINDOW(master), "AUBE/Metadecks Live");
 
@@ -440,7 +438,7 @@ static void master_init(Master * master)
 
 	frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
-	gtk_box_pack_start(GTK_BOX(hbox), frame, TRUE, TRUE, 8);
+	gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, TRUE, 8);
 	gtk_container_border_width(GTK_CONTAINER(frame), 8);
 	gtk_widget_show(frame);
 
@@ -483,9 +481,12 @@ static void master_init(Master * master)
 	/* gtk_clist_set_policy(GTK_CLIST(clist), GTK_POLICY_AUTOMATIC,
 	   GTK_POLICY_AUTOMATIC); */
 	/* gtk_clist_set_border(GTK_CLIST(clist), GTK_SHADOW_IN); */
-	gtk_clist_set_column_width(GTK_CLIST(clist), 0, 12);
-	gtk_clist_set_column_width(GTK_CLIST(clist), 1, 80);
-	gtk_clist_set_column_width(GTK_CLIST(clist), 2, 30);
+	gtk_clist_set_column_width(GTK_CLIST(clist), 0, 20);
+        gtk_clist_set_column_resizeable(GTK_CLIST(clist), 0, TRUE);
+	gtk_clist_set_column_width(GTK_CLIST(clist), 1, 160);
+        gtk_clist_set_column_resizeable(GTK_CLIST(clist), 1, TRUE);
+	gtk_clist_set_column_width(GTK_CLIST(clist), 2, 40);
+        gtk_clist_set_column_resizeable(GTK_CLIST(clist), 2, TRUE);
 	gtk_clist_set_column_justification(GTK_CLIST(clist), 2,
 					   GTK_JUSTIFY_RIGHT);
 
