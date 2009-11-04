@@ -69,6 +69,8 @@ GtkWidget *panner_if_new(panner * mod)
 
 	modulewindow_set_module (MODULEWINDOW(panner_if), (module *)mod);
 
+        gtk_window_set_default_size (GTK_WINDOW(panner_if), 0, 320);
+
 	vbox2 = MODULEWINDOW(panner_if)->mainbox;
         hbox = MODULEWINDOW(panner_if)->headbox;
 

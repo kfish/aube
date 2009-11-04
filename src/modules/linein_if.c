@@ -93,6 +93,9 @@ GtkWidget *linein_if_new(oss_in * mod)
 	g_signal_connect(G_OBJECT(linein_if), "destroy",
 			 G_CALLBACK(linein_if_destroy_cb), mod);
 
+        /* No sliders, so allow automatic size */
+        gtk_window_set_default_size (GTK_WINDOW(linein_if), 0, 0);
+
 #if 0
 	/*
 	   M E N U B A R 

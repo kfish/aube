@@ -32,6 +32,8 @@ G_BEGIN_DECLS
 #define MODULEWINDOW_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, modulewindow_get_type (), ModuleWindowClass)
 #define IS_MODULEWINDOW(obj)       GTK_CHECK_TYPE (obj, modulewindow_get_type ())
 
+#define MODULEWINDOW_DEFAULT_WIDTH 320
+#define MODULEWINDOW_DEFAULT_HEIGHT 240
 
 typedef struct _ModuleWindow ModuleWindow;
 typedef struct _ModuleWindowClass ModuleWindowClass;

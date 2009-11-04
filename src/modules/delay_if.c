@@ -73,6 +73,8 @@ GtkWidget *delay_if_new(delay * mod)
 
 	modulewindow_set_module (MODULEWINDOW(delay_if), (module *)mod);
 
+        gtk_window_set_default_size (GTK_WINDOW(delay_if), 0, 320);
+
 	widget = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(delay_if)->headbox), widget, TRUE, TRUE, 2);
 	gtk_widget_show(widget);

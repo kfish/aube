@@ -67,6 +67,8 @@ GtkWidget *whitenoise_if_new(whitenoise * mod)
 
 	modulewindow_set_module (MODULEWINDOW(ui), (module *)mod);
 
+        gtk_window_set_default_size (GTK_WINDOW(ui), 0, MODULEWINDOW_DEFAULT_HEIGHT);
+
 	button = outputlabel_new((module *)mod, 0);
 	gtk_box_pack_start(GTK_BOX(MODULEWINDOW(ui)->headbox), button, FALSE, FALSE, 4);
 	gtk_widget_show(button);

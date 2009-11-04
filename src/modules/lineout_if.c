@@ -78,6 +78,9 @@ GtkWidget *lineout_if_new(oss_out * mod)
 	g_signal_connect(G_OBJECT(lineout_if), "destroy",
 			 G_CALLBACK(lineout_if_destroy_cb), mod);
 
+        /* No sliders, so allow automatic size */
+        gtk_window_set_default_size (GTK_WINDOW(lineout_if), 0, 0);
+
         hbox2 = MODULEWINDOW(lineout_if)->headbox;
 
 	/*

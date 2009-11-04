@@ -79,6 +79,9 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 
 	modulewindow_set_module (MODULEWINDOW(minimaube_if), (module *)mod);
 
+        /* No sliders, allow to grow from small height */
+        gtk_window_set_default_size (GTK_WINDOW(minimaube_if), MODULEWINDOW_DEFAULT_WIDTH, 0);
+
 	hbox = MODULEWINDOW(minimaube_if)->headbox;
 
 	widget = gtk_button_new_with_label("Add");

@@ -117,6 +117,8 @@ static void modulewindow_init(ModuleWindow * mw)
 			 G_CALLBACK(modulewindow_destroy_cb),
 			 mw);
 
+        gtk_window_set_default_size (GTK_WINDOW(mw), MODULEWINDOW_DEFAULT_WIDTH, MODULEWINDOW_DEFAULT_HEIGHT);
+
 	gtk_container_border_width(GTK_CONTAINER(mw), 1);
 
 	accel_group = gtk_accel_group_new();

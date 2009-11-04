@@ -69,6 +69,8 @@ GtkWidget *panner4_if_new(panner4 * mod)
 
 	modulewindow_set_module (MODULEWINDOW(panner4_if), (module *)mod);
 
+        gtk_window_set_default_size (GTK_WINDOW(panner4_if), 0, 360);
+
         vbox2 = MODULEWINDOW(panner4_if)->mainbox;
 
 	hbox = gtk_hbox_new(FALSE, 0);

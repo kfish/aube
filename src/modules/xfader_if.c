@@ -68,6 +68,8 @@ GtkWidget *xfader_if_new(xfader * mod)
 
 	modulewindow_set_module (MODULEWINDOW(xfader_if), (module *)mod);
 
+        gtk_window_set_default_size (GTK_WINDOW(xfader_if), 0, 320);
+
 	vbox2 = MODULEWINDOW(xfader_if)->mainbox;
 	hbox = MODULEWINDOW(xfader_if)->headbox;
 
