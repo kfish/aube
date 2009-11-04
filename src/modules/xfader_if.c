@@ -33,10 +33,6 @@
 #include "inputoption.h"
 #include "outputlabel.h"
 
-static void xfader_if_class_init(XFaderIFClass * klass);
-static void xfader_if_init(XFaderIF * b);
-GtkWidget *xfader_if_new(xfader * mod);
-
 GType xfader_if_get_type(void)
 {
 	static GType b_type = 0;
@@ -46,27 +42,18 @@ GType xfader_if_get_type(void)
 			sizeof(XFaderIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) xfader_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(XFaderIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) xfader_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"XFaderIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void xfader_if_class_init(XFaderIFClass * klass)
-{
-
-}
-
-static void xfader_if_init(XFaderIF * xfader_if)
-{
 }
 
 GtkWidget *xfader_if_new(xfader * mod)
@@ -102,10 +89,8 @@ GtkWidget *xfader_if_new(xfader * mod)
 	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
 	gtk_widget_show(button);
 
-
 	frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(vbox2), frame, TRUE, TRUE, 0);
-	/* gtk_container_border_width(GTK_CONTAINER(frame), 4); */
 	gtk_widget_show(frame);
 
 	vbox = gtk_vbox_new(FALSE, 0);

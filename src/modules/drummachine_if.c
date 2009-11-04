@@ -27,7 +27,6 @@
 #include <strings.h>
 #include <gtk/gtk.h>
 #include "aube.h"
-#include "master.h"
 #include "opsmenu.h"
 #include "outputlabel.h"
 #include "drummachine_if.h"
@@ -38,10 +37,6 @@ extern drummachine *drummachine_new(void);
 
 extern int tick;
 extern char *note_names[97];
-
-static void drummachine_if_class_init(DrumMachineIFClass * klass);
-static void drummachine_if_init(DrumMachineIF * b);
-GtkWidget *drummachine_if_new(drummachine * mod);
 
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data);
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer note);
@@ -74,12 +69,12 @@ GType drummachine_if_get_type(void)
 			sizeof(DrumMachineIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) drummachine_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(DrumMachineIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) drummachine_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -87,15 +82,6 @@ GType drummachine_if_get_type(void)
 						&b_info, 0);
 	}
 	return b_type;
-}
-
-static void drummachine_if_class_init(DrumMachineIFClass * klass)
-{
-
-}
-
-static void drummachine_if_init(DrumMachineIF * drummachine_if)
-{
 }
 
 GtkWidget *drummachine_if_new(drummachine * mod)

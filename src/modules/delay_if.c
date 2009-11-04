@@ -28,7 +28,6 @@
 
 #include "delay_if.h"
 #include "aube.h"
-#include "master.h"
 #include "modulemenu.h"
 #include "opsmenu.h"
 #include "slider.h"
@@ -39,11 +38,6 @@ extern int tick;
 
 extern GtkWidget *master_daddy;
 
-static void delay_if_class_init(DelayIFClass * klass);
-static void delay_if_init(DelayIF * b);
-GtkWidget *delay_if_new(delay * mod);
-void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data);
-
 GType delay_if_get_type(void)
 {
 	static GType b_type = 0;
@@ -53,27 +47,18 @@ GType delay_if_get_type(void)
 			sizeof(DelayIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) delay_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(DelayIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) delay_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"DelayIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void delay_if_class_init(DelayIFClass * klass)
-{
-
-}
-
-static void delay_if_init(DelayIF * delay_if)
-{
 }
 
 GtkWidget *delay_if_new(delay * mod)
@@ -135,18 +120,4 @@ GtkWidget *delay_if_new(delay * mod)
 	gtk_widget_show(slider);
 
 	return GTK_WIDGET(delay_if);
-}
-
-void delay_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
-{
-        DelayIF * delay_if = DELAY_IF(data);
-        module * module = MODULEWINDOW(delay_if)->module;
-	GtkWidget *menu;
-
-	menu =
-	    modulemenu_new(module,
-			   (void *) aube_module_cmp_type,
-			   (void *) module_replace_cb);
-	gtk_menu_item_remove_submenu(GTK_MENU_ITEM(delay_if->replace_menuitem));
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(delay_if->replace_menuitem), menu);
 }

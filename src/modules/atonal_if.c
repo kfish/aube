@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 
 #include "aube.h"
-#include "master.h"
 #include "opsmenu.h"
 #include "outputlabel.h"
 #include "atonal_if.h"
@@ -39,10 +38,6 @@ extern atonal *atonal_new(void);
 
 extern int tick;
 extern char *note_names[97];
-
-static void atonal_if_class_init(AtonalIFClass * klass);
-static void atonal_if_init(AtonalIF * b);
-GtkWidget *atonal_if_new(atonal * mod);
 
 void atonal_if_update_at(GtkWidget * widget, gpointer data);
 void atonal_if_set_note_cb(GtkWidget * widget, gpointer note);
@@ -67,27 +62,18 @@ GType atonal_if_get_type(void)
 			sizeof(AtonalIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) atonal_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(AtonalIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) atonal_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"AtonalIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void atonal_if_class_init(AtonalIFClass * klass)
-{
-
-}
-
-static void atonal_if_init(AtonalIF * atonal_if)
-{
 }
 
 GtkWidget *atonal_if_new(atonal * mod)

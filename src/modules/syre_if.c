@@ -41,10 +41,6 @@ extern bit16 wnwave[SINTAB_LEN];
 
 extern int tick;
 
-static void syre_if_class_init(SyreIFClass * klass);
-static void syre_if_init(SyreIF * b);
-GtkWidget *syre_if_new(syre_if_data * mod);
-
 void refresh_sliders(SyreIF * syre_if);
 void copy_accented_cb(GtkWidget * widget, gpointer data);
 void copy_unaccented_cb(GtkWidget * widget, gpointer data);
@@ -67,12 +63,12 @@ GType syre_if_get_type(void)
 			sizeof(SyreIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) syre_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(SyreIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) syre_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -81,20 +77,10 @@ GType syre_if_get_type(void)
 	return b_type;
 }
 
-static void syre_if_class_init(SyreIFClass * klass)
-{
-
-}
-
-static void syre_if_init(SyreIF * syre_if)
-{
-}
-
 static void syre_if_destroy_cb(GtkWidget * widget, gpointer data)
 {
 	SyreIF * ui = SYRE_IF(data);
 
-        printf ("%s\n", __func__);
 	gtk_idle_remove(ui->env_tag);
 }
 

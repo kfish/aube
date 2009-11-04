@@ -26,17 +26,12 @@
 #include <strings.h>
 #include <gtk/gtk.h>
 #include "aube.h"
-#include "master.h"
 #include "filter_reslp_if.h"
 #include "slider.h"
 #include "inputoption.h"
 #include "outputlabel.h"
 
 extern int tick;
-
-static void filter_reslp_if_class_init(FilterResLP_IFClass * klass);
-static void filter_reslp_if_init(FilterResLP_IF * b);
-GtkWidget *filter_reslp_if_new(filter_reslp * mod);
 
 void filter_reslp_usetoggle_cb(GtkWidget * widget, gpointer data);
 gint filter_reslp_get_envelopes(gpointer data);
@@ -50,12 +45,12 @@ GType filter_reslp_if_get_type(void)
 			sizeof(FilterResLP_IFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) filter_reslp_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(FilterResLP_IF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) filter_reslp_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -63,15 +58,6 @@ GType filter_reslp_if_get_type(void)
 						&b_info, 0);
 	}
 	return b_type;
-}
-
-static void filter_reslp_if_class_init(FilterResLP_IFClass * klass)
-{
-
-}
-
-static void filter_reslp_if_init(FilterResLP_IF * filter_reslp_if)
-{
 }
 
 static void filter_reslp_if_destroy_cb(GtkWidget * widget, gpointer data)

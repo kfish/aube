@@ -28,18 +28,11 @@
 
 #include "panner_if.h"
 #include "aube.h"
-#include "modulewindow.h"
-#include "master.h"
 #include "slider.h"
 #include "inputoption.h"
 #include "outputlabel.h"
 
 extern int tick;
-
-static void panner_if_class_init(PannerIFClass * klass);
-static void panner_if_init(PannerIF * b);
-GtkWidget *panner_if_new(panner * mod);
-void panner_if_onoff_cb(GtkWidget * widget, gpointer data);
 
 GType panner_if_get_type(void)
 {
@@ -50,27 +43,18 @@ GType panner_if_get_type(void)
 			sizeof(PannerIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) panner_if_class_init,
+			NULL,   /* class init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(PannerIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) panner_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"PannerIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void panner_if_class_init(PannerIFClass * klass)
-{
-
-}
-
-static void panner_if_init(PannerIF * panner_if)
-{
 }
 
 GtkWidget *panner_if_new(panner * mod)
@@ -106,9 +90,6 @@ GtkWidget *panner_if_new(panner * mod)
 
 	frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(hbox2), frame, TRUE, TRUE, 0);
-/*
-   gtk_container_border_width(GTK_CONTAINER(frame), 4);
- */
 	gtk_widget_show(frame);
 
 	vbox = gtk_vbox_new(FALSE, 5);

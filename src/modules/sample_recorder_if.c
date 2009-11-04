@@ -36,9 +36,6 @@
 
 extern int tick;
 
-static void sample_recorder_if_class_init(SampleRecorderIFClass * klass);
-static void sample_recorder_if_init(SampleRecorderIF * b);
-GtkWidget *sample_recorder_if_new(sample_recorder * mod);
 void sample_recorder_if_record(GtkWidget * widget, gpointer data);
 void sample_recorder_if_stop(GtkWidget * widget, gpointer data);
 void sample_recorder_if_record_next(GtkWidget * widget, gpointer data);
@@ -66,12 +63,12 @@ GType sample_recorder_if_get_type(void)
 			sizeof(SampleRecorderIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) sample_recorder_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(SampleRecorderIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) sample_recorder_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -79,15 +76,6 @@ GType sample_recorder_if_get_type(void)
 						&b_info, 0);
 	}
 	return b_type;
-}
-
-static void sample_recorder_if_class_init(SampleRecorderIFClass * klass)
-{
-
-}
-
-static void sample_recorder_if_init(SampleRecorderIF * sample_recorder_if)
-{
 }
 
 GtkWidget *sample_recorder_if_new(sample_recorder * mod)

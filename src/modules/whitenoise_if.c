@@ -24,18 +24,12 @@
 
 #include <stdlib.h>
 #include <strings.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
 #include "whitenoise_if.h"
 #include "aube.h"
-#include "master.h"
 #include "slider.h"
 #include "outputlabel.h"
-
-static void whitenoise_if_class_init(WhitenoiseIFClass * klass);
-static void whitenoise_if_init(WhitenoiseIF * b);
-GtkWidget *whitenoise_if_new(whitenoise * mod);
 
 GType whitenoise_if_get_type(void)
 {
@@ -46,12 +40,12 @@ GType whitenoise_if_get_type(void)
 			sizeof(WhitenoiseIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) whitenoise_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(WhitenoiseIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) whitenoise_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -59,15 +53,6 @@ GType whitenoise_if_get_type(void)
 						&b_info, 0);
 	}
 	return b_type;
-}
-
-static void whitenoise_if_class_init(WhitenoiseIFClass * klass)
-{
-
-}
-
-static void whitenoise_if_init(WhitenoiseIF * whitenoise_if)
-{
 }
 
 GtkWidget *whitenoise_if_new(whitenoise * mod)

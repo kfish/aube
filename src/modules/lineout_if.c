@@ -32,9 +32,6 @@
 #include "inputoption.h"
 #include "opsmenu.h"
 
-static void lineout_if_class_init(LINEOUTIFClass * klass);
-static void lineout_if_init(LINEOUTIF * b);
-GtkWidget *lineout_if_new(oss_out * mod);
 void lineout_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
@@ -47,27 +44,18 @@ GType lineout_if_get_type(void)
 			sizeof(LINEOUTIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) lineout_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(LINEOUTIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) lineout_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"LINEOUTIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void lineout_if_class_init(LINEOUTIFClass * klass)
-{
-
-}
-
-static void lineout_if_init(LINEOUTIF * lineout_if)
-{
 }
 
 static void lineout_if_destroy_cb(GtkWidget * widget, gpointer data)

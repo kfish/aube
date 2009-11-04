@@ -39,10 +39,6 @@ extern minitracker *minitracker_new(void);
 extern int tick;
 extern char *note_names[97];
 
-static void minitracker_if_class_init(MinitrackerIFClass * klass);
-static void minitracker_if_init(MinitrackerIF * b);
-GtkWidget *minitracker_if_new(minitracker * mod);
-
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data);
 void seq_toggle_cb(GtkWidget * widget, gpointer data);
 void restart_cb(GtkWidget * widget, gpointer data);
@@ -66,12 +62,12 @@ GType minitracker_if_get_type(void)
 			sizeof(MinitrackerIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) minitracker_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(MinitrackerIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) minitracker_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -79,15 +75,6 @@ GType minitracker_if_get_type(void)
 						&b_info, 0);
 	}
 	return b_type;
-}
-
-static void minitracker_if_class_init(MinitrackerIFClass * klass)
-{
-
-}
-
-static void minitracker_if_init(MinitrackerIF * minitracker_if)
-{
 }
 
 GtkWidget *minitracker_if_new(minitracker * mod)

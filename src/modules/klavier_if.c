@@ -28,7 +28,6 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "aube.h"
-#include "master.h"
 #include "opsmenu.h"
 #include "outputlabel.h"
 #include "klavier_if.h"
@@ -38,10 +37,6 @@
 extern klavier *klavier_new(void);
 
 extern int tick;
-
-static void klavier_if_class_init(KlavierIFClass * klass);
-static void klavier_if_init(KlavierIF * b);
-GtkWidget *klavier_if_new(klavier * mod);
 
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data);
 void klavkey_release_event(GtkWidget * widget, gint key, gpointer data);
@@ -60,27 +55,18 @@ GType klavier_if_get_type(void)
 			sizeof(KlavierIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) klavier_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(KlavierIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) klavier_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"KlavierIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void klavier_if_class_init(KlavierIFClass * klass)
-{
-
-}
-
-static void klavier_if_init(KlavierIF * klavier_if)
-{
 }
 
 GtkWidget *klavier_if_new(klavier * mod)

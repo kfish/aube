@@ -29,7 +29,6 @@
 
 #include "minimaube_if.h"
 #include "aube.h"
-#include "master.h"
 #include "modulemenu.h"
 #include "opsmenu.h"
 #include "slider.h"
@@ -40,12 +39,7 @@ extern int tick;
 
 extern GtkWidget *master_daddy;
 
-static void minimaube_if_class_init(MiniMaubeIFClass * klass);
-static void minimaube_if_init(MiniMaubeIF * b);
-GtkWidget *minimaube_if_new(minimaube * mod);
 void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data);
-void minimaube_if_change_replace_menu_cb(GtkWidget * widget,
-					 gpointer data);
 void minimaube_if_add_input_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_remove_input_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i);
@@ -60,27 +54,18 @@ GType minimaube_if_get_type(void)
 			sizeof(MiniMaubeIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) minimaube_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(MiniMaubeIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) minimaube_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"MiniMaubeIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void minimaube_if_class_init(MiniMaubeIFClass * klass)
-{
-
-}
-
-static void minimaube_if_init(MiniMaubeIF * minimaube_if)
-{
 }
 
 GtkWidget *minimaube_if_new(minimaube * mod)
@@ -115,22 +100,6 @@ GtkWidget *minimaube_if_new(minimaube * mod)
 	}
 
 	return GTK_WIDGET(minimaube_if);
-}
-
-void minimaube_if_change_replace_menu_cb(GtkWidget * widget, gpointer data)
-{
-#if 0
-	MiniMaubeIF *minimaube_if = MINIMAUBE_IF(data);
-        minimaube * mod = (minimaube *)MODULEWINDOW(minimaube_if)->module;
-	GtkWidget *menu;
-
-	menu =
-	    modulemenu_new((module *)mod,
-			   (void *) aube_module_cmp_type,
-			   (void *) module_replace_cb);
-	gtk_menu_item_remove_submenu(GTK_MENU_ITEM(minimaube_if->replace_menuitem));
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(minimaube_if->replace_menuitem), menu);
-#endif
 }
 
 void minimaube_if_add_input_cb(GtkWidget * widget, gpointer data)

@@ -32,9 +32,6 @@
 #include "opsmenu.h"
 #include "outputlabel.h"
 
-static void linein_if_class_init(LINEINIFClass * klass);
-static void linein_if_init(LINEINIF * b);
-GtkWidget *linein_if_new(oss_in * mod);
 void linein_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
@@ -53,27 +50,18 @@ GType linein_if_get_type(void)
 			sizeof(LINEINIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) linein_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(LINEINIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) linein_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
 						"LINEINIF", &b_info, 0);
 	}
 	return b_type;
-}
-
-static void linein_if_class_init(LINEINIFClass * klass)
-{
-
-}
-
-static void linein_if_init(LINEINIF * linein_if)
-{
 }
 
 static void linein_if_destroy_cb(GtkWidget * widget, gpointer data)

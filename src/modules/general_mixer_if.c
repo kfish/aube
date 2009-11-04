@@ -29,14 +29,10 @@
 
 #include "general_mixer_if.h"
 #include "aube.h"
-#include "master.h"
 #include "slider.h"
 #include "inputoption.h"
 #include "outputlabel.h"
 
-static void general_mixer_if_class_init(GeneralMixerIFClass * klass);
-static void general_mixer_if_init(GeneralMixerIF * b);
-GtkWidget *general_mixer_if_new(general_mixer * mod);
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_remove_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_add_input(GeneralMixerIF * general_mixer_if, int i);
@@ -53,12 +49,12 @@ GType general_mixer_if_get_type(void)
 			sizeof(GeneralMixerIFClass),
 			NULL,	/* base_init */
 			NULL,	/* base_finalise */
-			(GClassInitFunc) general_mixer_if_class_init,
+			NULL,   /* class_init */
 			NULL,	/* class_finalize */
 			NULL,	/* class_data */
 			sizeof(GeneralMixerIF),
 			0,	/* n_preallocs */
-			(GInstanceInitFunc) general_mixer_if_init,
+			NULL    /* init */
 		};
 
 		b_type = g_type_register_static(MODULEWINDOW_TYPE,
@@ -66,15 +62,6 @@ GType general_mixer_if_get_type(void)
 						&b_info, 0);
 	}
 	return b_type;
-}
-
-static void general_mixer_if_class_init(GeneralMixerIFClass * klass)
-{
-
-}
-
-static void general_mixer_if_init(GeneralMixerIF * general_mixer_if)
-{
 }
 
 GtkWidget *general_mixer_if_new(general_mixer * mod)
