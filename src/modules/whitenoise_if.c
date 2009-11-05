@@ -28,32 +28,9 @@
 
 #include "whitenoise_if.h"
 #include "aube.h"
-#include "slider.h"
-#include "outputlabel.h"
+#include "gtkaube.h"
 
-GType whitenoise_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(WhitenoiseIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(WhitenoiseIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"WhitenoiseIF",
-						&b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(WhitenoiseIF,whitenoise_if)
 
 GtkWidget *whitenoise_if_new(whitenoise * mod)
 {
