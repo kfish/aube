@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	about_dialog.h		\
 	aube_error.h		\
 	aube.h			\
+	gtkaube.h		\
 	inputoption.h		\
 	levelmeter.h		\
 	master.h		\
