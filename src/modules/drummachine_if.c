@@ -26,17 +26,12 @@
 #include <stdio.h>
 #include <strings.h>
 #include <gtk/gtk.h>
-#include "aube.h"
-#include "opsmenu.h"
-#include "outputlabel.h"
-#include "drummachine_if.h"
-#include "slider.h"
 
+#include "aube.h"
+#include "drummachine_if.h"
+#include "gtkaube.h"
 
 extern drummachine *drummachine_new(void);
-
-extern int tick;
-extern char *note_names[97];
 
 void drummachine_if_update_dm(GtkWidget * widget, gpointer data);
 void drummachine_if_set_note_cb(GtkWidget * widget, gpointer note);
@@ -55,34 +50,11 @@ void dm_rshift_cb(GtkWidget * widget, gpointer data);
 void dm_shift_left_cb(GtkWidget * widget, gpointer data);
 void dm_shift_right_cb(GtkWidget * widget, gpointer data);
 
-
 void dm_clear_track_cb(GtkWidget * widget, gpointer data);
 void dm_shift_track_left_cb(GtkWidget * widget, gpointer data);
 void dm_shift_track_right_cb(GtkWidget * widget, gpointer data);
 
-GType drummachine_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(DrumMachineIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(DrumMachineIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"DrumMachineIF",
-						&b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(DrumMachineIF,drummachine_if)
 
 GtkWidget *drummachine_if_new(drummachine * mod)
 {

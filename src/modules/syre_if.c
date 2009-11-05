@@ -26,20 +26,15 @@
 #include <stdio.h>
 #include <strings.h>
 #include <gtk/gtk.h>
+
 #include "aube.h"
-#include "master.h"
-#include "opsmenu.h"
 #include "syre_if.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "outputlabel.h"
+#include "gtkaube.h"
 
 extern bit16 sinwave[SINTAB_LEN];
 extern bit16 squarewave[SINTAB_LEN];
 extern bit16 sawtooth[SINTAB_LEN];
 extern bit16 wnwave[SINTAB_LEN];
-
-extern int tick;
 
 void refresh_sliders(SyreIF * syre_if);
 void copy_accented_cb(GtkWidget * widget, gpointer data);
@@ -54,28 +49,7 @@ gint set_sawtooth_cb(GtkWidget * widget, gpointer * data);
 gint set_wnwave_cb(GtkWidget * widget, gpointer * data);
 gint get_envelopes(gpointer data);
 
-GType syre_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(SyreIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(SyreIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"SyreIF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(SyreIF,syre_if)
 
 static void syre_if_destroy_cb(GtkWidget * widget, gpointer data)
 {

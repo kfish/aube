@@ -28,9 +28,7 @@
 
 #include "linein_if.h"
 #include "aube.h"
-#include "slider.h"
-#include "opsmenu.h"
-#include "outputlabel.h"
+#include "gtkaube.h"
 
 void linein_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
@@ -41,28 +39,7 @@ void linein_if_set_mode_input_cb(GtkWidget * widget, gpointer data);
 void linein_if_set_mode_duplex_cb(GtkWidget * widget, gpointer data);
 #endif
 
-GType linein_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(LINEINIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(LINEINIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"LINEINIF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(LineInIF,linein_if)
 
 static void linein_if_destroy_cb(GtkWidget * widget, gpointer data)
 {
@@ -80,7 +57,7 @@ void linein_if_onoff_cb(GtkWidget * widget, gpointer data)
 
 GtkWidget *linein_if_new(oss_in * mod)
 {
-	LINEINIF *linein_if;
+	LineInIF *linein_if;
 	GtkWidget *menu, *menuitem, *optionmenu;
 	GtkWidget *vbox, *hbox, *hbox2;
 	GtkWidget *frame;

@@ -27,17 +27,9 @@
 #include <strings.h>
 #include <gtk/gtk.h>
 
-#include "minimaube_if.h"
 #include "aube.h"
-#include "modulemenu.h"
-#include "opsmenu.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "outputlabel.h"
-
-extern int tick;
-
-extern GtkWidget *master_daddy;
+#include "minimaube_if.h"
+#include "gtkaube.h"
 
 void minimaube_if_onoff_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_add_input_cb(GtkWidget * widget, gpointer data);
@@ -45,28 +37,7 @@ void minimaube_if_remove_input_cb(GtkWidget * widget, gpointer data);
 void minimaube_if_add_input(MiniMaubeIF * minimaube_if, int i);
 void minimaube_if_remove_input(MiniMaubeIF * minimaube_if, int i);
 
-GType minimaube_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(MiniMaubeIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(MiniMaubeIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"MiniMaubeIF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(MiniMaubeIF,minimaube_if)
 
 GtkWidget *minimaube_if_new(minimaube * mod)
 {

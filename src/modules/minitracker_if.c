@@ -26,17 +26,13 @@
 #include <stdio.h>
 #include <strings.h>
 #include <gtk/gtk.h>
-#include "aube.h"
-#include "master.h"
-#include "opsmenu.h"
-#include "outputlabel.h"
-#include "minitracker_if.h"
-#include "slider.h"
 
+#include "aube.h"
+#include "minitracker_if.h"
+#include "gtkaube.h"
 
 extern minitracker *minitracker_new(void);
 
-extern int tick;
 extern char *note_names[97];
 
 void minitracker_if_update_tracker(GtkWidget * widget, gpointer data);
@@ -53,29 +49,7 @@ void seq_transpose_d1_cb(GtkWidget * widget, gpointer data);
 void lshift_cb(GtkWidget * widget, gpointer data);
 void rshift_cb(GtkWidget * widget, gpointer data);
 
-GType minitracker_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(MinitrackerIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(MinitrackerIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"MinitrackerIF",
-						&b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(MinitrackerIF,minitracker_if)
 
 GtkWidget *minitracker_if_new(minitracker * mod)
 {

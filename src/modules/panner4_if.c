@@ -26,36 +26,11 @@
 #include <strings.h>
 #include <gtk/gtk.h>
 
-#include "panner4_if.h"
 #include "aube.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "outputlabel.h"
+#include "panner4_if.h"
+#include "gtkaube.h"
 
-extern int tick;
-
-GType panner4_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(Panner4IFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(Panner4IF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"Panner4IF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(Panner4IF,panner4_if)
 
 GtkWidget *panner4_if_new(panner4 * mod)
 {

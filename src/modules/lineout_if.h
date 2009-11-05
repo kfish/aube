@@ -28,25 +28,25 @@
 
 G_BEGIN_DECLS
 
-#define LINEOUT_IF(obj)          GTK_CHECK_CAST (obj, lineout_if_get_type (), LINEOUTIF)
-#define LINEOUT_IF_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, lineout_if_get_type (), LINEOUTIFClass)
+#define LINEOUT_IF(obj)          GTK_CHECK_CAST (obj, lineout_if_get_type (), LineOutIF)
+#define LINEOUT_IF_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, lineout_if_get_type (), LineOutIFClass)
 #define IS_LINEOUT_IF(obj)       GTK_CHECK_TYPE (obj, lineout_if_get_type ())
 
 
-typedef struct _LINEOUTIF LINEOUTIF;
-typedef struct _LINEOUTIFClass LINEOUTIFClass;
+typedef struct _LineOutIF LineOutIF;
+typedef struct _LineOutIFClass LineOutIFClass;
 
-struct _LINEOUTIF {
+struct _LineOutIF {
 	ModuleWindow window;
 
 	GtkWidget *inputs_om;
 	GtkWidget *inputsmenu;
 };
 
-struct _LINEOUTIFClass {
+struct _LineOutIFClass {
 	ModuleWindowClass parent_class;
 
-	void (*lineout_if) (LINEOUTIF * a);
+	void (*lineout_if) (LineOutIF * a);
 };
 
 GType lineout_if_get_type(void);

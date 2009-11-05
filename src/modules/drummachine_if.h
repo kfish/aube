@@ -36,7 +36,6 @@ typedef struct _DrumMachineIF DrumMachineIF;
 typedef struct _DrumMachineIFClass DrumMachineIFClass;
 
 typedef struct {
-	/*    int index; */
 	GtkWidget *button;
 } DrumButton;
 

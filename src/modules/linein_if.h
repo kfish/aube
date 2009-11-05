@@ -28,24 +28,24 @@
 
 G_BEGIN_DECLS
 
-#define LINEIN_IF(obj)          GTK_CHECK_CAST (obj, linein_if_get_type (), LINEINIF)
-#define LINEIN_IF_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, linein_if_get_type (), LINEINIFClass)
+#define LINEIN_IF(obj)          GTK_CHECK_CAST (obj, linein_if_get_type (), LineInIF)
+#define LINEIN_IF_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, linein_if_get_type (), LineInIFClass)
 #define IS_LINEIN_IF(obj)       GTK_CHECK_TYPE (obj, linein_if_get_type ())
 
-typedef struct _LINEINIF LINEINIF;
-typedef struct _LINEINIFClass LINEINIFClass;
+typedef struct _LineInIF LineInIF;
+typedef struct _LineInIFClass LineInIFClass;
 
-struct _LINEINIF {
+struct _LineInIF {
 	ModuleWindow window;
 
 	GtkWidget *inputs_om;
 	GtkWidget *inputsmenu;
 };
 
-struct _LINEINIFClass {
+struct _LineInIFClass {
 	ModuleWindowClass parent_class;
 
-	void (*linein_if) (LINEINIF * a);
+	void (*linein_if) (LineInIF * a);
 };
 
 GType linein_if_get_type(void);

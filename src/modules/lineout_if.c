@@ -28,35 +28,12 @@
 
 #include "lineout_if.h"
 #include "aube.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "opsmenu.h"
+#include "gtkaube.h"
 
 void lineout_if_set_device_dsp_cb(GtkWidget * widget, gpointer data);
 void lineout_if_set_device_dsp1_cb(GtkWidget * widget, gpointer data);
 
-GType lineout_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(LINEOUTIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(LINEOUTIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"LINEOUTIF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(LineOutIF,lineout_if)
 
 static void lineout_if_destroy_cb(GtkWidget * widget, gpointer data)
 {
@@ -65,7 +42,7 @@ static void lineout_if_destroy_cb(GtkWidget * widget, gpointer data)
 
 GtkWidget *lineout_if_new(oss_out * mod)
 {
-	LINEOUTIF *lineout_if;
+	LineOutIF *lineout_if;
 	GtkWidget *menu, *menuitem, *optionmenu;
 	GtkWidget *vbox, *hbox, *hbox2;
 	GtkWidget *frame;

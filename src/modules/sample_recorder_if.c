@@ -29,12 +29,7 @@
 
 #include "sample_recorder_if.h"
 #include "aube.h"
-#include "master.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "outputlabel.h"
-
-extern int tick;
+#include "gtkaube.h"
 
 void sample_recorder_if_record(GtkWidget * widget, gpointer data);
 void sample_recorder_if_stop(GtkWidget * widget, gpointer data);
@@ -54,29 +49,7 @@ gint sample_recorder_if_update_record(gpointer data);
  */
 void sample_recorder_if_add_sample(GtkWidget * widget, gpointer data);
 
-GType sample_recorder_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(SampleRecorderIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(SampleRecorderIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"SampleRecorderIF",
-						&b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(SampleRecorderIF,sample_recorder_if)
 
 GtkWidget *sample_recorder_if_new(sample_recorder * mod)
 {

@@ -28,11 +28,8 @@
 #include <gtk/gtk.h>
 
 #include "aube.h"
-#include "opsmenu.h"
-#include "outputlabel.h"
 #include "atonal_if.h"
-#include "slider.h"
-
+#include "gtkaube.h"
 
 extern atonal *atonal_new(void);
 
@@ -53,28 +50,7 @@ void at_transpose_d1_cb(GtkWidget * widget, gpointer data);
 void at_lshift_cb(GtkWidget * widget, gpointer data);
 void at_rshift_cb(GtkWidget * widget, gpointer data);
 
-GType atonal_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(AtonalIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(AtonalIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"AtonalIF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(AtonalIF,atonal_if)
 
 GtkWidget *atonal_if_new(atonal * mod)
 {

@@ -27,16 +27,12 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "aube.h"
-#include "opsmenu.h"
-#include "outputlabel.h"
-#include "klavier_if.h"
-#include "slider.h"
 #include "klav.h"
+#include "aube.h"
+#include "klavier_if.h"
+#include "gtkaube.h"
 
 extern klavier *klavier_new(void);
-
-extern int tick;
 
 void klavkey_press_event(GtkWidget * widget, gint key, gpointer data);
 void klavkey_release_event(GtkWidget * widget, gint key, gpointer data);
@@ -46,28 +42,7 @@ void klavkey_key_release_event(GtkWidget * widget, GdkEventKey * event,
 			       gpointer data);
 gint get_note_from_key(guint keyval);
 
-GType klavier_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(KlavierIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(KlavierIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"KlavierIF", &b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(KlavierIF,klavier_if)
 
 GtkWidget *klavier_if_new(klavier * mod)
 {

@@ -26,40 +26,13 @@
 #include <strings.h>
 #include <gtk/gtk.h>
 
-#include "delay_if.h"
 #include "aube.h"
-#include "modulemenu.h"
-#include "opsmenu.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "outputlabel.h"
+#include "delay_if.h"
+#include "gtkaube.h"
 
-extern int tick;
+GTKAUBE_BOILERPLATE(DelayIF,delay_if)
 
-extern GtkWidget *master_daddy;
-
-GType delay_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(DelayIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(DelayIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"DelayIF", &b_info, 0);
-	}
-	return b_type;
-}
+extern int tick; /* Used by DELAY_BUFFER_LENGTH */
 
 GtkWidget *delay_if_new(delay * mod)
 {

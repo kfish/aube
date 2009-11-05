@@ -27,11 +27,9 @@
 #include <strings.h>
 #include <gtk/gtk.h>
 
-#include "general_mixer_if.h"
 #include "aube.h"
-#include "slider.h"
-#include "inputoption.h"
-#include "outputlabel.h"
+#include "general_mixer_if.h"
+#include "gtkaube.h"
 
 void general_mixer_if_add_input_cb(GtkWidget * widget, gpointer data);
 void general_mixer_if_remove_input_cb(GtkWidget * widget, gpointer data);
@@ -40,29 +38,7 @@ void general_mixer_if_remove_input(GeneralMixerIF * general_mixer_if,
 				   int i);
 void general_mixer_if_mute_cb(GtkWidget * widget, gpointer data);
 
-GType general_mixer_if_get_type(void)
-{
-	static GType b_type = 0;
-
-	if (!b_type) {
-		static const GTypeInfo b_info = {
-			sizeof(GeneralMixerIFClass),
-			NULL,	/* base_init */
-			NULL,	/* base_finalise */
-			NULL,   /* class_init */
-			NULL,	/* class_finalize */
-			NULL,	/* class_data */
-			sizeof(GeneralMixerIF),
-			0,	/* n_preallocs */
-			NULL    /* init */
-		};
-
-		b_type = g_type_register_static(MODULEWINDOW_TYPE,
-						"GeneralMixerIF",
-						&b_info, 0);
-	}
-	return b_type;
-}
+GTKAUBE_BOILERPLATE(GeneralMixerIF,general_mixer_if)
 
 GtkWidget *general_mixer_if_new(general_mixer * mod)
 {
