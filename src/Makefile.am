@@ -24,6 +24,7 @@ noinst_HEADERS = \
 	none.h			\
 	opsmenu.h		\
 	outputlabel.h		\
+	preferences.h		\
 	sample.h		\
 	sample_if.h		\
 	slider.h
@@ -40,6 +41,7 @@ aube_SOURCES = \
 	none.c			\
 	opsmenu.c		\
 	outputlabel.c		\
+	preferences.c		\
 	sample.c		\
 	sample_if.c		\
 	slider.c		\
