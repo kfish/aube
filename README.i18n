@@ -1,0 +1,66 @@
+How to do translations for aube - a quick overview
+==================================================
+
+(Includes information from Mathieu Roy and Silvia Pfeiffer)
+
+For more detailed information refer to:
+http://www.gnu.org/manual/gettext/index.html
+
+
+(1) How to create and test a translation for a new language?
+------------------------------------------------------------ 
+Grab the po/aube.pot file and copy it to the new language, 
+naming the file after a language code as defined by ISO 639: 
+ll.po (e.g. fr.po), with a possible country-specific adaptation 
+as in ll_CC.po.
+[For the codes, refer to
+http://www.gnu.org/software/gettext/manual/html_node/Language-Codes.html#Language-Codes]
+
+Translate the strings in that file and save it in the /po folder.
+
+Edit the "configure.ac" file (in aube-x.x.x folder), adding the
+new language to the "ALL_LINGUAS directive.
+
+Should look like this :
+ALL_LINGUAS="fr se de"
+AM_GNU_GETTEXT
+
+The next "configure" will include the new language, the next 
+"make dist" will create the machine-readable translation, and the 
+next "make install" will copy it to the system folder where 
+gettext can find it.
+
+Testing the new translation goes via setting of environment
+variables (LANG is usually enough).
+
+Mathieu recommends:
+[user@host  /]$ export LANG="fr_FR"&&LC_ALL="fr"&&LINGUAS="fr"
+(configures this terminal until you close it)
+[user@host  /]$ aube
+(should work in french)
+
+
+
+(2) How to keep the code and its translations up to date?
+--------------------------------------------------------- 
+
+When coding, keep marking displayed text with _("blah") where function
+calls are possible or N_("blah") for statically defined strings. Where
+the string is actually used in the program, you need to put another
+_(variable) around it! A proposed guideline from gnu.org is to use
+format strings instead of string concatenation and to keep sentences
+within one string.
+
+CAUTION: Be aware that when you mark a string with N_("blah"), this
+only marks it for translation.
+
+When creating new code files (.[ch]) with translatable strings in
+them, they need to be added manually to the po/POTFILES.in file.  
+The next "configure" will then automatically take care of creating 
+the po/POTFILES file and the "make" thereafter will create the 
+updated po/aube.pot file. For merging those updated strings into 
+existing translations, a "make dist" is required.
+
+When a translator updates his/her translation file, copy it back to
+the /po directory. It will be compiled into machine-readable form with
+the next "make dist" and installed with the next "make install".

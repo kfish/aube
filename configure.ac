@@ -19,6 +19,9 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 
+ALL_LINGUAS=""
+AM_GNU_GETTEXT([external])
+
 dnl Checks for libraries
 PKG_CHECK_MODULES(SNDFILE, sndfile >= 1.0.0,
                   HAVE_LIBSNDFILE="yes", HAVE_LIBSNDFILE="no")
@@ -64,6 +67,7 @@ SHAVE_INIT([shave])
 AC_OUTPUT(
 Makefile
 m4/Makefile
+po/Makefile.in
 shave/shave
 shave/shave-libtool
 src/Makefile
