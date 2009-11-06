@@ -1,9 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = modules
+SUBDIRS = modules tdb
 
-INCLUDES = -DDATADIR=\"$(pkgdatadir)\" \
+INCLUDES = -DDATADIR=\"$(pkgdatadir)\"	\
+	-I$(top_srcdir)/src/tdb		\
 	@GTK_CFLAGS@ @SNDFILE_CFLAGS@
+
+TDB_LIBS = $(top_builddir)/src/tdb/libtdb.a
 
 bin_PROGRAMS = aube
 
@@ -43,4 +46,4 @@ aube_SOURCES = \
 	tables.c		\
 	none_config.c
 
-aube_LDADD = modules/libmodules.a @SNDFILE_LIBS@ @GTK_LIBS@
+aube_LDADD = modules/libmodules.a $(TDB_LIBS) @SNDFILE_LIBS@ @GTK_LIBS@

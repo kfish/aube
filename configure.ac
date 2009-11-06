@@ -67,4 +67,5 @@ shave/shave-libtool
 Makefile
 src/Makefile
 src/modules/Makefile
+src/tdb/Makefile
 )
