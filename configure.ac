@@ -62,9 +62,10 @@ fi
 SHAVE_INIT([shave])
 
 AC_OUTPUT(
+Makefile
+m4/Makefile
 shave/shave
 shave/shave-libtool
-Makefile
 src/Makefile
 src/modules/Makefile
 src/tdb/Makefile

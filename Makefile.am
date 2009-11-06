@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = src
+SUBDIRS = m4 src
 
 pkgdata_DATA = gtkrc aube_logo.ppm aube_mini.png
 
