@@ -38,6 +38,7 @@
 #include "master.h"
 #include "sample.h"
 #include "none.h"
+#include "preferences.h"
 
 GtkWidget *master_daddy = NULL;
 aube_data *aube_daddy = NULL;
@@ -481,6 +482,8 @@ int main(int argc, char **argv)
 	if (show_version || show_help)
 		exit(0);
 
+        /* initialise preferences */
+        prefs_init ();
 
 	master = master_new();
 	gtk_idle_add((GtkFunction) (aube_do_tick), aube_daddy);

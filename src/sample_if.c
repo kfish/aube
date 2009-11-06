@@ -25,31 +25,29 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <libgen.h>
 #include <gtk/gtk.h>
 
 #include "aube.h"
 #include "master.h"
 #include "sample.h"
+#include "preferences.h"
 
 extern GtkWidget *master_daddy;
 extern gint master_signals[];
 
 extern channel *selected_sample;
 
-static char last_sample_dir[256];
+#define RECENT_LOAD_DIR_KEY "Sample_Load_Dir_Recent"
+#define RECENT_SAVE_DIR_KEY "Sample_Save_Dir_Recent"
 
 void sample_load_ok_cb(GtkWidget * widget, gpointer data)
 {
 	const gchar *dir;
 
 	dir = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
-	strncpy(last_sample_dir, dir, MIN(256, strlen(dir)));
 	sample_load(dir);
-
-	/*
-	   remove filename from dir 
-	 */
-	*(rindex(last_sample_dir, '/')) = '\0';
+        prefs_set_string (RECENT_LOAD_DIR_KEY, dirname((char *)dir));
 
 	master_ack_channels_modified();
 /*
@@ -70,12 +68,17 @@ void sample_load_help_cb(GtkWidget * widget, gpointer data)
 void sample_load_cb(GtkWidget * widget, gpointer data)
 {
 	GtkWidget *filesel;
+        gchar * recent_dir;
         int status;
 
-	status = chdir(last_sample_dir);
-        /* Ignore chdir errors ... stay where we are in that case */
+        recent_dir = prefs_get_string (RECENT_LOAD_DIR_KEY);
+        if (recent_dir) {
+	        status = chdir(recent_dir);
+                /* Ignore chdir errors ... stay where we are in that case */
+        }
 
 	filesel = gtk_file_selection_new("Load Sample");
+
 	g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
 			 "clicked", G_CALLBACK(sample_load_ok_cb),
 			 filesel);
@@ -98,13 +101,8 @@ void sample_save_ok_cb(GtkWidget * widget, gpointer data)
 	const gchar *dir;
 
 	dir = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
-	strncpy(last_sample_dir, dir, MIN(256, strlen(dir)));
 	sample_save(selected_sample, dir);
-
-	/*
-	   remove filename from dir 
-	 */
-	*(rindex(last_sample_dir, '/')) = '\0';
+        prefs_set_string (RECENT_SAVE_DIR_KEY, dirname((char *)dir));
 
 	master_ack_channels_modified();
 /*
@@ -124,10 +122,14 @@ void sample_save_help_cb(GtkWidget * widget, gpointer data)
 void sample_save_cb(GtkWidget * widget, gpointer data)
 {
 	GtkWidget *filesel;
+        gchar * recent_dir;
         int status;
 
-	status = chdir(last_sample_dir);
-        /* Ignore chdir errors ... stay where we are in that case */
+        recent_dir = prefs_get_string (RECENT_SAVE_DIR_KEY);
+        if (recent_dir) {
+	        status = chdir(recent_dir);
+                /* Ignore chdir errors ... stay where we are in that case */
+        }
 
 	filesel = gtk_file_selection_new("Save Sample");
 	g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(filesel)->ok_button),
