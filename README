@@ -2,3 +2,24 @@ AUBE: the beast within your system
 ----------------------------------
 
 AUBE's home page is at http://www.metadecks.org/software/aube/
+
+Developers
+----------
+
+aube is maintained in Subversion with anonymous read access. You can
+check out the most current version of aube from:
+
+svn co http://svn.metadecks.org/aube/trunk aube
+
+A list of outstanding tasks is maintained in the TODO file of this source
+distribution. When implementing anything listed in this file, please update
+it by deleting that entry, and include that as part of the patch or commit
+that implements the fix.
+
+Contact
+-------
+
+For technical and other queries, please contact the author:
+
+Conrad Parker <conrad@metadecks.org>
+(kfish on #lad or #sweep on Freenode).
